@@ -13,7 +13,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public User registerUser(String name, String email, String phone, String password) {
+    public User registerUser(String name, String email, String phone, String password, String role) {
         if (userRepository.existsByEmail(email)) {
             throw new IllegalArgumentException("An account with this email already exists.");
         }
@@ -23,7 +23,7 @@ public class UserService {
                 .email(email)
                 .phone(phone)
                 .hashedPassword(passwordEncoder.encode(password))
-                .role("CUSTOMER")
+                .role(role)
                 .build();
 
         return userRepository.save(user);

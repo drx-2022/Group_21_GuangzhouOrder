@@ -19,6 +19,9 @@ public class DashboardController {
     public String dashboard(@AuthenticationPrincipal UserDetails userDetails, Model model) {
         User user = userService.findByEmail(userDetails.getUsername());
         model.addAttribute("user", user);
+        if ("AFFILIATE".equals(user.getRole())) {
+            return "affiliate_dashboard";
+        }
         return "customer_dashboard";
     }
 }

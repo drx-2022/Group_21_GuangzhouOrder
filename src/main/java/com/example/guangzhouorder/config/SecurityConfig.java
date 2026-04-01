@@ -35,6 +35,7 @@ public class SecurityConfig {
         http
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/", "/signup", "/login", "/catalog", "/logout", "/error").permitAll()
+                .requestMatchers("/dashboard").authenticated()
                 .anyRequest().authenticated()
             )
             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
@@ -43,6 +44,8 @@ public class SecurityConfig {
             .exceptionHandling(ex -> ex
                 .authenticationEntryPoint((request, response, authException) ->
                         response.sendRedirect("/login"))
+                .accessDeniedHandler((request, response, accessDeniedException) ->
+                        response.sendRedirect("/"))
             );
 
         return http.build();

@@ -41,7 +41,7 @@ public class AuthController {
         }
         try {
             userService.registerUser(request.getName(), request.getEmail(),
-                    request.getPhone(), request.getPassword());
+                    request.getPhone(), request.getPassword(), request.getRole());
         } catch (IllegalArgumentException e) {
             model.addAttribute("signupError", e.getMessage());
             return "sign_up";

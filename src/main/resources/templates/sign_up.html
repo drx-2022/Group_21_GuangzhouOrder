@@ -150,6 +150,28 @@
 </div>
 </div>
 <div class="space-y-2">
+<label class="font-label text-xs font-semibold uppercase tracking-widest text-on-surface-variant px-1">Account Type</label>
+<div class="grid grid-cols-2 gap-3">
+<label id="label-customer" class="relative flex items-center gap-3 p-4 rounded-lg border-2 border-primary bg-primary/5 cursor-pointer transition-all" onclick="selectRole('CUSTOMER')">
+<input class="sr-only" type="radio" th:field="*{role}" value="CUSTOMER"/>
+<span class="material-symbols-outlined text-primary text-xl">shopping_bag</span>
+<div>
+<p class="font-headline font-bold text-sm text-primary">Customer</p>
+<p class="text-[10px] text-on-surface-variant">Place custom orders</p>
+</div>
+</label>
+<label id="label-affiliate" class="relative flex items-center gap-3 p-4 rounded-lg border-2 border-outline-variant cursor-pointer transition-all" onclick="selectRole('AFFILIATE')">
+<input class="sr-only" type="radio" th:field="*{role}" value="AFFILIATE"/>
+<span class="material-symbols-outlined text-outline text-xl">hub</span>
+<div>
+<p class="font-headline font-bold text-sm text-on-surface-variant">Affiliate</p>
+<p class="text-[10px] text-on-surface-variant">Earn commissions</p>
+</div>
+</label>
+</div>
+<p th:if="${#fields.hasErrors('role')}" th:errors="*{role}" class="text-error text-xs mt-1 px-1"></p>
+</div>
+<div class="space-y-2">
 <label class="font-label text-xs font-semibold uppercase tracking-widest text-on-surface-variant px-1" for="password">Password</label>
 <div class="relative">
 <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline" data-icon="lock">lock</span>
@@ -179,4 +201,29 @@
 </div>
 </div>
 </div>
+<script>
+    function selectRole(role) {
+        var customerLabel = document.getElementById('label-customer');
+        var affiliateLabel = document.getElementById('label-affiliate');
+        if (role === 'CUSTOMER') {
+            customerLabel.className = customerLabel.className.replace('border-outline-variant', 'border-primary').replace('bg-transparent', '');
+            customerLabel.classList.add('border-primary', 'bg-primary/5');
+            customerLabel.querySelector('.material-symbols-outlined').className = 'material-symbols-outlined text-primary text-xl';
+            customerLabel.querySelector('p.font-headline').className = 'font-headline font-bold text-sm text-primary';
+            affiliateLabel.classList.remove('border-primary', 'bg-primary/5');
+            affiliateLabel.classList.add('border-outline-variant');
+            affiliateLabel.querySelector('.material-symbols-outlined').className = 'material-symbols-outlined text-outline text-xl';
+            affiliateLabel.querySelector('p.font-headline').className = 'font-headline font-bold text-sm text-on-surface-variant';
+        } else {
+            affiliateLabel.classList.remove('border-outline-variant');
+            affiliateLabel.classList.add('border-primary', 'bg-primary/5');
+            affiliateLabel.querySelector('.material-symbols-outlined').className = 'material-symbols-outlined text-primary text-xl';
+            affiliateLabel.querySelector('p.font-headline').className = 'font-headline font-bold text-sm text-primary';
+            customerLabel.classList.remove('border-primary', 'bg-primary/5');
+            customerLabel.classList.add('border-outline-variant');
+            customerLabel.querySelector('.material-symbols-outlined').className = 'material-symbols-outlined text-outline text-xl';
+            customerLabel.querySelector('p.font-headline').className = 'font-headline font-bold text-sm text-on-surface-variant';
+        }
+    }
+</script>
 </body></html>

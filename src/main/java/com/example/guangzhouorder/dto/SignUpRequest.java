@@ -26,4 +26,8 @@ public class SignUpRequest {
         message = "Password must contain at least one uppercase letter and one special character"
     )
     private String password;
+
+    @NotBlank(message = "Please select an account type")
+    @Pattern(regexp = "^(CUSTOMER|AFFILIATE)$", message = "Invalid account type selected")
+    private String role = "CUSTOMER";
 }
