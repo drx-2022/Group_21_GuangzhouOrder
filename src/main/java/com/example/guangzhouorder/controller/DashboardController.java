@@ -28,7 +28,7 @@ public class DashboardController {
         model.addAttribute("user", user);
 
         if ("AFFILIATE".equals(user.getRole())) {
-            return "affiliate_dashboard";
+            return "affiliate/affiliate_dashboard";
         }
 
         DashboardStatsDto stats = new DashboardStatsDto(

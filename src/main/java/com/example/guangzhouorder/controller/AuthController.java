@@ -1,6 +1,6 @@
 package com.example.guangzhouorder.controller;
 
-import com.example.guangzhouorder.dto.SignUpRequest;
+import com.example.guangzhouorder.dto.auth.SignUpRequest;
 import com.example.guangzhouorder.entity.User;
 import com.example.guangzhouorder.security.JwtTokenProvider;
 import com.example.guangzhouorder.service.UserService;
@@ -33,14 +33,14 @@ public class AuthController {
     @GetMapping("/signup")
     public String showSignUp(Model model) {
         model.addAttribute("signUpRequest", new SignUpRequest());
-        return "sign_up";
+        return "auth/sign_up";
     }
 
     @PostMapping("/signup")
     public String processSignUp(@Valid @ModelAttribute("signUpRequest") SignUpRequest request,
                                 BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
-            return "sign_up";
+            return "auth/sign_up";
         }
         try {
             String email = request.getEmail();
@@ -53,7 +53,7 @@ public class AuthController {
             return "verify_pending";
         } catch (IllegalArgumentException e) {
             model.addAttribute("signupError", e.getMessage());
-            return "sign_up";
+            return "auth/sign_up";
         }
     }
 
@@ -113,7 +113,7 @@ public class AuthController {
         return "login";
     }
 
-    public String showLogin(@RequestParam(required = false) String registered, Model model) {
+    
         if (registered != null) {
             model.addAttribute("successMessage", "Account created! Please log in.");
         }
@@ -126,7 +126,7 @@ public class AuthController {
             model.addAttribute("loginError", "Invalid or expired verification token.");
         }
         return "login";
-    }
+    
 
     @PostMapping("/login")
     public String processLogin(@RequestParam String email,
@@ -152,7 +152,7 @@ public class AuthController {
             return "redirect:/dashboard";
         } catch (IllegalArgumentException e) {
             model.addAttribute("loginError", "Invalid email or password.");
-            return "login";
+            return "auth/login";
         }
     }
 
