@@ -22,6 +22,6 @@ public class HomeController {
         List<ProductCard> featuredProducts = productCardRepository.findTop6ByIsPublicTrue();
         model.addAttribute("featuredProducts", featuredProducts);
         model.addAttribute("pageTitle", "Guangzhou Direct | Source from China");
-        return "home";
+        return "public/home";
     }
 }

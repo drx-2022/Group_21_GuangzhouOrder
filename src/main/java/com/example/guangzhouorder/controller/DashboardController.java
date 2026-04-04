@@ -56,6 +56,6 @@ public class DashboardController {
         model.addAttribute("activeOrders", activeOrders);
         model.addAttribute("pendingOrders", pendingOrders);
 
-        return "customer_dashboard";
+        return "customer/customer_dashboard";
     }
 }

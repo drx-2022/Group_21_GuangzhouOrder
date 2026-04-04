@@ -88,7 +88,7 @@ public class AuthController {
             return "redirect:/login?verified=true";
         } catch (IllegalArgumentException e) {
             model.addAttribute("error", e.getMessage());
-            return "login";
+            return "auth/login";
         }
     }
 
@@ -98,22 +98,6 @@ public class AuthController {
                            @RequestParam(required = false) String error,
                            Model model) {
 
-    public String loginPage(Model model) {
-        // Get the current authentication context
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-
-        // Check if the user is already logged in (and not an anonymous guest)
-        if (auth != null && auth.isAuthenticated() && !(auth instanceof AnonymousAuthenticationToken)) {
-            // Redirect them away from the login page
-            return "redirect:/dashboard";
-        }
-
-        // If they are not logged in, show the login form normally
-        model.addAttribute("pageTitle", "Login | Guangzhou Direct");
-        return "login";
-    }
-
-    
         if (registered != null) {
             model.addAttribute("successMessage", "Account created! Please log in.");
         }
@@ -125,8 +109,8 @@ public class AuthController {
         } else if ("invalid-token".equals(error)) {
             model.addAttribute("loginError", "Invalid or expired verification token.");
         }
-        return "login";
-    
+        return "auth/login";
+    }
 
     @PostMapping("/login")
     public String processLogin(@RequestParam String email,
