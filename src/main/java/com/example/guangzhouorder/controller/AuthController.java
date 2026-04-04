@@ -10,6 +10,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -40,21 +43,89 @@ public class AuthController {
             return "auth/sign_up";
         }
         try {
-            userService.registerUser(request.getName(), request.getEmail(),
+            String email = request.getEmail();
+            userService.registerUser(request.getName(), email,
                     request.getPhone(), request.getPassword(), request.getRole());
+            
+            // Add email and masked email to model for verify_pending page
+            model.addAttribute("email", email);
+            model.addAttribute("maskedEmail", maskEmail(email));
+            return "verify_pending";
         } catch (IllegalArgumentException e) {
             model.addAttribute("signupError", e.getMessage());
             return "auth/sign_up";
         }
-        return "redirect:/login?registered=true";
+    }
+
+    @PostMapping("/resend-verification")
+    public String resendVerificationEmail(@RequestParam String email, Model model) {
+        try {
+            userService.resendVerificationEmail(email);
+            model.addAttribute("email", email);
+            model.addAttribute("maskedEmail", maskEmail(email));
+            model.addAttribute("resendSuccess", true);
+            return "verify_pending";
+        } catch (IllegalArgumentException e) {
+            model.addAttribute("email", email);
+            model.addAttribute("maskedEmail", maskEmail(email));
+            model.addAttribute("resendError", e.getMessage());
+            return "verify_pending";
+        }
+    }
+
+    private String maskEmail(String email) {
+        int atIndex = email.indexOf('@');
+        if (atIndex <= 1) {
+            return email;
+        }
+        return email.charAt(0) + "***" + email.substring(atIndex);
+    }
+
+    @GetMapping("/verify-email")
+    public String verifyEmail(@RequestParam String token, Model model) {
+        try {
+            userService.verifyEmail(token);
+            return "redirect:/login?verified=true";
+        } catch (IllegalArgumentException e) {
+            model.addAttribute("error", e.getMessage());
+            return "login";
+        }
     }
 
     @GetMapping("/login")
+    public String showLogin(@RequestParam(required = false) String registered,
+                           @RequestParam(required = false) String verified,
+                           @RequestParam(required = false) String error,
+                           Model model) {
+
+    public String loginPage(Model model) {
+        // Get the current authentication context
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        // Check if the user is already logged in (and not an anonymous guest)
+        if (auth != null && auth.isAuthenticated() && !(auth instanceof AnonymousAuthenticationToken)) {
+            // Redirect them away from the login page
+            return "redirect:/dashboard";
+        }
+
+        // If they are not logged in, show the login form normally
+        model.addAttribute("pageTitle", "Login | Guangzhou Direct");
+        return "login";
+    }
+
     public String showLogin(@RequestParam(required = false) String registered, Model model) {
         if (registered != null) {
             model.addAttribute("successMessage", "Account created! Please log in.");
         }
-        return "auth/login";
+        if (verified != null) {
+            model.addAttribute("verifiedMessage", "Your email has been verified. Please log in.");
+        }
+        if ("unverified".equals(error)) {
+            model.addAttribute("loginError", "Please verify your email before logging in.");
+        } else if ("invalid-token".equals(error)) {
+            model.addAttribute("loginError", "Invalid or expired verification token.");
+        }
+        return "login";
     }
 
     @PostMapping("/login")
@@ -66,7 +137,11 @@ public class AuthController {
             User user = userService.findByEmail(email);
             if (!passwordEncoder.matches(password, user.getHashedPassword())) {
                 model.addAttribute("loginError", "Invalid email or password.");
-                return "auth/login";
+                return "login";
+            }
+            if (!user.isAccountVerified()) {
+                model.addAttribute("loginError", "Please verify your email before logging in.");
+                return "redirect:/login?error=unverified";
             }
             String token = jwtTokenProvider.generateToken(email);
             Cookie cookie = new Cookie("jwt", token);
