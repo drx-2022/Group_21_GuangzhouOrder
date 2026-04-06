@@ -22,10 +22,11 @@ public class DashboardController {
     private final UserService userService;
     private final OrderRepository orderRepository;
 
-    @GetMapping("/dashboard")
+    @GetMapping("customer/dashboard")
     public String dashboard(@AuthenticationPrincipal UserDetails userDetails, Model model) {
         User user = userService.findByEmail(userDetails.getUsername());
         model.addAttribute("user", user);
+        model.addAttribute("currentUser", user); // For settings modal
 
         if ("AFFILIATE".equals(user.getRole())) {
             return "affiliate/affiliate_dashboard";

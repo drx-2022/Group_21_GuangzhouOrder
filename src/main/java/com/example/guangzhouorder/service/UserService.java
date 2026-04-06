@@ -1,8 +1,10 @@
 package com.example.guangzhouorder.service;
 
 import com.example.guangzhouorder.entity.EmailVerificationToken;
+import com.example.guangzhouorder.entity.OtpToken;
 import com.example.guangzhouorder.entity.User;
 import com.example.guangzhouorder.repository.EmailVerificationTokenRepository;
+import com.example.guangzhouorder.repository.OtpTokenRepository;
 import com.example.guangzhouorder.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.Random;
 import java.util.UUID;
 
 @Service
@@ -22,6 +25,7 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final EmailVerificationTokenRepository emailVerificationTokenRepository;
+    private final OtpTokenRepository otpTokenRepository;
     private final PasswordEncoder passwordEncoder;
     private final EmailService emailService;
 
@@ -107,5 +111,58 @@ public class UserService {
 
         emailVerificationTokenRepository.save(verificationToken);
         emailService.sendVerificationEmail(user.getEmail(), token);
+    }
+    
+    // Update name and phone
+    @Transactional
+    public void updateProfile(String email, String newName, String newPhone) {
+        User user = userRepository.findByEmail(email).orElseThrow();
+        user.setName(newName);
+        user.setPhone(newPhone);
+        userRepository.save(user);
+    }
+
+    // Generate and send OTP for password change
+    @Transactional
+    public void sendPasswordChangeOtp(String email) {
+        // Delete any existing OTPs for this user
+        otpTokenRepository.deleteAllByEmail(email);
+        
+        // Generate 6-digit code
+        String code = String.format("%06d", new Random().nextInt(999999));
+        
+        OtpToken otp = new OtpToken();
+        otp.setEmail(email);
+        otp.setCode(code);
+        otp.setPurpose("CHANGE_PASSWORD");
+        otp.setExpiresAt(LocalDateTime.now().plusMinutes(10));
+        otp.setUsed(false);
+        otpTokenRepository.save(otp);
+        
+        // Send email
+        emailService.sendOtpEmail(email, code);
+    }
+
+    // Verify OTP and change password
+    @Transactional
+    public boolean changePasswordWithOtp(String email, String code, String newPassword) {
+        OtpToken otp = otpTokenRepository
+            .findTopByEmailAndPurposeAndUsedFalseOrderByIdDesc(email, "CHANGE_PASSWORD")
+            .orElseThrow(() -> new RuntimeException("OTP not found"));
+        
+        if (otp.isUsed() || otp.getExpiresAt().isBefore(LocalDateTime.now())) {
+            throw new RuntimeException("OTP expired");
+        }
+        if (!otp.getCode().equals(code)) {
+            throw new RuntimeException("Invalid OTP");
+        }
+        
+        otp.setUsed(true);
+        otpTokenRepository.save(otp);
+        
+        User user = userRepository.findByEmail(email).orElseThrow();
+        user.setHashedPassword(passwordEncoder.encode(newPassword));
+        userRepository.save(user);
+        return true;
     }
 }

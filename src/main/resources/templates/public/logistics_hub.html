@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-secondary-fixed-variant": "#304a55",
+              "tertiary": "#003b34",
+              "tertiary-container": "#00544b",
+              "on-error-container": "#93000a",
+              "inverse-on-surface": "#eff1f3",
+              "surface-bright": "#f8f9fb",
+              "secondary-container": "#cbe7f5",
+              "background": "#f8f9fb",
+              "primary": "#003461",
+              "on-primary-container": "#8abcff",
+              "secondary-fixed": "#cbe7f5",
+              "surface-container-high": "#e6e8ea",
+              "on-error": "#ffffff",
+              "on-primary": "#ffffff",
+              "on-secondary-container": "#4e6874",
+              "inverse-primary": "#a3c9ff",
+              "surface-variant": "#e0e3e5",
+              "surface-container-highest": "#e0e3e5",
+              "surface-tint": "#27609d",
+              "on-tertiary": "#ffffff",
+              "on-background": "#191c1e",
+              "on-surface-variant": "#424750",
+              "on-tertiary-container": "#63cbbb",
+              "tertiary-fixed-dim": "#70d8c8",
+              "secondary-fixed-dim": "#afcbd8",
+              "tertiary-fixed": "#8df5e4",
+              "on-primary-fixed-variant": "#004882",
+              "on-tertiary-fixed": "#00201c",
+              "on-tertiary-fixed-variant": "#005048",
+              "surface-dim": "#d8dadc",
+              "secondary": "#48626e",
+              "surface": "#f8f9fb",
+              "inverse-surface": "#2d3133",
+              "surface-container": "#eceef0",
+              "primary-fixed-dim": "#a3c9ff",
+              "on-surface": "#191c1e",
+              "surface-container-lowest": "#ffffff",
+              "on-primary-fixed": "#001c38",
+              "on-secondary-fixed": "#021f29",
+              "primary-fixed": "#d3e4ff",
+              "surface-container-low": "#f2f4f6",
+              "error-container": "#ffdad6",
+              "outline": "#727781",
+              "error": "#ba1a1a",
+              "on-secondary": "#ffffff",
+              "primary-container": "#004b87",
+              "outline-variant": "#c2c6d1"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.5rem", "xl": "1rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-nav {
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+    </style>
+<title th:text="${pageTitle}"></title>
+</head>
+<body class="bg-background font-body text-on-background antialiased selection:bg-secondary-container selection:text-primary">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-[#f8f9fb]/80 dark:bg-slate-900/80 backdrop-blur-xl shadow-sm dark:shadow-none">
+<div class="flex justify-between items-center px-6 py-3 w-full max-w-screen-2xl mx-auto">
+<a th:href="@{/}" class="text-xl font-black text-[#003461] dark:text-white tracking-tighter font-headline no-underline">
+                Guangzhou Direct
+            </a>
+<div class="hidden md:flex items-center space-x-8 font-headline font-bold tracking-tight">
+<a class="text-[#004B87] dark:text-[#cbe7f5] border-b-2 border-[#004B87] pb-1" th:href="@{/}">Trends</a>
+<a class="text-[#424750] dark:text-slate-400 hover:text-[#004B87] transition-colors" th:href="@{/chat}">Sourcing</a>
+<a class="text-[#424750] dark:text-slate-400 hover:text-[#004B87] transition-colors" th:href="@{/my-orders}" sec:authorize="isAuthenticated()">Orders</a>
+<a class="text-[#424750] dark:text-slate-400 hover:text-[#004B87] transition-colors" href="#">Support</a>
+</div>
+<div class="flex items-center space-x-4">
+<button class="p-2 text-[#424750] hover:bg-[#f2f4f6]/50 rounded-full transition-colors active:scale-95 duration-150">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="p-2 text-[#424750] hover:bg-[#f2f4f6]/50 rounded-full transition-colors active:scale-95 duration-150">
+<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+</button>
+</div>
+</div>
+</nav>
+
+<main class="pt-20 pb-24">
+<div class="max-w-6xl mx-auto px-6 py-12">
+<a th:href="@{/}" class="inline-flex items-center gap-2 text-primary font-bold hover:underline mb-8">
+<span class="material-symbols-outlined">arrow_back</span>
+Back to Home
+</a>
+
+<h1 class="font-headline text-4xl font-extrabold text-primary mb-12">Logistics Hub</h1>
+
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<!-- Card 1: Door-to-Door Delivery -->
+<div class="bg-surface-container-lowest p-8 rounded-xl border border-outline-variant/10 shadow-sm hover:shadow-md transition-all">
+<div class="w-12 h-12 bg-primary rounded-lg flex items-center justify-center text-white mb-6">
+<span class="material-symbols-outlined" data-icon="local_shipping">local_shipping</span>
+</div>
+<h3 class="font-headline font-bold text-xl text-primary mb-3">Door-to-Door Delivery</h3>
+<p class="text-on-surface-variant text-sm leading-relaxed">
+We handle the full shipping chain from Guangzhou factory floor to your warehouse in Vietnam.
+</p>
+</div>
+
+<!-- Card 2: Consolidated Warehousing -->
+<div class="bg-surface-container-lowest p-8 rounded-xl border border-outline-variant/10 shadow-sm hover:shadow-md transition-all">
+<div class="w-12 h-12 bg-primary rounded-lg flex items-center justify-center text-white mb-6">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+</div>
+<h3 class="font-headline font-bold text-xl text-primary mb-3">Consolidated Warehousing</h3>
+<p class="text-on-surface-variant text-sm leading-relaxed">
+Combine multiple orders into a single consolidated shipment to minimize freight costs.
+</p>
+</div>
+
+<!-- Card 3: Real-Time Tracking -->
+<div class="bg-surface-container-lowest p-8 rounded-xl border border-outline-variant/10 shadow-sm hover:shadow-md transition-all">
+<div class="w-12 h-12 bg-primary rounded-lg flex items-center justify-center text-white mb-6">
+<span class="material-symbols-outlined" data-icon="track_changes">track_changes</span>
+</div>
+<h3 class="font-headline font-bold text-xl text-primary mb-3">Real-Time Tracking</h3>
+<p class="text-on-surface-variant text-sm leading-relaxed">
+Track your shipment at every stage from pickup to final delivery via your dashboard.
+</p>
+</div>
+</div>
+</div>
+</main>
+
+<!-- Footer -->
+<footer class="bg-[#f2f4f6] dark:bg-slate-950 w-full py-12 px-6 border-t border-[#c2c6d1]/10">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
+<div>
+<div class="font-['Manrope'] font-bold text-[#003461] dark:text-white text-lg mb-4">Guangzhou Curator</div>
+<p class="text-[#424750] dark:text-slate-400 font-['Inter'] text-xs leading-relaxed">
+                    B2B platform optimizing direct supply chains from Guangzhou to your doorstep.
+                </p>
+</div>
+<div>
+<h4 class="font-bold text-[#003461] mb-4 text-sm">Ecosystem</h4>
+<ul class="space-y-2 font-['Inter'] text-xs">
+<li><a class="text-[#424750] hover:text-[#004B87] transition-colors" th:href="@{/sourcing-service}">Sourcing Service</a></li>
+<li><a class="text-[#424750] hover:text-[#004B87] transition-colors" th:href="@{/logistics-hub}">Logistics Hub</a></li>
+<li><a class="text-[#424750] hover:text-[#004B87] transition-colors" th:href="@{/api-integration}">API Integration</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-bold text-[#003461] mb-4 text-sm">Resources</h4>
+<ul class="space-y-2 font-['Inter'] text-xs">
+<li><a class="text-[#424750] hover:text-[#004B87] transition-colors" th:href="@{/terms}">Terms of Service</a></li>
+<li><a class="text-[#424750] hover:text-[#004B87] transition-colors" th:href="@{/privacy}">Privacy Policy</a></li>
+<li><a class="text-[#424750] hover:text-[#004B87] transition-colors" th:href="@{/sourcing-guide}">Sourcing Guide</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-bold text-[#003461] mb-4 text-sm">Contact</h4>
+<ul class="space-y-2 font-['Inter'] text-xs">
+<li class="text-[#424750]">Hotline: 1900 88xx</li>
+<li class="text-[#424750]">Email: support@gzdirect.vn</li>
+<li class="text-[#424750]">Office: District 1, Ho Chi Minh City</li>
+</ul>
+</div>
+</div>
+<div class="max-w-7xl mx-auto mt-12 pt-8 border-t border-outline-variant/10 text-center font-['Inter'] text-xs text-[#003461] dark:text-slate-400">
+            © 2024 Guangzhou Curator. Premium B2B Platform.
+        </div>
+</footer>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="lg:hidden fixed bottom-0 left-0 w-full flex justify-around items-center px-4 pb-safe pt-2 bg-[#ffffff]/90 dark:bg-slate-950/90 backdrop-blur-lg border-t border-[#c2c6d1]/15 z-50 shadow-[0_-4px_12px_rgba(0,0,0,0.05)]">
+<a class="flex flex-col items-center justify-center text-[#003461] dark:text-white bg-[#cbe7f5]/50 dark:bg-[#004B87]/30 rounded-xl px-4 py-1 active:scale-90 duration-200" th:href="@{/}">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-['Inter'] text-[10px] font-medium uppercase tracking-widest mt-1">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#424750] dark:text-slate-500 active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="show_chart">show_chart</span>
+<span class="font-['Inter'] text-[10px] font-medium uppercase tracking-widest mt-1">Charts</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#424750] dark:text-slate-500 active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span class="font-['Inter'] text-[10px] font-medium uppercase tracking-widest mt-1">Orders</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#424750] dark:text-slate-500 active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="forum">forum</span>
+<span class="font-['Inter'] text-[10px] font-medium uppercase tracking-widest mt-1">Chat</span>
+</a>
+</nav>
+</body></html>
+

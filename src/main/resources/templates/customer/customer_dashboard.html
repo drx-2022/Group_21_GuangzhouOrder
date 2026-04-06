@@ -88,7 +88,7 @@
 <header class="fixed top-0 w-full z-50 bg-[#f8f9fb]/80 backdrop-blur-xl shadow-sm">
 <div class="flex justify-between items-center px-6 py-3 w-full max-w-screen-2xl mx-auto">
 <div class="flex items-center gap-8">
-<span class="text-xl font-black text-[#003461] tracking-tighter font-headline">Guangzhou Direct</span>
+<a th:href="@{/}" class="text-xl font-black text-[#003461] tracking-tighter font-headline no-underline">Guangzhou Direct</a>
 <nav class="hidden md:flex items-center space-x-6 font-headline font-bold tracking-tight">
 <a class="text-[#424750] hover:text-[#004B87] transition-colors" href="#">Trends</a>
 <a class="text-[#424750] hover:text-[#004B87] transition-colors" href="#">Sourcing</a>
@@ -102,34 +102,18 @@
 <span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full"></span>
 </button>
 <div class="flex items-center space-x-3 pl-4 border-l border-outline-variant/30">
-                <div class="text-right hidden sm:block">
-<p class="text-xs font-bold text-primary font-headline" th:text="${user.name}">User Name</p>
-<p class="text-[10px] text-on-surface-variant" th:text="'ID: GZ-' + ${user.userId}">ID: GZ-0000</p>
-</div>
-<div class="relative" id="avatarMenuWrapper">
-<button onclick="document.getElementById('avatarDropdown').classList.toggle('hidden')" class="focus:outline-none">
-<span class="material-symbols-outlined text-3xl text-primary-container cursor-pointer hover:opacity-80 transition-opacity">account_circle</span>
-</button>
-<div id="avatarDropdown" class="hidden absolute right-0 mt-2 w-40 bg-surface-container-lowest rounded-xl shadow-lg border border-outline-variant/15 z-50 overflow-hidden">
-<a th:href="@{/logout}" class="flex items-center gap-2 px-4 py-3 text-sm font-semibold text-error hover:bg-error-container transition-colors">
-<span class="material-symbols-outlined text-sm">logout</span>
-Sign Out
-</a>
-</div>
+<div id="openSettingsBtn"
+     class="flex items-center gap-2 px-3 py-1.5 bg-surface-container rounded-lg cursor-pointer hover:bg-surface-container-high transition-all">
+    <span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">account_circle</span>
+    <div class="hidden sm:block">
+        <p class="font-headline font-bold text-xs text-primary" th:text="${currentUser.name}">Username</p>
+        <p class="font-label text-[10px] text-on-surface-variant" th:text="'ID: GZ-' + ${currentUser.userId}">ID</p>
+    </div>
 </div>
 </div>
 </div>
 </div>
 </header>
-<script>
-    document.addEventListener('click', function(e) {
-        var wrapper = document.getElementById('avatarMenuWrapper');
-        var dropdown = document.getElementById('avatarDropdown');
-        if (wrapper && !wrapper.contains(e.target)) {
-            dropdown.classList.add('hidden');
-        }
-    });
-</script>
 <div class="flex min-h-screen pt-16 pb-20 lg:pb-0">
 <!-- Side Navigation Bar -->
 <aside class="hidden lg:flex flex-col py-6 space-y-2 h-screen w-64 fixed left-0 bg-[#ffffff] border-r-0 font-['Manrope'] text-sm font-semibold">
@@ -161,7 +145,7 @@ Sign Out
 <span class="material-symbols-outlined" data-icon="chat_bubble">chat_bubble</span>
 <span>Messages</span>
 </a>
-<a class="flex items-center space-x-3 py-3 px-4 text-[#424750] hover:bg-[#f2f4f6] mx-2 rounded-lg transition-all" th:href="@{/dashboard}">
+<a class="flex items-center space-x-3 py-3 px-4 text-[#424750] hover:bg-[#f2f4f6] mx-2 rounded-lg transition-all" href="#" id="sidebarSettingsBtn">
 <span class="material-symbols-outlined" data-icon="settings">settings</span>
 <span>Settings</span>
 </a>
@@ -178,6 +162,9 @@ Sign Out
 <!-- Header Section -->
 <section class="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-6">
 <div>
+<div th:if="${settingsSuccess}" class="mb-4 p-4 bg-tertiary-fixed rounded-lg">
+    <p class="text-tertiary text-sm font-medium" th:text="${settingsSuccess}"></p>
+</div>
 <h1 class="text-3xl md:text-4xl font-black text-primary font-headline tracking-tighter mb-2" th:text="'Welcome back, ' + ${user.name}">Welcome back</h1>
 <p class="text-on-surface-variant font-medium">Track your Guangzhou sourcing progress for today.</p>
 </div>
@@ -425,4 +412,70 @@ Explore now <span class="material-symbols-outlined text-sm">chevron_right</span>
 </div>
 </div>
 </footer>
+<div th:replace="~{fragments/settings_modal :: modal}"></div>
+<script>
+    function openSettingsModal() {
+        document.getElementById('settingsModal').style.display = 'flex';
+    }
+    function closeSettingsModal() {
+        document.getElementById('settingsModal').style.display = 'none';
+    }
+    function switchTab(tab) {
+        ['profile','password'].forEach(t => {
+            document.getElementById('pane-' + t).style.display = 'none';
+            const tabBtn = document.getElementById('tab-' + t);
+            tabBtn.style.color = '#424750';
+            tabBtn.style.borderBottomColor = 'transparent';
+        });
+        document.getElementById('pane-' + tab).style.display = 'block';
+        const activeTab = document.getElementById('tab-' + tab);
+        activeTab.style.color = '#003461';
+        activeTab.style.borderBottomColor = '#003461';
+    }
+    async function requestOtp() {
+        const res = await fetch('/settings/send-otp', {
+            method: 'POST',
+            headers: { 'X-Requested-With': 'XMLHttpRequest' }
+        });
+        const data = await res.json();
+        const msg = document.getElementById('otp-send-msg');
+        msg.textContent = data.message || data.error;
+        msg.style.display = 'block';
+        if (res.ok) {
+            document.getElementById('step-otp-request').style.display = 'none';
+            document.getElementById('step-otp-verify').style.display = 'block';
+        }
+    }
+    async function submitPasswordChange() {
+        const body = {
+            otpCode: document.getElementById('otpCode').value,
+            newPassword: document.getElementById('newPassword').value,
+            confirmPassword: document.getElementById('confirmPassword').value
+        };
+        const res = await fetch('/settings/change-password', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
+            body: JSON.stringify(body)
+        });
+        const data = await res.json();
+        const msg = document.getElementById('password-msg');
+        msg.textContent = data.message || data.error;
+        msg.style.display = 'block';
+        msg.style.color = res.ok ? '#00544b' : '#ba1a1a';
+        if (res.ok) setTimeout(() => closeSettingsModal(), 1500);
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const btn = document.getElementById('openSettingsBtn');
+        if (btn) btn.addEventListener('click', function() {
+            document.getElementById('settingsModal').style.display = 'flex';
+        });
+
+        const sidebarBtn = document.getElementById('sidebarSettingsBtn');
+        if (sidebarBtn) sidebarBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            document.getElementById('settingsModal').style.display = 'flex';
+        });
+    });
+</script>
 </body></html>

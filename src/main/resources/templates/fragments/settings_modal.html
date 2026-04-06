@@ -1,0 +1,91 @@
+<div th:fragment="modal" xmlns:th="http://www.thymeleaf.org">
+
+    <!-- Backdrop + Modal -->
+    <div id="settingsModal" style="display:none;" class="fixed inset-0 z-[100] items-center justify-center bg-black/40 backdrop-blur-sm">
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-md mx-4 overflow-hidden">
+
+            <!-- Header -->
+            <div class="flex items-center justify-between px-6 py-4 border-b border-[#c2c6d1]/20">
+                <h2 class="font-['Manrope'] font-extrabold text-[#003461] text-lg">Account Settings</h2>
+                <button onclick="closeSettingsModal()" class="p-1 rounded-full hover:bg-[#eceef0] transition-colors">
+                    <span class="material-symbols-outlined text-[#424750]">close</span>
+                </button>
+            </div>
+
+            <!-- Tabs -->
+            <div class="flex border-b border-[#c2c6d1]/20">
+                <button onclick="switchTab('profile')" id="tab-profile"
+                        class="flex-1 py-3 text-xs font-bold uppercase tracking-widest text-[#003461] border-b-2 border-[#003461] transition-all">
+                    Profile
+                </button>
+                <button onclick="switchTab('password')" id="tab-password"
+                        class="flex-1 py-3 text-xs font-bold uppercase tracking-widest text-[#424750] border-b-2 border-transparent transition-all">
+                    Password
+                </button>
+            </div>
+
+            <!-- Tab: Profile -->
+            <div id="pane-profile" class="p-6 space-y-4">
+                <form th:action="@{/settings/profile}" method="post">
+                    <div>
+                        <label class="block text-xs font-bold text-[#003461] uppercase tracking-widest mb-1">Full Name</label>
+                        <input type="text" name="name" th:value="${currentUser != null ? currentUser.name : ''}"
+                               class="w-full px-4 py-2.5 rounded-lg border border-[#c2c6d1] bg-[#f2f4f6] text-[#191c1e] text-sm focus:outline-none focus:border-[#003461]"/>
+                    </div>
+                    <div class="mt-4">
+                        <label class="block text-xs font-bold text-[#003461] uppercase tracking-widest mb-1">Phone Number</label>
+                        <input type="text" name="phone" th:value="${currentUser != null ? currentUser.phone : ''}"
+                               class="w-full px-4 py-2.5 rounded-lg border border-[#c2c6d1] bg-[#f2f4f6] text-[#191c1e] text-sm focus:outline-none focus:border-[#003461]"/>
+                    </div>
+                    <div class="mt-4">
+                        <label class="block text-xs font-bold text-[#003461] uppercase tracking-widest mb-1">Email (cannot change)</label>
+                        <input type="text" th:value="${currentUser != null ? currentUser.email : ''}" disabled
+                               class="w-full px-4 py-2.5 rounded-lg border border-[#c2c6d1] bg-[#eceef0] text-[#424750] text-sm cursor-not-allowed"/>
+                    </div>
+                    <button type="submit"
+                            class="mt-6 w-full py-3 bg-[#003461] text-white rounded-lg font-['Manrope'] font-bold text-sm tracking-widest uppercase hover:opacity-90 transition-all">
+                        Save Changes
+                    </button>
+                </form>
+            </div>
+
+            <!-- Tab: Password -->
+            <div id="pane-password" class="p-6 space-y-4" style="display:none;">
+                <!-- Step 1: Request OTP -->
+                <div id="step-otp-request">
+                    <p class="text-sm text-[#424750] mb-4">We will send a 6-digit OTP to your registered email address.</p>
+                    <button onclick="requestOtp()"
+                            class="w-full py-3 bg-[#003461] text-white rounded-lg font-['Manrope'] font-bold text-sm tracking-widest uppercase hover:opacity-90 transition-all">
+                        Send OTP to Email
+                    </button>
+                    <p id="otp-send-msg" class="text-xs text-center mt-2 text-[#00544b]" style="display:none;"></p>
+                </div>
+                <!-- Step 2: Enter OTP + New Password -->
+                <div id="step-otp-verify" class="space-y-4" style="display:none;">
+                    <div>
+                        <label class="block text-xs font-bold text-[#003461] uppercase tracking-widest mb-1">OTP Code</label>
+                        <input type="text" id="otpCode" maxlength="6" placeholder="6-digit code"
+                               class="w-full px-4 py-2.5 rounded-lg border border-[#c2c6d1] bg-[#f2f4f6] text-[#191c1e] text-sm focus:outline-none focus:border-[#003461] tracking-[0.5em] text-center"/>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-[#003461] uppercase tracking-widest mb-1">New Password</label>
+                        <input type="password" id="newPassword"
+                               class="w-full px-4 py-2.5 rounded-lg border border-[#c2c6d1] bg-[#f2f4f6] text-[#191c1e] text-sm focus:outline-none focus:border-[#003461]"/>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-[#003461] uppercase tracking-widest mb-1">Confirm Password</label>
+                        <input type="password" id="confirmPassword"
+                               class="w-full px-4 py-2.5 rounded-lg border border-[#c2c6d1] bg-[#f2f4f6] text-[#191c1e] text-sm focus:outline-none focus:border-[#003461]"/>
+                    </div>
+                    <p id="password-msg" class="text-xs text-center" style="display:none;"></p>
+                    <button onclick="submitPasswordChange()"
+                            class="w-full py-3 bg-[#003461] text-white rounded-lg font-['Manrope'] font-bold text-sm tracking-widest uppercase hover:opacity-90 transition-all">
+                        Change Password
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>

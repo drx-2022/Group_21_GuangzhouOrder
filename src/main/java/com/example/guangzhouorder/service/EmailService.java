@@ -23,5 +23,12 @@ public class EmailService {
                 appFrontendBaseUrl + "/verify-email?token=" + token);
         javaMailSender.send(message);
     }
+    
+    public void sendOtpEmail(String toEmail, String code) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(toEmail);
+        message.setSubject("Your password reset OTP");
+        message.setText("Your OTP for password reset is: " + code + "\n\nThis OTP will expire in 10 minutes.");
+        javaMailSender.send(message);
+    }
 }
-

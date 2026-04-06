@@ -8,23 +8,41 @@ guangzhou-order/
 │   │   │               ├── DataSeeder.java
 │   │   │               ├── GuangzhouOrderApplication.java
 │   │   │               ├── config/
-│   │   │               │   └── SecurityConfig.java
+│   │   │               │   ├── SecurityConfig.java
+│   │   │               │   ├── WebSocketAuthChannelInterceptor.java
+│   │   │               │   └── WebSocketConfig.java
 │   │   │               ├── controller/
 │   │   │               │   ├── AuthController.java
 │   │   │               │   ├── CatalogController.java
+│   │   │               │   ├── ChatController.java
 │   │   │               │   ├── DashboardController.java
-│   │   │               │   └── HomeController.java
+│   │   │               │   ├── HomeController.java
+│   │   │               │   ├── OrdersController.java
+│   │   │               │   ├── ProductDetailsController.java
+│   │   │               │   └── UserSettingsController.java
 │   │   │               ├── dto/
-│   │   │               │   └── SignUpRequest.java
+│   │   │               │   ├── ChangePasswordDTO.java
+│   │   │               │   ├── DashboardStatsDto.java
+│   │   │               │   ├── OrderSummaryDto.java
+│   │   │               │   ├── ProductCardDto.java
+│   │   │               │   ├── UserSettingsDTO.java
+│   │   │               │   ├── auth/
+│   │   │               │   │   └── SignUpRequest.java
+│   │   │               │   └── chat/
+│   │   │               │       ├── ChatMessageRequest.java
+│   │   │               │       ├── ConversationResponse.java
+│   │   │               │       └── MessageResponse.java
 │   │   │               ├── entity/
 │   │   │               │   ├── Category.java
 │   │   │               │   ├── Commission.java
 │   │   │               │   ├── CommissionPolicy.java
 │   │   │               │   ├── Conversation.java
 │   │   │               │   ├── ConversationRead.java
+│   │   │               │   ├── EmailVerificationToken.java
 │   │   │               │   ├── Message.java
 │   │   │               │   ├── Order.java
 │   │   │               │   ├── OrderItem.java
+│   │   │               │   ├── OtpToken.java
 │   │   │               │   ├── ProductCard.java
 │   │   │               │   └── User.java
 │   │   │               ├── repository/
@@ -33,9 +51,11 @@ guangzhou-order/
 │   │   │               │   ├── CommissionRepository.java
 │   │   │               │   ├── ConversationReadRepository.java
 │   │   │               │   ├── ConversationRepository.java
+│   │   │               │   ├── EmailVerificationTokenRepository.java
 │   │   │               │   ├── MessageRepository.java
 │   │   │               │   ├── OrderItemRepository.java
 │   │   │               │   ├── OrderRepository.java
+│   │   │               │   ├── OtpTokenRepository.java
 │   │   │               │   ├── ProductCardRepository.java
 │   │   │               │   └── UserRepository.java
 │   │   │               ├── security/
@@ -43,28 +63,48 @@ guangzhou-order/
 │   │   │               │   ├── JwtAuthenticationFilter.java
 │   │   │               │   └── JwtTokenProvider.java
 │   │   │               └── service/
+│   │   │                   ├── ChatService.java
 │   │   │                   ├── EmailService.java
 │   │   │                   └── UserService.java
 │   │   └── resources/
 │   │       ├── application.properties
+│   │       ├── application-local.properties
+│   │       ├── application-prod.properties
 │   │       ├── db/
 │   │       │   └── migration/
 │   │       │       └── V2__add_email_verification_to_users.sql
 │   │       └── templates/
-│   │           ├── affiliate_dashboard.html
 │   │           ├── chat_with_customizer.html
 │   │           ├── checkout.html
-│   │           ├── community_catalog.html
-│   │           ├── customer_dashboard.html
-│   │           ├── home.html
 │   │           ├── interactive_price_chart.html
-│   │           ├── login.html
-│   │           ├── my_orders.html
 │   │           ├── product_details.html
 │   │           ├── production_roadmap.html
-│   │           ├── sign_up.html
 │   │           ├── verify_pending.html
-│   │           └── visual_proof_review.html
+│   │           ├── visual_proof_review.html
+│   │           ├── affiliate/
+│   │           │   └── affiliate_dashboard.html
+│   │           ├── auth/
+│   │           │   ├── login.html
+│   │           │   └── sign_up.html
+│   │           ├── chat/
+│   │           │   ├── admin_chat_list.html
+│   │           │   ├── admin_chat_room.html
+│   │           │   ├── customer_chat_list.html
+│   │           │   └── customer_chat.html
+│   │           ├── customer/
+│   │           │   ├── customer_dashboard.html
+│   │           │   └── my_orders.html
+│   │           ├── fragments/
+│   │           │   └── settings_modal.html
+│   │           └── public/
+│   │               ├── api_integration.html
+│   │               ├── community_catalog.html
+│   │               ├── home.html
+│   │               ├── logistics_hub.html
+│   │               ├── privacy.html
+│   │               ├── sourcing_guide.html
+│   │               ├── sourcing_service.html
+│   │               └── terms.html
 │   └── test/
 │       └── java/
 │           └── com/
@@ -81,4 +121,6 @@ guangzhou-order/
 ├── mvnw
 ├── mvnw.cmd
 ├── pom.xml
-└── project_structure.txt
+├── project_structure.txt
+├── NEW_PAGES_IMPLEMENTATION.md
+└── TEMPLATES_SUMMARY.md
