@@ -41,6 +41,6 @@ public class CatalogController {
         model.addAttribute("categories", categories);
         model.addAttribute("selectedCategoryId", categoryId);
 
-        return "community_catalog";
+        return "public/community_catalog";
     }
 }
