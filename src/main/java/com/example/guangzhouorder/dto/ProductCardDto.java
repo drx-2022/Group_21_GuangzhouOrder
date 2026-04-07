@@ -22,6 +22,7 @@ public class ProductCardDto {
     private final BigDecimal displayPrice;
     private final String categoryName;
     private final boolean isPublic;
+    private final Long baseProductId;
 
     public ProductCardDto(ProductCard card) {
         this.productCardId = card.getProductCardId();
@@ -29,6 +30,7 @@ public class ProductCardDto {
         this.displayPrice = card.getDisplayPrice();
         this.isPublic = card.isPublic();
         this.categoryName = card.getCategory() != null ? card.getCategory().getName() : "—";
+        this.baseProductId = (card.getBaseProduct() != null) ? card.getBaseProduct().getBaseProductId() : null;
 
         String dna = card.getCardDna();
         this.name = extract(dna, "name", "Product #GZ-" + card.getProductCardId());

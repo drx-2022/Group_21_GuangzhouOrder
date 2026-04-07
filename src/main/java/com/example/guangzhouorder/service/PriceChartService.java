@@ -1,7 +1,9 @@
 package com.example.guangzhouorder.service;
 
+import com.example.guangzhouorder.entity.BaseProduct;
 import com.example.guangzhouorder.entity.Category;
 import com.example.guangzhouorder.entity.ProductCard;
+import com.example.guangzhouorder.repository.BaseProductRepository;
 import com.example.guangzhouorder.repository.CategoryRepository;
 import com.example.guangzhouorder.repository.ProductCardRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,15 +24,16 @@ public class PriceChartService {
 
     private final ProductCardRepository productCardRepository;
     private final CategoryRepository categoryRepository;
+    private final BaseProductRepository baseProductRepository;
 
     public record PriceChartDataPoint(
             Long productCardId,
-            String sku,
-            String name,
-            String material,
-            BigDecimal displayPrice,
+            String date,
+            BigDecimal price,
+            String dnaName,
+            String dnaMaterial,
             String imageUrl,
-            String createdAt
+            String cardDna
     ) {}
 
     public List<PriceChartDataPoint> getChartData(Long categoryId) {
@@ -59,15 +62,44 @@ public class PriceChartService {
 
                     return new PriceChartDataPoint(
                             card.getProductCardId(),
-                            "GZ-" + card.getProductCardId(),
+                            createdAtStr,
+                            card.getDisplayPrice() != null ? card.getDisplayPrice() : BigDecimal.ZERO,
                             name,
                             material,
-                            card.getDisplayPrice() != null ? card.getDisplayPrice() : BigDecimal.ZERO,
                             imageUrl,
-                            createdAtStr
+                            dna
                     );
                 })
-                .sorted(Comparator.comparing(PriceChartDataPoint::createdAt)) // Sort chronologically ascending
+                .sorted(Comparator.comparing(PriceChartDataPoint::date))
+                .collect(Collectors.toList());
+    }
+
+    public List<PriceChartDataPoint> getChartDataByBaseProduct(Long baseProductId) {
+        BaseProduct baseProduct = baseProductRepository.findById(baseProductId)
+                .orElseThrow(() -> new RuntimeException("BaseProduct not found"));
+
+        List<ProductCard> cards = productCardRepository.findByBaseProductAndIsPublicTrueOrderByCreatedAtAsc(baseProduct);
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        return cards.stream()
+                .map(card -> {
+                    String dna = card.getCardDna();
+                    String name = extractJsonValue(dna, "name", "Custom Order");
+                    String material = extractJsonValue(dna, "material", "N/A");
+                    String imageUrl = extractJsonValue(dna, "imageUrl", "");
+                    String createdAtStr = card.getCreatedAt() != null ? card.getCreatedAt().format(formatter) : "";
+
+                    return new PriceChartDataPoint(
+                            card.getProductCardId(),
+                            createdAtStr,
+                            card.getDisplayPrice() != null ? card.getDisplayPrice() : BigDecimal.ZERO,
+                            name,
+                            material,
+                            imageUrl,
+                            dna
+                    );
+                })
                 .collect(Collectors.toList());
     }
 

@@ -1,5 +1,6 @@
 package com.example.guangzhouorder.repository;
 
+import com.example.guangzhouorder.entity.BaseProduct;
 import com.example.guangzhouorder.entity.Category;
 import com.example.guangzhouorder.entity.Order;
 import com.example.guangzhouorder.entity.ProductCard;
@@ -16,4 +17,6 @@ public interface ProductCardRepository extends JpaRepository<ProductCard, Long> 
     List<ProductCard> findByIsPublicTrueAndCategoryOrderByCreatedAtDesc(Category category);
     List<ProductCard> findTop6ByIsPublicTrue();
     Optional<ProductCard> findBySourceOrder(Order order);
+    List<ProductCard> findByBaseProductAndIsPublicTrueOrderByCreatedAtAsc(BaseProduct baseProduct);
+    List<ProductCard> findByBaseProduct(BaseProduct baseProduct);
 }

@@ -4,6 +4,7 @@ import com.example.guangzhouorder.entity.Order;
 import com.example.guangzhouorder.entity.Payment;
 import com.example.guangzhouorder.entity.ProductCard;
 import com.example.guangzhouorder.entity.User;
+import com.example.guangzhouorder.repository.BaseProductRepository;
 import com.example.guangzhouorder.repository.OrderRepository;
 import com.example.guangzhouorder.repository.PaymentRepository;
 import com.example.guangzhouorder.repository.ProductCardRepository;
@@ -40,6 +41,7 @@ public class PaymentService {
     private final PaymentRepository paymentRepository;
     private final OrderRepository orderRepository;
     private final ProductCardRepository productCardRepository;
+    private final BaseProductRepository baseProductRepository;
     private final ObjectMapper objectMapper;
     private final RestTemplate restTemplate = new RestTemplate();
 
@@ -220,6 +222,8 @@ public class PaymentService {
                                 .displayPrice(order.getFinalPrice())
                                 .isPublic(false)
                                 .sourceOrder(order)
+                                // TODO: Admin should assign BaseProduct when publishing the card
+                                .baseProduct(null)
                                 .build();
                         productCardRepository.save(productCard);
                         log.info("Created ProductCard for fully paid Order ID: {}", order.getOrderId());

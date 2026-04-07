@@ -338,15 +338,19 @@ function renderChart(data) {
     const canvas = document.getElementById('priceChart');
     if (chartInstance) chartInstance.destroy();
 
-    const chartData = data.map((point, index) => ({
+    const chartData = data.map((point, index) => {
+        const rawPrice = point.displayPrice ?? point.price ?? 0;
+        const priceValue = Number(rawPrice);
+        return {
         x: index,
-        y: point.displayPrice,
-        label: point.name,
-        material: point.material,
-        sku: point.sku,
+        y: Number.isFinite(priceValue) ? priceValue : 0,
+        label: point.name ?? point.dnaName ?? 'Custom Order',
+        material: point.material ?? point.dnaMaterial ?? 'N/A',
+        sku: point.sku ?? ('GZ-' + (point.productCardId ?? 'N/A')),
         productCardId: point.productCardId,
-        createdAt: point.createdAt
-    }));
+        createdAt: point.createdAt ?? point.date ?? ''
+    };
+    });
 
     chartInstance = new Chart(canvas, {
         type: 'scatter',
@@ -393,7 +397,9 @@ function renderChart(data) {
             onClick: (event, elements) => {
                 if (elements.length > 0) {
                     const point = chartData[elements[0].index];
-                    window.location.href = '/product-details/' + point.productCardId;
+                    if (point.productCardId) {
+                        window.location.href = '/products/' + point.productCardId;
+                    }
                 }
             }
         }
@@ -407,16 +413,22 @@ function renderTable(data) {
         return;
     }
     tbody.innerHTML = data.map(point => {
-        const price = Number(point.displayPrice).toLocaleString('vi-VN') + ' ₫';
+        const sku = point.sku ?? ('GZ-' + (point.productCardId ?? 'N/A'));
+        const material = point.material ?? point.dnaMaterial ?? 'N/A';
+        const createdAt = point.createdAt ?? point.date ?? '';
+        const rawPrice = point.displayPrice ?? point.price ?? 0;
+        const priceNumber = Number(rawPrice);
+        const price = (Number.isFinite(priceNumber) ? priceNumber : 0).toLocaleString('vi-VN') + ' ₫';
+        const productLink = point.productCardId ? '/products/' + point.productCardId : '#';
         return `
         <tr class="hover:bg-surface-container-low/30 transition-colors">
             <td class="px-6 py-4">
                 <div class="flex items-center">
-                    <span class="text-xs font-bold text-primary">${point.sku}</span>
+                    <span class="text-xs font-bold text-primary">${sku}</span>
                 </div>
             </td>
-            <td class="px-6 py-4 text-xs font-medium text-on-surface-variant">${point.material}</td>
-            <td class="px-6 py-4 text-xs font-medium text-on-surface-variant">${point.createdAt}</td>
+            <td class="px-6 py-4 text-xs font-medium text-on-surface-variant">${material}</td>
+            <td class="px-6 py-4 text-xs font-medium text-on-surface-variant">${createdAt}</td>
             <td class="px-6 py-4 text-xs font-bold text-primary">${price}</td>
             <td class="px-6 py-4">
                 <span class="inline-flex items-center text-[9px] font-bold text-tertiary px-2 py-0.5 border border-tertiary/20 rounded-full">
@@ -424,7 +436,7 @@ function renderTable(data) {
                 </span>
             </td>
             <td class="px-6 py-4 text-right">
-                <a href="/product-details/${point.productCardId}" class="text-primary hover:scale-110 transition-transform inline-block">
+                <a href="${productLink}" class="text-primary hover:scale-110 transition-transform inline-block">
                     <span class="material-symbols-outlined text-lg">arrow_forward</span>
                 </a>
             </td>

@@ -6,6 +6,7 @@
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script id="tailwind-config">
       tailwind.config = {
         darkMode: "class",
@@ -274,6 +275,19 @@ No technical specifications available.
 </section>
 </div>
 </div>
+<section class="mt-10 bg-surface-container-lowest p-8 rounded-xl border border-outline-variant/15">
+<div class="flex items-center justify-between mb-6">
+<h2 class="font-headline text-xl font-bold text-primary flex items-center gap-2">
+<span class="material-symbols-outlined">show_chart</span>
+                    Price History
+                </h2>
+<span class="text-xs font-bold uppercase tracking-widest text-on-surface-variant" th:text="${baseProductName}">Base Product</span>
+</div>
+<div id="noHistoryMessage" class="hidden text-sm text-on-surface-variant italic">No transaction history yet.</div>
+<div id="priceChartWrapper" class="relative w-full" style="height: 360px;">
+<canvas id="priceChart"></canvas>
+</div>
+</section>
 </main>
 <!-- Bottom Navigation Bar (Mobile only) -->
 <footer class="md:hidden fixed bottom-0 left-0 w-full flex justify-around items-center px-4 py-3 pb-safe bg-white/80 backdrop-blur-md z-50 rounded-t-2xl shadow-[0_-4px_12px_rgba(0,0,0,0.05)] border-t border-[#c2c6d1]/15">
@@ -294,4 +308,75 @@ No technical specifications available.
 <span class="font-inter text-[10px] uppercase tracking-wider mt-1">Account</span>
 </a>
 </footer>
+<script th:inline="javascript">
+const chartData = /*[[${chartData}]]*/ [];
+
+document.addEventListener('DOMContentLoaded', () => {
+    const noHistoryMessage = document.getElementById('noHistoryMessage');
+    const priceChartWrapper = document.getElementById('priceChartWrapper');
+    const canvas = document.getElementById('priceChart');
+
+    if (!chartData || chartData.length === 0) {
+        noHistoryMessage.classList.remove('hidden');
+        priceChartWrapper.classList.add('hidden');
+        return;
+    }
+
+    const scatterData = chartData.map((point) => ({ x: point.date, y: point.price }));
+
+    new Chart(canvas, {
+        type: 'scatter',
+        data: {
+            datasets: [{
+                label: 'Transaction Price',
+                data: scatterData,
+                backgroundColor: '#003461',
+                pointRadius: 6,
+                pointHoverRadius: 9
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        title: (items) => chartData[items[0].dataIndex]?.date || '',
+                        label: (context) => {
+                            const point = chartData[context.dataIndex];
+                            if (!point) return '';
+                            const price = Number(point.price || 0).toLocaleString();
+                            return [
+                                'Price: ' + price + ' VND',
+                                'Name: ' + (point.dnaName || 'N/A'),
+                                'Material: ' + (point.dnaMaterial || 'N/A')
+                            ];
+                        }
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    type: 'category',
+                    title: { display: true, text: 'Date' }
+                },
+                y: {
+                    title: { display: true, text: 'Price (VND)' },
+                    ticks: {
+                        callback: (value) => Number(value).toLocaleString()
+                    }
+                }
+            },
+            onClick: (event, elements) => {
+                if (!elements.length) return;
+                const pointIndex = elements[0].index;
+                const productCardId = chartData[pointIndex]?.productCardId;
+                if (productCardId) {
+                    window.location.href = '/checkout?productCardId=' + productCardId;
+                }
+            }
+        }
+    });
+});
+</script>
 </body></html>
