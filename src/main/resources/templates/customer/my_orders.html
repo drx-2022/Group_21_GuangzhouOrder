@@ -160,12 +160,7 @@
             </div>
         </div>
          <!-- Dashboard Stats Overlay -->
-         <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8" th:with="
-             totalOrders = ${orders.size()},
-             processingOrders = ${orders.stream().filter(o -> o.status == 'IN_PRODUCTION' or o.status == 'PENDING_CUSTOMER_APPROVAL').count()},
-             negotiatingOrders = ${orders.stream().filter(o -> o.status == 'NEGOTIATING').count()},
-             completedOrders = ${orders.stream().filter(o -> o.status == 'DONE').count()}
-         ">
+         <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
              <div class="bg-surface-container-lowest p-5 rounded-xl shadow-sm border border-outline-variant/10">
                  <p class="text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Total Orders</p>
                  <p class="text-2xl font-extrabold text-primary" th:text="${totalOrders}">0</p>
