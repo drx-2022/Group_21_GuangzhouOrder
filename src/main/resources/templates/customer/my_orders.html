@@ -222,43 +222,46 @@
                             <p class="text-[10px] text-on-surface-variant uppercase" th:text="${#temporals.format(order.createdAt, 'HH:mm')} + ' ' + (${order.createdAt.hour} >= 12 ? 'PM' : 'AM')">00:00 AM</p>
                         </td>
                         <td class="px-6 py-5">
-                            <span th:switch="${order.status}">
-                                <!-- Negotiating Status -->
-                                <span th:case="'NEGOTIATING'" th:classappend="'inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-secondary-container text-primary'" class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-secondary inline-block"></span>Negotiating</span>
-                                
-                                <!-- Pending Deposit Status -->
-                                <span th:case="'PENDING_DEPOSIT'" th:classappend="'inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-yellow-100 text-yellow-700'" class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-yellow-600 inline-block"></span>Pending Deposit</span>
-                                
-                                <!-- In Production Status -->
-                                <span th:case="'IN_PRODUCTION'" th:classappend="'inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-tertiary-fixed text-on-tertiary-fixed-variant'" class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-tertiary inline-block"></span>In Production</span>
-                                
-                                <!-- Pending Approval Status -->
-                                <span th:case="'PENDING_CUSTOMER_APPROVAL'" th:classappend="'inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-blue-100 text-blue-700'" class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-blue-600 inline-block"></span>Pending Approval</span>
-                                
-                                <!-- Ready for Shipping Status -->
-                                <span th:case="'READY_FOR_SHIPPING'" th:classappend="'inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-green-100 text-green-700'" class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-green-600 inline-block"></span>Ready to Ship</span>
-                                
-                                <!-- Completed Status -->
-                                <span th:case="'DONE'" th:classappend="'inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-surface-container-high text-on-surface-variant'" class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-outline inline-block"></span>Completed</span>
-                                
-                                <!-- Draft Status -->
-                                <span th:case="'DRAFT'" th:classappend="'inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-gray-100 text-gray-700'" class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-gray-400 inline-block"></span>Draft</span>
+                            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider" 
+                                  th:classappend="${order.status == 'NEGOTIATING' ? 'bg-secondary-container text-primary' : 
+                                                     order.status == 'PENDING_DEPOSIT' ? 'bg-yellow-100 text-yellow-700' :
+                                                     order.status == 'IN_PRODUCTION' ? 'bg-tertiary-fixed text-on-tertiary-fixed-variant' :
+                                                     order.status == 'PENDING_CUSTOMER_APPROVAL' ? 'bg-blue-100 text-blue-700' :
+                                                     order.status == 'READY_FOR_SHIPPING' ? 'bg-green-100 text-green-700' :
+                                                     order.status == 'DONE' ? 'bg-surface-container-high text-on-surface-variant' :
+                                                     order.status == 'DRAFT' ? 'bg-gray-100 text-gray-700' : 'bg-gray-100 text-gray-700'}">
+                                <span class="w-1.5 h-1.5 rounded-full inline-block" 
+                                      th:classappend="${order.status == 'NEGOTIATING' ? 'bg-secondary' :
+                                                       order.status == 'PENDING_DEPOSIT' ? 'bg-yellow-600' :
+                                                       order.status == 'IN_PRODUCTION' ? 'bg-tertiary' :
+                                                       order.status == 'PENDING_CUSTOMER_APPROVAL' ? 'bg-blue-600' :
+                                                       order.status == 'READY_FOR_SHIPPING' ? 'bg-green-600' :
+                                                       order.status == 'DONE' ? 'bg-outline' :
+                                                       order.status == 'DRAFT' ? 'bg-gray-400' : 'bg-gray-400'}"></span>
+                                <span th:text="${order.status == 'NEGOTIATING' ? 'Negotiating' :
+                                               order.status == 'PENDING_DEPOSIT' ? 'Pending Deposit' :
+                                               order.status == 'IN_PRODUCTION' ? 'In Production' :
+                                               order.status == 'PENDING_CUSTOMER_APPROVAL' ? 'Pending Approval' :
+                                               order.status == 'READY_FOR_SHIPPING' ? 'Ready to Ship' :
+                                               order.status == 'DONE' ? 'Completed' :
+                                               order.status == 'DRAFT' ? 'Draft' : 'Unknown'}"></span>
                             </span>
                         </td>
                         <td class="px-6 py-5">
-                            <span th:if="${order.paymentStatus == null}" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-gray-100 text-gray-700">
-                                <span class="w-1.5 h-1.5 rounded-full bg-gray-400"></span>
-                                Unpaid
-                            </span>
-                            <span th:unless="${order.paymentStatus == null}" th:switch="${order.paymentStatus}">
-                                <!-- Unpaid Status -->
-                                <span th:case="'UNPAID'" th:classappend="'inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-red-100 text-red-700'" class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-red-600 inline-block"></span>Unpaid</span>
-                                
-                                <!-- Deposited Status -->
-                                <span th:case="'DEPOSITED'" th:classappend="'inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-yellow-100 text-yellow-700'" class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-yellow-600 inline-block"></span>Deposit Paid</span>
-                                
-                                <!-- Fully Paid Status -->
-                                <span th:case="'DONE'" th:classappend="'inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-green-100 text-green-700'" class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-green-600 inline-block"></span>Fully Paid</span>
+                            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider"
+                                  th:classappend="${order.paymentStatus == null ? 'bg-gray-100 text-gray-700' :
+                                                     order.paymentStatus == 'UNPAID' ? 'bg-red-100 text-red-700' :
+                                                     order.paymentStatus == 'DEPOSITED' ? 'bg-yellow-100 text-yellow-700' :
+                                                     order.paymentStatus == 'DONE' ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-700'}">
+                                <span class="w-1.5 h-1.5 rounded-full inline-block"
+                                      th:classappend="${order.paymentStatus == null ? 'bg-gray-400' :
+                                                       order.paymentStatus == 'UNPAID' ? 'bg-red-600' :
+                                                       order.paymentStatus == 'DEPOSITED' ? 'bg-yellow-600' :
+                                                       order.paymentStatus == 'DONE' ? 'bg-green-600' : 'bg-gray-400'}"></span>
+                                <span th:text="${order.paymentStatus == null ? 'Unpaid' :
+                                               order.paymentStatus == 'UNPAID' ? 'Unpaid' :
+                                               order.paymentStatus == 'DEPOSITED' ? 'Deposit Paid' :
+                                               order.paymentStatus == 'DONE' ? 'Fully Paid' : 'Unknown'}"></span>
                             </span>
                         </td>
                         <td class="px-6 py-5 text-right">
