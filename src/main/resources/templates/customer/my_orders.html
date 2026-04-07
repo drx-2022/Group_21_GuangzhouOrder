@@ -244,7 +244,7 @@
                                                order.status == 'PENDING_CUSTOMER_APPROVAL' ? 'Pending Approval' :
                                                order.status == 'READY_FOR_SHIPPING' ? 'Ready to Ship' :
                                                order.status == 'DONE' ? 'Completed' :
-                                               order.status == 'DRAFT' ? 'Draft' : 'Unknown'}"></span>
+                                               order.status == 'DRAFT' ? 'Draft' : order.status}"></span>
                             </span>
                         </td>
                         <td class="px-6 py-5">
@@ -261,7 +261,7 @@
                                 <span th:text="${order.paymentStatus == null ? 'Unpaid' :
                                                order.paymentStatus == 'UNPAID' ? 'Unpaid' :
                                                order.paymentStatus == 'DEPOSITED' ? 'Deposit Paid' :
-                                               order.paymentStatus == 'DONE' ? 'Fully Paid' : 'Unknown'}"></span>
+                                               order.paymentStatus == 'DONE' ? 'Fully Paid' : order.paymentStatus}"></span>
                             </span>
                         </td>
                         <td class="px-6 py-5 text-right">
