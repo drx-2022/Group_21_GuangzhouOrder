@@ -42,6 +42,7 @@ guangzhou-order/
 │   │   │               │       ├── SpecProposalCardRequest.java
 │   │   │               │       └── SpecProposalCardResponse.java
 │   │   │               ├── entity/
+│   │   │               │   ├── BaseProduct.java
 │   │   │               │   ├── Category.java
 │   │   │               │   ├── Commission.java
 │   │   │               │   ├── CommissionPolicy.java
@@ -56,8 +57,10 @@ guangzhou-order/
 │   │   │               │   ├── PriceQuote.java
 │   │   │               │   ├── ProductCard.java
 │   │   │               │   ├── SpecProposalCard.java
+│   │   │               │   ├── TransactionHistory.java
 │   │   │               │   └── User.java
 │   │   │               ├── repository/
+│   │   │               │   ├── BaseProductRepository.java
 │   │   │               │   ├── CategoryRepository.java
 │   │   │               │   ├── CommissionPolicyRepository.java
 │   │   │               │   ├── CommissionRepository.java
@@ -72,6 +75,7 @@ guangzhou-order/
 │   │   │               │   ├── PriceQuoteRepository.java
 │   │   │               │   ├── ProductCardRepository.java
 │   │   │               │   ├── SpecProposalCardRepository.java
+│   │   │               │   ├── TransactionHistoryRepository.java
 │   │   │               │   └── UserRepository.java
 │   │   │               ├── security/
 │   │   │               │   ├── CustomUserDetailsService.java
@@ -111,6 +115,7 @@ guangzhou-order/
 │   │           ├── fragments/
 │   │           │   └── settings_modal.html
 │   │           ├── interactive_price_chart.html
+│   │           ├── payment_error.html
 │   │           ├── payment_page.html
 │   │           ├── payment_return.html
 │   │           ├── product_details.html
