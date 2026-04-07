@@ -1,5 +1,6 @@
 package com.example.guangzhouorder.service;
 
+import com.example.guangzhouorder.dto.chat.SpecProposalCardRequest;
 import com.example.guangzhouorder.dto.chat.ConversationResponse;
 import com.example.guangzhouorder.dto.chat.MessageResponse;
 import com.example.guangzhouorder.dto.chat.PriceQuoteResponse;
@@ -7,29 +8,63 @@ import com.example.guangzhouorder.dto.chat.SpecProposalCardResponse;
 import com.example.guangzhouorder.entity.Conversation;
 import com.example.guangzhouorder.entity.ConversationRead;
 import com.example.guangzhouorder.entity.Message;
+import com.example.guangzhouorder.entity.ProductCard;
 import com.example.guangzhouorder.entity.User;
 import com.example.guangzhouorder.repository.*;
-import lombok.RequiredArgsConstructor;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
+@Slf4j
 public class ChatService {
 
     private final ConversationRepository conversationRepository;
     private final MessageRepository messageRepository;
     private final ConversationReadRepository conversationReadRepository;
     private final UserRepository userRepository;
+    private final ProductCardRepository productCardRepository;
     private final SpecProposalCardRepository specProposalCardRepository;
     private final PriceQuoteRepository priceQuoteRepository;
+    private final ObjectMapper objectMapper;
+    private final ProposalService proposalService;
+
+    @Autowired
+    public ChatService(
+            ConversationRepository conversationRepository,
+            MessageRepository messageRepository,
+            ConversationReadRepository conversationReadRepository,
+            UserRepository userRepository,
+            ProductCardRepository productCardRepository,
+            SpecProposalCardRepository specProposalCardRepository,
+            PriceQuoteRepository priceQuoteRepository,
+            ObjectMapper objectMapper,
+            @Lazy ProposalService proposalService
+    ) {
+        this.conversationRepository = conversationRepository;
+        this.messageRepository = messageRepository;
+        this.conversationReadRepository = conversationReadRepository;
+        this.userRepository = userRepository;
+        this.productCardRepository = productCardRepository;
+        this.specProposalCardRepository = specProposalCardRepository;
+        this.priceQuoteRepository = priceQuoteRepository;
+        this.objectMapper = objectMapper;
+        this.proposalService = proposalService;
+    }
 
     /**
      * Get or create the single conversation for a customer user.
@@ -59,6 +94,118 @@ public class ChatService {
                 .build();
         
         return conversationRepository.save(conversation);
+    }
+
+    @Transactional
+    public Conversation createConversationFromClone(User customer, Long productCardId) {
+        Conversation conversation = createNewConversation(customer);
+
+        ProductCard card = productCardRepository.findById(productCardId)
+                .filter(ProductCard::isPublic)
+                .orElse(null);
+
+        if (card == null) {
+            return conversation;
+        }
+
+        String categoryName = card.getCategory() != null ? card.getCategory().getName() : "N/A";
+        String referencePrice = card.getDisplayPrice() != null
+                ? card.getDisplayPrice().toPlainString() + " ₫"
+                : "Contact for price";
+
+        StringBuilder content = new StringBuilder();
+        content.append("🔁 Clone Request\n\n")
+                .append("Product: ").append(card.getCardName()).append("\n")
+                .append("SKU: GZ-").append(card.getProductCardId()).append("\n")
+                .append("Category: ").append(categoryName).append("\n")
+                .append("Reference Price: ").append(referencePrice);
+
+        if (card.getCardDna() != null && !card.getCardDna().isBlank()) {
+            content.append("\n\nDNA Specs:\n").append(card.getCardDna());
+        }
+
+        sendMessage(
+                conversation.getConversationId(),
+                "TEXT",
+                content.toString(),
+                null,
+                customer
+        );
+
+        return conversation;
+    }
+
+    @Transactional
+    public Conversation createConversationWithCloneProposal(User customer, Long productCardId) {
+        Conversation conv = createNewConversation(customer);
+
+        ProductCard card = productCardRepository.findById(productCardId)
+                .filter(ProductCard::isPublic)
+                .orElse(null);
+        if (card == null) {
+            return conv;
+        }
+
+        Optional<User> adminOpt = userRepository.findFirstByRole("ADMIN");
+        if (adminOpt.isEmpty()) {
+            return conv;
+        }
+
+        String material = "";
+        String configuration = "";
+        String imageUrl = "";
+        String notes = "";
+
+        try {
+            String dna = card.getCardDna();
+            if (dna != null && !dna.isBlank()) {
+                JsonNode root = objectMapper.readTree(dna);
+                material = textOrEmpty(root.get("material"));
+                configuration = textOrEmpty(root.get("configuration"));
+                imageUrl = textOrEmpty(root.get("imageUrl"));
+                notes = textOrEmpty(root.get("notes"));
+            }
+        } catch (Exception e) {
+            log.warn("Failed parsing ProductCard DNA for clone productCardId={}", productCardId, e);
+        }
+
+        String cardName = firstNonBlank(card.getCardName(), "Unnamed Product");
+
+        SpecProposalCardRequest request = SpecProposalCardRequest.builder()
+                .materials(firstNonBlank(material, cardName, "To be specified"))
+                .dimensions(firstNonBlank(configuration, "To be specified"))
+                .color("To be specified")
+                .quantity(1)
+                .estimatePrice(card.getDisplayPrice() != null ? card.getDisplayPrice() : new BigDecimal("1.00"))
+                .technicalNotes("Cloned from: " + cardName + ". " + notes)
+                .referencePhotoUrls(!imageUrl.isBlank() ? List.of(imageUrl) : Collections.emptyList())
+                .build();
+
+        try {
+            proposalService.createProposalCard(conv.getConversationId(), request, adminOpt.get());
+        } catch (Exception e) {
+            log.error("Failed auto-creating clone proposal for conversationId={} productCardId={}",
+                    conv.getConversationId(), productCardId, e);
+        }
+
+        return conv;
+    }
+
+    private String textOrEmpty(JsonNode node) {
+        if (node == null || node.isNull()) {
+            return "";
+        }
+        String value = node.asText();
+        return value == null ? "" : value.trim();
+    }
+
+    private String firstNonBlank(String... values) {
+        for (String value : values) {
+            if (value != null && !value.isBlank()) {
+                return value;
+            }
+        }
+        return "";
     }
 
     //Get all conversations (for Admin view), include unread count for the given viewer.
