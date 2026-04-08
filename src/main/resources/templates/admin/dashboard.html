@@ -234,7 +234,7 @@
                                                          'bg-red-100 text-red-700'}"
                                           th:text="${item.order.paymentStatus ?: 'UNPAID'}">UNPAID</span>
                                 </td>
-                                <td class="px-6 py-4 text-sm text-on-surface-variant" th:text="${#dates.format(item.order.createdAt, 'dd MMM yyyy')}">01 Jan 2024</td>
+                                <td class="px-6 py-4 text-sm text-on-surface-variant" th:text="${#temporals.format(item.order.createdAt, 'dd MMM yyyy')}">01 Jan 2024</td>
                                 <td class="px-6 py-4 text-center">
                                     <div class="flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                                         <a th:href="@{/admin/orders/{id}/tracking(id=${item.order.orderId})}"

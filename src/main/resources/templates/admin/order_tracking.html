@@ -119,45 +119,48 @@
     </header>
 
     <!-- Main Content -->
-    <main class="pt-24 pb-12">
-        <div class="max-w-4xl mx-auto px-6">
+    <main class="pt-20 pb-12 px-4">
+        <div class="max-w-7xl mx-auto">
             <!-- Header -->
             <div class="mb-8">
                 <div class="flex items-center gap-4 mb-4">
-                    <a href="/admin/orders" class="text-[#003461] hover:text-[#004b87]">
-                        <span class="material-symbols-outlined">arrow_back</span>
+                    <a href="/admin/orders" class="text-[#003461] hover:text-[#004b87] hover:bg-surface-container-low p-2 rounded-full transition-all">
+                        <span class="material-symbols-outlined text-xl">arrow_back</span>
                     </a>
-                    <div>
-                        <h1 class="text-3xl font-extrabold tracking-tight text-primary">Order Tracking</h1>
-                        <p class="text-on-surface-variant font-body text-sm" th:text="'Order #' + ${order.orderId}">Order #12345</p>
+                    <div class="flex-1">
+                        <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-primary">Order Tracking Management</h1>
+                        <p class="text-on-surface-variant font-body text-sm mt-1" th:text="'Order #GZ-ORD-' + ${order.orderId}">Order #GZ-ORD-12345</p>
                     </div>
                 </div>
             </div>
 
-            <div class="grid grid-cols-3 gap-6">
-                <!-- Order Info Card -->
-                <div class="col-span-2">
-                    <div class="bg-white rounded-xl shadow-sm border border-outline-variant/15 p-6 mb-6">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Left Column: Order Info + History -->
+                <div class="lg:col-span-2 space-y-6">
+                    <!-- Order Info Card -->
+                    <div class="bg-white rounded-xl shadow-sm border border-outline-variant/15 p-6">
                         <h2 class="text-lg font-bold mb-4 flex items-center gap-2">
                             <span class="material-symbols-outlined text-primary">info</span>
                             Order Information
                         </h2>
                         <div class="space-y-3">
-                            <div class="flex justify-between">
-                                <span class="text-on-surface-variant">Order ID:</span>
-                                <span class="font-semibold" th:text="'GZ-ORD-' + ${order.orderId}">GZ-ORD-12345</span>
+                            <div class="flex justify-between items-center py-2 border-b border-outline-variant/10">
+                                <span class="text-on-surface-variant font-medium">Order ID:</span>
+                                <span class="font-bold text-primary" th:text="'GZ-ORD-' + ${order.orderId}">GZ-ORD-12345</span>
                             </div>
-                            <div class="flex justify-between">
-                                <span class="text-on-surface-variant">Status:</span>
-                                <span class="font-semibold" th:text="${order.status}">IN_PRODUCTION</span>
+                            <div class="flex justify-between items-center py-2 border-b border-outline-variant/10">
+                                <span class="text-on-surface-variant font-medium">Status:</span>
+                                <span class="px-3 py-1 bg-primary-fixed text-primary rounded-full text-sm font-semibold" th:text="${order.status}">IN_PRODUCTION</span>
                             </div>
-                            <div class="flex justify-between">
-                                <span class="text-on-surface-variant">Payment Status:</span>
-                                <span class="font-semibold" th:text="${order.paymentStatus}">DEPOSITED</span>
+                            <div class="flex justify-between items-center py-2 border-b border-outline-variant/10">
+                                <span class="text-on-surface-variant font-medium">Payment:</span>
+                                <span class="px-3 py-1 rounded-full text-sm font-semibold"
+                                      th:classappend="${order.paymentStatus == 'DONE' ? 'bg-green-100 text-green-700' : order.paymentStatus == 'DEPOSITED' ? 'bg-yellow-100 text-yellow-700' : 'bg-red-100 text-red-700'}"
+                                      th:text="${order.paymentStatus}">DEPOSITED</span>
                             </div>
-                            <div class="flex justify-between">
-                                <span class="text-on-surface-variant">Created:</span>
-                                <span class="font-semibold" th:text="${#dates.format(order.createdAt, 'dd MMM yyyy')}">15 Dec 2024</span>
+                            <div class="flex justify-between items-center py-2">
+                                <span class="text-on-surface-variant font-medium">Created:</span>
+                                <span class="text-sm" th:text="${#dates.format(order.createdAt, 'dd MMM yyyy HH:mm')}">15 Dec 2024 14:30</span>
                             </div>
                         </div>
                     </div>
