@@ -133,7 +133,7 @@ public class AuthController {
             cookie.setPath("/");
             cookie.setMaxAge(86400);
             response.addCookie(cookie);
-            return "redirect:/dashboard";
+            return "redirect:/";
         } catch (IllegalArgumentException e) {
             model.addAttribute("loginError", "Invalid email or password.");
             return "auth/login";
