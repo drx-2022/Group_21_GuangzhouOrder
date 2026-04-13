@@ -89,8 +89,8 @@
         </a>
         <div class="hidden md:flex items-center space-x-8 font-headline font-bold tracking-tight">
             <a class="text-[#004B87] dark:text-[#cbe7f5] border-b-2 border-[#004B87] pb-1" th:href="@{/}">Xu hướng</a>
-            <a class="text-[#424750] dark:text-slate-400 hover:text-[#004B87] transition-colors" th:href="@{/chat}">Tìm nguồn</a>
-            <a class="text-[#424750] dark:text-slate-400 hover:text-[#004B87] transition-colors" th:href="@{/my-orders}" sec:authorize="isAuthenticated()">Đơn hàng</a>
+            <a class="text-[#424750] dark:text-slate-400 hover:text-[#004B87] transition-colors" th:href="@{/dashboard/chat}">Bắt đầu order</a>
+            <a class="text-[#424750] dark:text-slate-400 hover:text-[#004B87] transition-colors" th:href="@{/orders}" sec:authorize="isAuthenticated()">Đơn hàng</a>
             <a class="text-[#424750] dark:text-slate-400 hover:text-[#004B87] transition-colors" href="#">Hỗ trợ</a>
         </div>
         <div class="flex items-center space-x-4">

@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 
-<html class="light" lang="en" xmlns:th="http://www.thymeleaf.org"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<script id="tailwind-config">
+<html class="light" lang="vi" xmlns:th="http://www.thymeleaf.org"><head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
             theme: {
@@ -71,7 +71,7 @@
             },
         }
     </script>
-<style>
+    <style>
         .material-symbols-outlined {
             font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
             vertical-align: middle;
@@ -88,200 +88,198 @@
 <body class="bg-background font-body text-on-background antialiased">
 <!-- Top Navigation Bar -->
 <nav class="fixed top-0 w-full z-50 bg-[#f8f9fb]/80 dark:bg-slate-900/80 backdrop-blur-xl shadow-sm dark:shadow-none">
-<div class="flex justify-between items-center px-6 py-3 w-full max-w-screen-2xl mx-auto">
-<div class="flex items-center gap-8">
-<a th:href="@{/}" class="text-xl font-black text-[#003461] dark:text-white tracking-tighter font-headline">Guangzhou Direct</a>
-<div class="hidden md:flex gap-6 items-center">
-<a class="font-headline font-bold tracking-tight text-[#004B87] dark:text-[#cbe7f5] border-b-2 border-[#004B87] pb-1" href="#">Trends</a>
-<a class="font-headline font-bold tracking-tight text-[#424750] dark:text-slate-400 hover:text-[#004B87] transition-colors" href="#">Sourcing</a>
-<a class="font-headline font-bold tracking-tight text-[#424750] dark:text-slate-400 hover:text-[#004B87] transition-colors" href="#">Orders</a>
-<a class="font-headline font-bold tracking-tight text-[#424750] dark:text-slate-400 hover:text-[#004B87] transition-colors" href="#">Support</a>
-</div>
-</div>
-<div class="flex items-center gap-4">
-<div class="relative hidden sm:block">
-<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-sm">search</span>
-<input class="pl-10 pr-4 py-2 bg-surface-container-low border-none rounded-lg text-sm w-64 focus:ring-2 focus:ring-primary/20" placeholder="Search for products..." type="text"/>
-</div>
-<button class="p-2 rounded-full hover:bg-[#f2f4f6]/50 dark:hover:bg-slate-800/50 transition-colors text-on-surface-variant">
-<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
-</button>
-<button class="p-2 rounded-full hover:bg-[#f2f4f6]/50 dark:hover:bg-slate-800/50 transition-colors text-on-surface-variant">
-<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
-</button>
-</div>
-</div>
+    <div class="flex justify-between items-center px-6 py-3 w-full max-w-screen-2xl mx-auto">
+        <div class="flex items-center gap-8">
+            <a th:href="@{/}" class="text-xl font-black text-[#003461] dark:text-white tracking-tighter font-headline">Guangzhou Direct</a>
+            <div class="hidden md:flex gap-6 items-center">
+                <a class="font-headline font-bold tracking-tight text-[#424750] dark:text-slate-400 hover:text-[#004B87] transition-colors" href="/orders">Đơn Hàng</a>
+                <a class="font-headline font-bold tracking-tight text-[#424750] dark:text-slate-400 hover:text-[#004B87] transition-colors" href="/dashboard/chat">Hỗ Trợ</a>
+            </div>
+        </div>
+        <div class="flex items-center gap-4">
+            <div class="relative hidden sm:block">
+                <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-sm">search</span>
+                <input class="pl-10 pr-4 py-2 bg-surface-container-low border-none rounded-lg text-sm w-64 focus:ring-2 focus:ring-primary/20" placeholder="Tìm kiếm sản phẩm..." type="text"/>
+            </div>
+            <button class="p-2 rounded-full hover:bg-[#f2f4f6]/50 dark:hover:bg-slate-800/50 transition-colors text-on-surface-variant">
+                <span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+            </button>
+            <button class="p-2 rounded-full hover:bg-[#f2f4f6]/50 dark:hover:bg-slate-800/50 transition-colors text-on-surface-variant">
+                <span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+            </button>
+        </div>
+    </div>
 </nav>
 <main class="pt-24 pb-20 px-6 max-w-screen-2xl mx-auto">
-<!-- Hero Header -->
-<header class="mb-12">
-<h1 class="font-headline text-5xl font-extrabold text-primary tracking-tight mb-4">Community Catalog</h1>
-<p class="text-on-surface-variant max-w-2xl leading-relaxed text-lg">
-                Discover curated products from top manufacturing factories in Guangzhou. 
-                Connect directly, optimize costs, and streamline your B2B operations.
-            </p>
-</header>
-<!-- Filters Section -->
-<form method="get" th:action="@{/catalog}">
-<section class="mb-10 bg-surface-container-low rounded-xl p-6 flex flex-wrap gap-6 items-end">
-<div class="flex-1 min-w-[200px]">
-<label class="block text-xs font-semibold uppercase tracking-wider text-on-surface-variant mb-2">Category</label>
-<select name="categoryId" class="w-full bg-surface-container-lowest border-none rounded-lg py-3 px-4 text-sm focus:ring-2 focus:ring-primary/20">
-<option value="">All Products</option>
-<option th:each="cat : ${categories}"
-        th:value="${cat.categoryId}"
-        th:text="${cat.name}"
-        th:selected="${cat.categoryId == selectedCategoryId}">Category</option>
-</select>
-</div>
-<button type="submit" class="bg-primary text-white font-headline font-bold text-sm px-8 py-3.5 rounded-lg hover:opacity-90 transition-all flex items-center gap-2">
-<span class="material-symbols-outlined text-sm">filter_list</span>
-                Filter Results
+    <!-- Hero Header -->
+    <header class="mb-12">
+        <h1 class="font-headline text-5xl font-extrabold text-primary tracking-tight mb-4">Danh Mục Cộng Đồng</h1>
+        <p class="text-on-surface-variant max-w-2xl leading-relaxed text-lg">
+            Khám phá các sản phẩm được tuyển chọn từ các nhà máy sản xuất hàng đầu tại Quảng Châu.
+            Kết nối trực tiếp, tối ưu chi phí và hợp lý hóa hoạt động B2B của bạn.
+        </p>
+    </header>
+    <!-- Filters Section -->
+    <form method="get" th:action="@{/catalog}">
+        <section class="mb-10 bg-surface-container-low rounded-xl p-6 flex flex-wrap gap-6 items-end">
+            <div class="flex-1 min-w-[200px]">
+                <label class="block text-xs font-semibold uppercase tracking-wider text-on-surface-variant mb-2">Danh Mục</label>
+                <select name="categoryId" class="w-full bg-surface-container-lowest border-none rounded-lg py-3 px-4 text-sm focus:ring-2 focus:ring-primary/20">
+                    <option value="">Tất Cả Sản Phẩm</option>
+                    <option th:each="cat : ${categories}"
+                            th:value="${cat.categoryId}"
+                            th:text="${cat.name}"
+                            th:selected="${cat.categoryId == selectedCategoryId}">Danh mục</option>
+                </select>
+            </div>
+            <button type="submit" class="bg-primary text-white font-headline font-bold text-sm px-8 py-3.5 rounded-lg hover:opacity-90 transition-all flex items-center gap-2">
+                <span class="material-symbols-outlined text-sm">filter_list</span>
+                Lọc Kết Quả
             </button>
-<a th:href="@{/catalog}" class="font-headline font-bold text-sm px-4 py-3.5 rounded-lg border border-outline-variant text-on-surface-variant hover:bg-surface-container transition-all">
-                Clear
+            <a th:href="@{/catalog}" class="font-headline font-bold text-sm px-4 py-3.5 rounded-lg border border-outline-variant text-on-surface-variant hover:bg-surface-container transition-all">
+                Xóa Bộ Lọc
             </a>
-</section>
-</form>
-<!-- Product Catalog Grid -->
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-<!-- Empty state -->
-<div th:if="${cards.isEmpty()}" class="col-span-4 text-center py-20">
-<span class="material-symbols-outlined text-5xl text-outline mb-4 block">inventory_2</span>
-<h3 class="font-headline font-bold text-xl text-primary mb-2">No products found</h3>
-<p class="text-on-surface-variant text-sm mb-6">Try clearing the filter or check back later.</p>
-<a th:href="@{/catalog}" class="inline-flex items-center gap-2 px-6 py-3 bg-primary text-white rounded-lg font-bold text-sm">
-<span class="material-symbols-outlined text-sm">refresh</span>View All Products
-</a>
-</div>
-<!-- Dynamic product cards -->
-<div th:each="card : ${cards}" class="group relative bg-surface-container-lowest rounded-xl overflow-hidden transition-all hover:translate-y-[-4px]">
-<div class="aspect-[4/5] overflow-hidden relative bg-surface-container">
-<img th:if="${!#strings.isEmpty(card.imageUrl)}"
-     th:src="${card.imageUrl}"
-     th:alt="${card.name}"
-     class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"/>
-<div th:if="${#strings.isEmpty(card.imageUrl)}" class="w-full h-full flex items-center justify-center">
-<span class="material-symbols-outlined text-6xl text-outline">image</span>
-</div>
-<div class="absolute top-4 left-4 flex gap-2">
+        </section>
+    </form>
+    <!-- Product Catalog Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+        <!-- Empty state -->
+        <div th:if="${cards.isEmpty()}" class="col-span-4 text-center py-20">
+            <span class="material-symbols-outlined text-5xl text-outline mb-4 block">inventory_2</span>
+            <h3 class="font-headline font-bold text-xl text-primary mb-2">Không tìm thấy sản phẩm</h3>
+            <p class="text-on-surface-variant text-sm mb-6">Hãy thử xóa bộ lọc hoặc quay lại sau.</p>
+            <a th:href="@{/catalog}" class="inline-flex items-center gap-2 px-6 py-3 bg-primary text-white rounded-lg font-bold text-sm">
+                <span class="material-symbols-outlined text-sm">refresh</span>Xem Tất Cả Sản Phẩm
+            </a>
+        </div>
+        <!-- Dynamic product cards -->
+        <div th:each="card : ${cards}" class="group relative bg-surface-container-lowest rounded-xl overflow-hidden transition-all hover:translate-y-[-4px]">
+            <div class="aspect-[4/5] overflow-hidden relative bg-surface-container">
+                <img th:if="${!#strings.isEmpty(card.imageUrl)}"
+                     th:src="${card.imageUrl}"
+                     th:alt="${card.name}"
+                     class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"/>
+                <div th:if="${#strings.isEmpty(card.imageUrl)}" class="w-full h-full flex items-center justify-center">
+                    <span class="material-symbols-outlined text-6xl text-outline">image</span>
+                </div>
+                <div class="absolute top-4 left-4 flex gap-2">
 <span class="bg-tertiary-fixed text-on-tertiary-fixed text-[10px] font-bold px-2 py-1 rounded-full flex items-center gap-1">
 <span class="material-symbols-outlined text-[12px]" style="font-variation-settings: 'FILL' 1;">verified</span>
-VERIFIED
+ĐÃ XÁC MINH
 </span>
-</div>
-</div>
-<div class="p-5">
-<div class="flex justify-between items-start mb-2">
-<h3 class="font-headline font-bold text-lg text-primary" th:text="${card.name}">Product Name</h3>
-<span class="text-xs font-mono text-outline" th:text="'SKU: ' + ${card.sku}">SKU: GZ-0</span>
-</div>
-<div class="space-y-3 mb-6">
-<div class="flex items-center gap-4 text-xs">
-<div class="flex items-center gap-1 text-on-surface-variant" th:if="${card.stock != '—'}">
-<span class="material-symbols-outlined text-sm">inventory_2</span>
-<span th:text="'Stock: ' + ${card.stock}">Stock</span>
-</div>
-<div class="flex items-center gap-1 text-on-surface-variant" th:if="${card.material != '—'}">
-<span class="material-symbols-outlined text-sm">conveyor_belt</span>
-<span th:text="'Material: ' + ${card.material}">Material</span>
-</div>
-</div>
-<div class="p-3 bg-surface-container-low rounded-lg" th:if="${card.configuration != '—'}">
-<p class="text-[10px] text-outline font-semibold uppercase tracking-widest mb-1">Standard Configuration</p>
-<p class="text-xs text-on-surface-variant italic" th:text="${card.configuration}">Configuration</p>
-</div>
-</div>
-<div class="flex items-end justify-between mb-6">
-<div class="flex flex-col">
+                </div>
+            </div>
+            <div class="p-5">
+                <div class="flex justify-between items-start mb-2">
+                    <h3 class="font-headline font-bold text-lg text-primary" th:text="${card.name}">Tên Sản Phẩm</h3>
+                    <span class="text-xs font-mono text-outline" th:text="'Mã SP: ' + ${card.sku}">Mã SP: GZ-0</span>
+                </div>
+                <div class="space-y-3 mb-6">
+                    <div class="flex items-center gap-4 text-xs">
+                        <div class="flex items-center gap-1 text-on-surface-variant" th:if="${card.stock != '—'}">
+                            <span class="material-symbols-outlined text-sm">inventory_2</span>
+                            <span th:text="'Tồn kho: ' + ${card.stock}">Tồn kho</span>
+                        </div>
+                        <div class="flex items-center gap-1 text-on-surface-variant" th:if="${card.material != '—'}">
+                            <span class="material-symbols-outlined text-sm">conveyor_belt</span>
+                            <span th:text="'Vật liệu: ' + ${card.material}">Vật liệu</span>
+                        </div>
+                    </div>
+                    <div class="p-3 bg-surface-container-low rounded-lg" th:if="${card.configuration != '—'}">
+                        <p class="text-[10px] text-outline font-semibold uppercase tracking-widest mb-1">Cấu Hình Tiêu Chuẩn</p>
+                        <p class="text-xs text-on-surface-variant italic" th:text="${card.configuration}">Cấu hình</p>
+                    </div>
+                </div>
+                <div class="flex items-end justify-between mb-6">
+                    <div class="flex flex-col">
 <span class="text-xl font-black text-primary"
-      th:text="${card.displayPrice != null} ? ${#numbers.formatDecimal(card.displayPrice, 0, 'COMMA', 0, 'POINT') + ' ₫'} : 'Contact for price'">Price</span>
-</div>
-<span th:if="${card.categoryName != '—'}" class="text-[10px] bg-secondary-container text-on-secondary-container px-2 py-1 rounded font-bold" th:text="${card.categoryName}">Category</span>
-</div>
-<div class="grid grid-cols-2 gap-3">
-<a th:href="@{/products/{id}(id=${card.productCardId})}"
-   class="py-2.5 px-4 rounded-lg bg-surface-container-high text-primary font-headline font-bold text-xs hover:bg-surface-container-highest transition-colors text-center">
-View Details
-</a>
-<a th:href="@{/dashboard/chat/new(cloneFrom=${card.productCardId})}"
-   class="py-2.5 px-4 rounded-lg bg-gradient-to-br from-primary to-primary-container text-white font-headline font-bold text-xs shadow-sm hover:opacity-90 transition-all text-center">
-Copy Order
-</a>
-</div>
-</div>
-</div>
-</div>
-<!-- Load More Section -->
-<div class="mt-16 flex justify-center">
-<button class="flex items-center gap-3 px-10 py-4 rounded-full border-2 border-outline-variant text-primary font-headline font-bold hover:bg-surface-container-low transition-all">
-                Load More Products
-                <span class="material-symbols-outlined">expand_more</span>
-</button>
-</div>
+      th:text="${card.displayPrice != null} ? ${#numbers.formatDecimal(card.displayPrice, 0, 'COMMA', 0, 'POINT') + ' ₫'} : 'Liên hệ báo giá'">Giá</span>
+                    </div>
+                    <span th:if="${card.categoryName != '—'}" class="text-[10px] bg-secondary-container text-on-secondary-container px-2 py-1 rounded font-bold" th:text="${card.categoryName}">Danh mục</span>
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <a th:href="@{/products/{id}(id=${card.productCardId})}"
+                       class="py-2.5 px-4 rounded-lg bg-surface-container-high text-primary font-headline font-bold text-xs hover:bg-surface-container-highest transition-colors text-center">
+                        Xem Chi Tiết
+                    </a>
+                    <a th:href="@{/dashboard/chat/new(cloneFrom=${card.productCardId})}"
+                       class="py-2.5 px-4 rounded-lg bg-gradient-to-br from-primary to-primary-container text-white font-headline font-bold text-xs shadow-sm hover:opacity-90 transition-all text-center">
+                        Đặt Đơn Hàng
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Load More Section -->
+    <div class="mt-16 flex justify-center">
+        <button class="flex items-center gap-3 px-10 py-4 rounded-full border-2 border-outline-variant text-primary font-headline font-bold hover:bg-surface-container-low transition-all">
+            Tải Thêm Sản Phẩm
+            <span class="material-symbols-outlined">expand_more</span>
+        </button>
+    </div>
 </main>
 <!-- Footer Section -->
 <footer class="bg-[#f2f4f6] dark:bg-slate-950 w-full py-12 px-6 border-t border-[#c2c6d1]/10">
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
-<div class="space-y-4">
-<span class="font-headline font-bold text-[#003461] dark:text-white text-xl">Guangzhou Direct</span>
-<p class="text-[#424750] dark:text-slate-400 text-xs leading-relaxed">
-                    A platform directly connecting Vietnamese retailers with the manufacturing ecosystem in Guangzhou, China.
-                </p>
-</div>
-<div>
-<h4 class="font-headline font-bold text-[#003461] dark:text-white text-sm mb-4">Quick Links</h4>
-<ul class="space-y-2 text-[#424750] dark:text-slate-400 text-xs">
-<li><a class="hover:text-[#004B87] transition-colors" href="#">Terms of Service</a></li>
-<li><a class="hover:text-[#004B87] transition-colors" href="#">Privacy Policy</a></li>
-<li><a class="hover:text-[#004B87] transition-colors" href="#">Contact Us</a></li>
-<li><a class="hover:text-[#004B87] transition-colors" href="#">Sourcing Guide</a></li>
-</ul>
-</div>
-<div>
-<h4 class="font-headline font-bold text-[#003461] dark:text-white text-sm mb-4">Services</h4>
-<ul class="space-y-2 text-[#424750] dark:text-slate-400 text-xs">
-<li><a class="hover:text-[#004B87]" href="#">Goods Inspection</a></li>
-<li><a class="hover:text-[#004B87]" href="#">Express Shipping</a></li>
-<li><a class="hover:text-[#004B87]" href="#">Payment Proxy</a></li>
-<li><a class="hover:text-[#004B87]" href="#">Customs Declaration</a></li>
-</ul>
-</div>
-<div>
-<h4 class="font-headline font-bold text-[#003461] dark:text-white text-sm mb-4">Newsletter</h4>
-<div class="flex gap-2">
-<input class="bg-white border-none rounded px-3 py-2 text-xs w-full" placeholder="Your email address" type="email"/>
-<button class="bg-primary text-white p-2 rounded">
-<span class="material-symbols-outlined text-sm">send</span>
-</button>
-</div>
-</div>
-</div>
-<div class="max-w-7xl mx-auto mt-12 pt-8 border-t border-outline-variant/20 flex justify-between items-center text-[#003461] dark:text-slate-400 font-['Inter'] text-xs">
-<span>© 2024 Guangzhou Curator. Optimized B2B Platform.</span>
-<div class="flex gap-4">
-<span class="material-symbols-outlined">language</span>
-<span>English (US)</span>
-</div>
-</div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
+        <div class="space-y-4">
+            <span class="font-headline font-bold text-[#003461] dark:text-white text-xl">Guangzhou Direct</span>
+            <p class="text-[#424750] dark:text-slate-400 text-xs leading-relaxed">
+                Nền tảng kết nối trực tiếp nhà bán lẻ Việt Nam với hệ sinh thái sản xuất tại Quảng Châu, Trung Quốc.
+            </p>
+        </div>
+        <div>
+            <h4 class="font-headline font-bold text-[#003461] dark:text-white text-sm mb-4">Liên Kết Nhanh</h4>
+            <ul class="space-y-2 text-[#424750] dark:text-slate-400 text-xs">
+                <li><a class="hover:text-[#004B87] transition-colors" href="/terms.html">Điều Khoản Dịch Vụ</a></li>
+                <li><a class="hover:text-[#004B87] transition-colors" href="/privacy.html">Chính Sách Bảo Mật</a></li>
+                <li><a class="hover:text-[#004B87] transition-colors" href="#">Liên Hệ</a></li>
+                <li><a class="hover:text-[#004B87] transition-colors" href="/sourcing_guide.html">Hướng Dẫn Tìm Nguồn</a></li>
+            </ul>
+        </div>
+        <div>
+            <h4 class="font-headline font-bold text-[#003461] dark:text-white text-sm mb-4">Dịch Vụ</h4>
+            <ul class="space-y-2 text-[#424750] dark:text-slate-400 text-xs">
+                <li><a class="hover:text-[#004B87]" href="#">Kiểm Tra Hàng Hóa</a></li>
+                <li><a class="hover:text-[#004B87]" href="#">Vận Chuyển Nhanh</a></li>
+                <li><a class="hover:text-[#004B87]" href="#">Thanh Toán Hộ</a></li>
+                <li><a class="hover:text-[#004B87]" href="#">Khai Báo Hải Quan</a></li>
+            </ul>
+        </div>
+        <div>
+            <h4 class="font-headline font-bold text-[#003461] dark:text-white text-sm mb-4">Bản Tin</h4>
+            <div class="flex gap-2">
+                <input class="bg-white border-none rounded px-3 py-2 text-xs w-full" placeholder="Địa chỉ email của bạn" type="email"/>
+                <button class="bg-primary text-white p-2 rounded">
+                    <span class="material-symbols-outlined text-sm">send</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="max-w-7xl mx-auto mt-12 pt-8 border-t border-outline-variant/20 flex justify-between items-center text-[#003461] dark:text-slate-400 font-['Inter'] text-xs">
+        <span>© 2024 Guangzhou Curator. Nền Tảng B2B Tối Ưu.</span>
+        <div class="flex gap-4">
+            <span class="material-symbols-outlined">language</span>
+            <span>Tiếng Việt</span>
+        </div>
+    </div>
 </footer>
 <!-- Mobile Bottom Navigation -->
 <div class="lg:hidden fixed bottom-0 left-0 w-full flex justify-around items-center px-4 pb-safe pt-2 bg-[#ffffff]/90 dark:bg-slate-950/90 backdrop-blur-lg shadow-[0_-4px_12px_rgba(0,0,0,0.05)] border-t border-[#c2c6d1]/15 z-50">
-<a class="flex flex-col items-center justify-center text-[#003461] dark:text-white bg-[#cbe7f5]/50 dark:bg-[#004B87]/30 rounded-xl px-4 py-1" href="#">
-<span class="material-symbols-outlined" data-icon="home">home</span>
-<span class="font-['Inter'] text-[10px] font-medium uppercase tracking-widest mt-1">Home</span>
-</a>
-<a class="flex flex-col items-center justify-center text-[#424750] dark:text-slate-500" href="#">
-<span class="material-symbols-outlined" data-icon="show_chart">show_chart</span>
-<span class="font-['Inter'] text-[10px] font-medium uppercase tracking-widest mt-1">Charts</span>
-</a>
-<a class="flex flex-col items-center justify-center text-[#424750] dark:text-slate-500" href="#">
-<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
-<span class="font-['Inter'] text-[10px] font-medium uppercase tracking-widest mt-1">Orders</span>
-</a>
-<a class="flex flex-col items-center justify-center text-[#424750] dark:text-slate-500" href="#">
-<span class="material-symbols-outlined" data-icon="forum">forum</span>
-<span class="font-['Inter'] text-[10px] font-medium uppercase tracking-widest mt-1">Chat</span>
-</a>
+    <a class="flex flex-col items-center justify-center text-[#003461] dark:text-white bg-[#cbe7f5]/50 dark:bg-[#004B87]/30 rounded-xl px-4 py-1" href="#">
+        <span class="material-symbols-outlined" data-icon="home">home</span>
+        <span class="font-['Inter'] text-[10px] font-medium uppercase tracking-widest mt-1">Trang Chủ</span>
+    </a>
+    <a class="flex flex-col items-center justify-center text-[#424750] dark:text-slate-500" href="#">
+        <span class="material-symbols-outlined" data-icon="show_chart">show_chart</span>
+        <span class="font-['Inter'] text-[10px] font-medium uppercase tracking-widest mt-1">Biểu Đồ</span>
+    </a>
+    <a class="flex flex-col items-center justify-center text-[#424750] dark:text-slate-500" href="#">
+        <span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+        <span class="font-['Inter'] text-[10px] font-medium uppercase tracking-widest mt-1">Đơn Hàng</span>
+    </a>
+    <a class="flex flex-col items-center justify-center text-[#424750] dark:text-slate-500" href="#">
+        <span class="material-symbols-outlined" data-icon="forum">forum</span>
+        <span class="font-['Inter'] text-[10px] font-medium uppercase tracking-widest mt-1">Trò Chuyện</span>
+    </a>
 </div>
 </body></html>

@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 
-<html class="light" lang="en" xmlns:th="http://www.thymeleaf.org"><head>
+<html class="light" lang="vi" xmlns:th="http://www.thymeleaf.org"><head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>My Orders - Guangzhou Direct</title>
+    <title>Đơn Hàng Của Tôi - Guangzhou Direct</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
@@ -85,9 +85,9 @@
     <div class="flex items-center gap-8">
         <span class="text-xl font-extrabold tracking-tighter text-[#003461]">Guangzhou Direct</span>
         <nav class="hidden md:flex items-center gap-6 font-manrope text-sm font-semibold tracking-tight">
-            <a class="text-[#424750] hover:text-[#003461] transition-colors" href="#">Products</a>
-            <a class="text-[#003461] border-b-2 border-[#004b87] pb-1" href="#">Orders</a>
-            <a class="text-[#424750] hover:text-[#003461] transition-colors" href="#">Community</a>
+            <a class="text-[#424750] hover:text-[#003461] transition-colors" href="/catalog">Sản Phẩm</a>
+            <a class="text-[#003461] border-b-2 border-[#004b87] pb-1" href="#">Đơn Hàng</a>
+            <a class="text-[#424750] hover:text-[#003461] transition-colors" href="#">Cộng Đồng</a>
         </nav>
     </div>
     <div class="flex items-center gap-4">
@@ -101,42 +101,38 @@
 </header>
 <!-- Sidebar Navigation -->
 <aside class="hidden md:flex h-screen w-64 fixed left-0 top-0 bg-[#f2f4f6] flex flex-col p-4 gap-2 pt-20">
-     <div class="mb-6 px-2">
-         <div class="flex items-center gap-3 mb-4">
-             <div class="w-10 h-10 rounded-full bg-primary-fixed flex items-center justify-center overflow-hidden">
-                 <span class="material-symbols-outlined text-primary">person</span>
-             </div>
-             <div>
-                 <p class="font-inter text-sm font-bold text-[#003461]" th:text="${user.name != null ? user.name : user.email}">Purchasing Agent</p>
-                 <p class="text-[10px] text-on-surface-variant" th:text="'ID: ' + ${user.userId}">ID: GZ-9982</p>
-             </div>
-         </div>
-         <a href="#" class="w-full py-2.5 px-4 bg-gradient-to-br from-primary to-primary-container text-white text-xs font-bold uppercase rounded-md shadow-sm active:opacity-80 transition-all inline-block text-center">
-             Create New Order
-         </a>
-     </div>
+    <div class="mb-6 px-2">
+        <div class="flex items-center gap-3 mb-4">
+            <div class="w-10 h-10 rounded-full bg-primary-fixed flex items-center justify-center overflow-hidden">
+                <span class="material-symbols-outlined text-primary">person</span>
+            </div>
+            <div>
+                <p class="font-inter text-sm font-bold text-[#003461]" th:text="${user.name != null ? user.name : user.email}">Nhân Viên Mua Hàng</p>
+                <p class="text-[10px] text-on-surface-variant" th:text="'ID: ' + ${user.userId}">ID: GZ-9982</p>
+            </div>
+        </div>
+        <a href="/dashboard/chat" class="w-full py-2.5 px-4 bg-gradient-to-br from-primary to-primary-container text-white text-xs font-bold uppercase rounded-md shadow-sm active:opacity-80 transition-all inline-block text-center">
+            Tạo Đơn Hàng Mới
+        </a>
+    </div>
     <nav class="space-y-1">
-        <a class="flex items-center gap-3 px-3 py-2.5 text-[#424750] hover:bg-white/50 hover:translate-x-1 transition-transform font-inter text-sm font-medium" href="#">
+        <a class="flex items-center gap-3 px-3 py-2.5 text-[#424750] hover:bg-white/50 hover:translate-x-1 transition-transform font-inter text-sm font-medium" href="/catalog">
             <span class="material-symbols-outlined text-lg">grid_view</span>
-            <span>Catalog</span>
+            <span>Danh Mục</span>
         </a>
         <a class="flex items-center gap-3 px-3 py-2.5 bg-white text-[#003461] rounded-lg shadow-sm font-inter text-sm font-medium" href="#">
             <span class="material-symbols-outlined text-lg" style="font-variation-settings: 'FILL' 1;">inventory_2</span>
-            <span>Orders</span>
-        </a>
-        <a class="flex items-center gap-3 px-3 py-2.5 text-[#424750] hover:bg-white/50 hover:translate-x-1 transition-transform font-inter text-sm font-medium" href="#">
-            <span class="material-symbols-outlined text-lg">timeline</span>
-            <span>Progress</span>
+            <span>Đơn Hàng</span>
         </a>
         <a class="flex items-center gap-3 px-3 py-2.5 text-[#424750] hover:bg-white/50 hover:translate-x-1 transition-transform font-inter text-sm font-medium" href="#">
             <span class="material-symbols-outlined text-lg">settings</span>
-            <span>Settings</span>
+            <span>Cài Đặt</span>
         </a>
     </nav>
     <div class="mt-auto border-t border-outline-variant/15 pt-4">
         <a class="flex items-center gap-3 px-3 py-2 text-[#424750] hover:bg-white/50 transition-all font-inter text-sm font-medium" href="#">
             <span class="material-symbols-outlined text-lg">help</span>
-            <span>Help Center</span>
+            <span>Trung Tâm Hỗ Trợ</span>
         </a>
     </div>
 </aside>
@@ -146,12 +142,12 @@
         <!-- Header Section -->
         <div class="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div>
-                <h1 class="text-3xl font-extrabold tracking-tight text-primary mb-2">My Orders</h1>
-                <p class="text-on-surface-variant font-body">Manage your sourcing requests and direct shipping status from Guangzhou.</p>
+                <h1 class="text-3xl font-extrabold tracking-tight text-primary mb-2">Đơn Hàng Của Tôi</h1>
+                <p class="text-on-surface-variant font-body">Quản lý yêu cầu tìm nguồn và trạng thái vận chuyển trực tiếp từ Quảng Châu.</p>
             </div>
             <div class="flex items-center gap-3">
                 <div class="relative">
-                    <input class="pl-10 pr-4 py-2 bg-surface-container-lowest border-none rounded-lg text-sm focus:ring-2 focus:ring-primary/20 w-64 shadow-sm" placeholder="Search orders..." type="text"/>
+                    <input class="pl-10 pr-4 py-2 bg-surface-container-lowest border-none rounded-lg text-sm focus:ring-2 focus:ring-primary/20 w-64 shadow-sm" placeholder="Tìm kiếm đơn hàng..." type="text"/>
                     <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-lg">search</span>
                 </div>
                 <button class="p-2 bg-surface-container-lowest rounded-lg shadow-sm hover:bg-surface-container-high transition-colors">
@@ -159,51 +155,51 @@
                 </button>
             </div>
         </div>
-         <!-- Dashboard Stats Overlay -->
-         <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-             <div class="bg-surface-container-lowest p-5 rounded-xl shadow-sm border border-outline-variant/10">
-                 <p class="text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Total Orders</p>
-                 <p class="text-2xl font-extrabold text-primary" th:text="${totalOrders}">0</p>
-             </div>
-             <div class="bg-surface-container-lowest p-5 rounded-xl shadow-sm border border-outline-variant/10">
-                 <p class="text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Processing</p>
-                 <p class="text-2xl font-extrabold text-[#004b87]" th:text="${processingOrders}">0</p>
-             </div>
-             <div class="bg-surface-container-lowest p-5 rounded-xl shadow-sm border border-outline-variant/10">
-                 <p class="text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Negotiating</p>
-                 <p class="text-2xl font-extrabold text-[#00544b]" th:text="${negotiatingOrders}">0</p>
-             </div>
-             <div class="bg-surface-container-lowest p-5 rounded-xl shadow-sm border border-outline-variant/10">
-                 <p class="text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Completed</p>
-                 <p class="text-2xl font-extrabold text-secondary" th:text="${completedOrders}">0</p>
-             </div>
-         </div>
+        <!-- Dashboard Stats Overlay -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+            <div class="bg-surface-container-lowest p-5 rounded-xl shadow-sm border border-outline-variant/10">
+                <p class="text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Tổng Đơn Hàng</p>
+                <p class="text-2xl font-extrabold text-primary" th:text="${totalOrders}">0</p>
+            </div>
+            <div class="bg-surface-container-lowest p-5 rounded-xl shadow-sm border border-outline-variant/10">
+                <p class="text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Đang Xử Lý</p>
+                <p class="text-2xl font-extrabold text-[#004b87]" th:text="${processingOrders}">0</p>
+            </div>
+            <div class="bg-surface-container-lowest p-5 rounded-xl shadow-sm border border-outline-variant/10">
+                <p class="text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Đang Thương Lượng</p>
+                <p class="text-2xl font-extrabold text-[#00544b]" th:text="${negotiatingOrders}">0</p>
+            </div>
+            <div class="bg-surface-container-lowest p-5 rounded-xl shadow-sm border border-outline-variant/10">
+                <p class="text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Hoàn Thành</p>
+                <p class="text-2xl font-extrabold text-secondary" th:text="${completedOrders}">0</p>
+            </div>
+        </div>
         <!-- Order Table / High-end List -->
         <div class="bg-surface-container-lowest rounded-2xl shadow-sm overflow-hidden border border-outline-variant/10">
             <div class="overflow-x-auto">
                 <table class="w-full text-left border-collapse">
                     <thead>
                     <tr class="bg-surface-container-low">
-                         <th class="px-6 py-4 text-xs font-bold text-on-surface-variant uppercase tracking-widest">Order Details</th>
-                         <th class="px-6 py-4 text-xs font-bold text-on-surface-variant uppercase tracking-widest">Date Created</th>
-                         <th class="px-6 py-4 text-xs font-bold text-on-surface-variant uppercase tracking-widest">Status</th>
-                         <th class="px-6 py-4 text-xs font-bold text-on-surface-variant uppercase tracking-widest">Payment</th>
-                         <th class="px-6 py-4 text-xs font-bold text-on-surface-variant uppercase tracking-widest text-right">Est. Value</th>
-                         <th class="px-6 py-4 text-xs font-bold text-on-surface-variant uppercase tracking-widest"></th>
-                     </tr>
+                        <th class="px-6 py-4 text-xs font-bold text-on-surface-variant uppercase tracking-widest">Chi Tiết Đơn Hàng</th>
+                        <th class="px-6 py-4 text-xs font-bold text-on-surface-variant uppercase tracking-widest">Ngày Tạo</th>
+                        <th class="px-6 py-4 text-xs font-bold text-on-surface-variant uppercase tracking-widest">Trạng Thái</th>
+                        <th class="px-6 py-4 text-xs font-bold text-on-surface-variant uppercase tracking-widest">Thanh Toán</th>
+                        <th class="px-6 py-4 text-xs font-bold text-on-surface-variant uppercase tracking-widest text-right">Giá Trị Ước Tính</th>
+                        <th class="px-6 py-4 text-xs font-bold text-on-surface-variant uppercase tracking-widest"></th>
+                    </tr>
                     </thead>
                     <tbody class="divide-y divide-outline-variant/10">
                     <!-- Empty State -->
                     <tr th:if="${orders.isEmpty()}">
-                         <td colspan="6" class="px-6 py-12 text-center">
+                        <td colspan="6" class="px-6 py-12 text-center">
                             <div class="flex flex-col items-center gap-3">
-                                 <span class="material-symbols-outlined text-5xl text-on-surface-variant/30">inbox</span>
-                                 <p class="text-on-surface-variant font-medium">No orders yet</p>
-                                 <p class="text-sm text-on-surface-variant/70">Create your first order to get started</p>
+                                <span class="material-symbols-outlined text-5xl text-on-surface-variant/30">inbox</span>
+                                <p class="text-on-surface-variant font-medium">Chưa có đơn hàng nào</p>
+                                <p class="text-sm text-on-surface-variant/70">Tạo đơn hàng đầu tiên để bắt đầu</p>
                             </div>
-                         </td>
+                        </td>
                     </tr>
-                    
+
                     <!-- Order Rows (Dynamic) -->
                     <tr class="group hover:bg-surface-container-low/30 transition-colors" th:each="order : ${orders}">
                         <td class="px-6 py-5">
@@ -213,7 +209,7 @@
                                 </div>
                                 <div>
                                     <p class="font-bold text-primary text-sm leading-tight" th:text="${order.displayId}">GZ-ORD-0000</p>
-                                    <p class="text-xs text-on-surface-variant" th:text="${order.name}">Product Name</p>
+                                    <p class="text-xs text-on-surface-variant" th:text="${order.name}">Tên Sản Phẩm</p>
                                 </div>
                             </div>
                         </td>
@@ -222,15 +218,15 @@
                             <p class="text-[10px] text-on-surface-variant uppercase" th:text="${#temporals.format(order.createdAt, 'HH:mm')} + ' ' + (${order.createdAt.hour} >= 12 ? 'PM' : 'AM')">00:00 AM</p>
                         </td>
                         <td class="px-6 py-5">
-                            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider" 
-                                  th:classappend="${order.status == 'NEGOTIATING' ? 'bg-secondary-container text-primary' : 
+                            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider"
+                                  th:classappend="${order.status == 'NEGOTIATING' ? 'bg-secondary-container text-primary' :
                                                      order.status == 'PENDING_DEPOSIT' ? 'bg-yellow-100 text-yellow-700' :
                                                      order.status == 'IN_PRODUCTION' ? 'bg-tertiary-fixed text-on-tertiary-fixed-variant' :
                                                      order.status == 'PENDING_CUSTOMER_APPROVAL' ? 'bg-blue-100 text-blue-700' :
                                                      order.status == 'READY_FOR_SHIPPING' ? 'bg-green-100 text-green-700' :
                                                      order.status == 'DONE' ? 'bg-surface-container-high text-on-surface-variant' :
                                                      order.status == 'DRAFT' ? 'bg-gray-100 text-gray-700' : 'bg-gray-100 text-gray-700'}">
-                                <span class="w-1.5 h-1.5 rounded-full inline-block" 
+                                <span class="w-1.5 h-1.5 rounded-full inline-block"
                                       th:classappend="${order.status == 'NEGOTIATING' ? 'bg-secondary' :
                                                        order.status == 'PENDING_DEPOSIT' ? 'bg-yellow-600' :
                                                        order.status == 'IN_PRODUCTION' ? 'bg-tertiary' :
@@ -238,13 +234,13 @@
                                                        order.status == 'READY_FOR_SHIPPING' ? 'bg-green-600' :
                                                        order.status == 'DONE' ? 'bg-outline' :
                                                        order.status == 'DRAFT' ? 'bg-gray-400' : 'bg-gray-400'}"></span>
-                                <span th:text="${order.status == 'NEGOTIATING' ? 'Negotiating' :
-                                               order.status == 'PENDING_DEPOSIT' ? 'Pending Deposit' :
-                                               order.status == 'IN_PRODUCTION' ? 'In Production' :
-                                               order.status == 'PENDING_CUSTOMER_APPROVAL' ? 'Pending Approval' :
-                                               order.status == 'READY_FOR_SHIPPING' ? 'Ready to Ship' :
-                                               order.status == 'DONE' ? 'Completed' :
-                                               order.status == 'DRAFT' ? 'Draft' : order.status}"></span>
+                                <span th:text="${order.status == 'NEGOTIATING' ? 'Đang Thương Lượng' :
+                                               order.status == 'PENDING_DEPOSIT' ? 'Chờ Đặt Cọc' :
+                                               order.status == 'IN_PRODUCTION' ? 'Đang Sản Xuất' :
+                                               order.status == 'PENDING_CUSTOMER_APPROVAL' ? 'Chờ Phê Duyệt' :
+                                               order.status == 'READY_FOR_SHIPPING' ? 'Sẵn Sàng Giao' :
+                                               order.status == 'DONE' ? 'Hoàn Thành' :
+                                               order.status == 'DRAFT' ? 'Bản Nháp' : order.status}"></span>
                             </span>
                         </td>
                         <td class="px-6 py-5">
@@ -258,10 +254,10 @@
                                                        order.paymentStatus == 'UNPAID' ? 'bg-red-600' :
                                                        order.paymentStatus == 'DEPOSITED' ? 'bg-yellow-600' :
                                                        order.paymentStatus == 'DONE' ? 'bg-green-600' : 'bg-gray-400'}"></span>
-                                <span th:text="${order.paymentStatus == null ? 'Unpaid' :
-                                               order.paymentStatus == 'UNPAID' ? 'Unpaid' :
-                                               order.paymentStatus == 'DEPOSITED' ? 'Deposit Paid' :
-                                               order.paymentStatus == 'DONE' ? 'Fully Paid' : order.paymentStatus}"></span>
+                                <span th:text="${order.paymentStatus == null ? 'Chưa Thanh Toán' :
+                                               order.paymentStatus == 'UNPAID' ? 'Chưa Thanh Toán' :
+                                               order.paymentStatus == 'DEPOSITED' ? 'Đã Đặt Cọc' :
+                                               order.paymentStatus == 'DONE' ? 'Đã Thanh Toán Đủ' : order.paymentStatus}"></span>
                             </span>
                         </td>
                         <td class="px-6 py-5 text-right">
@@ -271,19 +267,19 @@
                         <td class="px-6 py-5 text-right">
                             <div class="flex items-center gap-2 justify-end">
                                 <!-- Payment Buttons -->
-                                <a th:if="${order.status == 'PENDING_DEPOSIT' && (order.paymentStatus == null || order.paymentStatus == 'UNPAID')}" 
-                                   th:href="@{/payment/{id}/deposit(id=${order.orderId})}" 
+                                <a th:if="${order.status == 'PENDING_DEPOSIT' && (order.paymentStatus == null || order.paymentStatus == 'UNPAID')}"
+                                   th:href="@{/payment/{id}/deposit(id=${order.orderId})}"
                                    class="px-3 py-1.5 bg-yellow-600 hover:bg-yellow-700 text-white text-[10px] font-bold uppercase rounded transition-all active:scale-95 whitespace-nowrap">
-                                    Pay Deposit
+                                    Đặt Cọc
                                 </a>
-                                <a th:if="${order.paymentStatus == 'DEPOSITED' && order.status == 'IN_PRODUCTION'}" 
-                                   th:href="@{/payment/{id}/balance(id=${order.orderId})}" 
+                                <a th:if="${order.paymentStatus == 'DEPOSITED' && order.status == 'IN_PRODUCTION'}"
+                                   th:href="@{/payment/{id}/balance(id=${order.orderId})}"
                                    class="px-3 py-1.5 bg-green-600 hover:bg-green-700 text-white text-[10px] font-bold uppercase rounded transition-all active:scale-95 whitespace-nowrap">
-                                    Pay Balance
+                                    Thanh Toán Còn Lại
                                 </a>
                                 <!-- View Details Button -->
                                 <a th:href="@{/dashboard/chat/order/{id}(id=${order.orderId})}" class="px-4 py-1.5 bg-surface-container-high hover:bg-primary hover:text-white text-primary text-[11px] font-bold uppercase rounded transition-all active:scale-95">
-                                    View
+                                    Xem
                                 </a>
                             </div>
                         </td>
@@ -291,44 +287,44 @@
                     </tbody>
                 </table>
             </div>
-             <!-- Pagination -->
-             <div class="px-6 py-4 bg-surface-container-low/50 flex items-center justify-between border-t border-outline-variant/10">
-                 <p class="text-[11px] text-on-surface-variant font-medium" th:text="'Showing ' + ${orders.isEmpty() ? 0 : 1} + ' - ' + ${orders.size()} + ' of ' + ${orders.size()} + ' orders'">Showing 1 - 10 of 124 orders</p>
-                 <div class="flex items-center gap-2" th:if="${orders.size() > 0}">
-                     <button class="p-1 rounded hover:bg-surface-container-high transition-colors disabled:opacity-30" disabled="">
-                         <span class="material-symbols-outlined text-lg">chevron_left</span>
-                     </button>
-                     <button class="w-8 h-8 rounded bg-primary text-white text-xs font-bold">1</button>
-                     <button class="p-1 rounded hover:bg-surface-container-high transition-colors">
-                         <span class="material-symbols-outlined text-lg">chevron_right</span>
-                     </button>
-                 </div>
-             </div>
+            <!-- Pagination -->
+            <div class="px-6 py-4 bg-surface-container-low/50 flex items-center justify-between border-t border-outline-variant/10">
+                <p class="text-[11px] text-on-surface-variant font-medium" th:text="'Hiển thị ' + ${orders.isEmpty() ? 0 : 1} + ' - ' + ${orders.size()} + ' trên ' + ${orders.size()} + ' đơn hàng'">Showing 1 - 10 of 124 orders</p>
+                <div class="flex items-center gap-2" th:if="${orders.size() > 0}">
+                    <button class="p-1 rounded hover:bg-surface-container-high transition-colors disabled:opacity-30" disabled="">
+                        <span class="material-symbols-outlined text-lg">chevron_left</span>
+                    </button>
+                    <button class="w-8 h-8 rounded bg-primary text-white text-xs font-bold">1</button>
+                    <button class="p-1 rounded hover:bg-surface-container-high transition-colors">
+                        <span class="material-symbols-outlined text-lg">chevron_right</span>
+                    </button>
+                </div>
+            </div>
         </div>
         <!-- Promotion / Help Bento -->
         <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
             <div class="md:col-span-2 bg-gradient-to-r from-primary to-primary-container rounded-2xl p-8 text-white relative overflow-hidden group">
                 <div class="relative z-10 max-w-md">
-                    <h3 class="text-xl font-bold mb-2">Looking for specific sourcing?</h3>
-                    <p class="text-white/80 text-sm mb-6">Guangzhou Direct experts support direct negotiations with factories to ensure the best pricing for your business.</p>
-                    <button class="px-6 py-2.5 bg-white text-primary rounded font-bold text-xs uppercase hover:bg-secondary-container transition-all">Submit Request Now</button>
+                    <h3 class="text-xl font-bold mb-2">Bạn đang tìm nguồn hàng cụ thể?</h3>
+                    <p class="text-white/80 text-sm mb-6">Các chuyên gia Guangzhou Direct hỗ trợ đàm phán trực tiếp với nhà máy để đảm bảo giá tốt nhất cho doanh nghiệp của bạn.</p>
+                    <button class="px-6 py-2.5 bg-white text-primary rounded font-bold text-xs uppercase hover:bg-secondary-container transition-all">Gửi Yêu Cầu Ngay</button>
                 </div>
                 <span class="material-symbols-outlined absolute -right-4 -bottom-4 text-[160px] opacity-10 rotate-12 group-hover:rotate-0 transition-transform duration-700">inventory</span>
             </div>
             <div class="bg-tertiary-container rounded-2xl p-8 text-on-tertiary-container relative overflow-hidden">
-                <h3 class="text-xl font-bold mb-2 text-white">Quick Help</h3>
+                <h3 class="text-xl font-bold mb-2 text-white">Hỗ Trợ Nhanh</h3>
                 <ul class="space-y-3 mt-4">
                     <li class="flex items-center gap-2 text-sm hover:translate-x-1 transition-transform cursor-pointer">
                         <span class="material-symbols-outlined text-lg">help_center</span>
-                        <span>Payment Procedures</span>
+                        <span>Quy Trình Thanh Toán</span>
                     </li>
                     <li class="flex items-center gap-2 text-sm hover:translate-x-1 transition-transform cursor-pointer">
                         <span class="material-symbols-outlined text-lg">local_shipping</span>
-                        <span>Shipping Policies</span>
+                        <span>Chính Sách Vận Chuyển</span>
                     </li>
                     <li class="flex items-center gap-2 text-sm hover:translate-x-1 transition-transform cursor-pointer">
                         <span class="material-symbols-outlined text-lg">support_agent</span>
-                        <span>Contact Support 24/7</span>
+                        <span>Liên Hệ Hỗ Trợ 24/7</span>
                     </li>
                 </ul>
             </div>
@@ -339,19 +335,19 @@
 <nav class="md:hidden fixed bottom-0 left-0 w-full flex justify-around items-center px-4 py-3 pb-safe bg-white/80 backdrop-blur-md shadow-[0_-4px_12px_rgba(0,0,0,0.05)] border-t border-[#c2c6d1]/15 z-50">
     <a class="flex flex-col items-center text-[#424750] transition-all duration-300 ease-out" href="#">
         <span class="material-symbols-outlined text-2xl">home</span>
-        <span class="font-inter text-[10px] uppercase tracking-wider">Home</span>
+        <span class="font-inter text-[10px] uppercase tracking-wider">Trang Chủ</span>
     </a>
     <a class="flex flex-col items-center text-[#424750] transition-all duration-300 ease-out" href="#">
         <span class="material-symbols-outlined text-2xl">search</span>
-        <span class="font-inter text-[10px] uppercase tracking-wider">Search</span>
+        <span class="font-inter text-[10px] uppercase tracking-wider">Tìm Kiếm</span>
     </a>
     <a class="flex flex-col items-center text-[#003461] font-bold bg-[#cbe7f5] rounded-xl px-4 py-1 transition-all duration-300 ease-out" href="#">
         <span class="material-symbols-outlined text-2xl" style="font-variation-settings: 'FILL' 1;">local_shipping</span>
-        <span class="font-inter text-[10px] uppercase tracking-wider">Orders</span>
+        <span class="font-inter text-[10px] uppercase tracking-wider">Đơn Hàng</span>
     </a>
     <a class="flex flex-col items-center text-[#424750] transition-all duration-300 ease-out" href="#">
         <span class="material-symbols-outlined text-2xl">person</span>
-        <span class="font-inter text-[10px] uppercase tracking-wider">Account</span>
+        <span class="font-inter text-[10px] uppercase tracking-wider">Tài Khoản</span>
     </a>
 </nav>
 </body></html>
