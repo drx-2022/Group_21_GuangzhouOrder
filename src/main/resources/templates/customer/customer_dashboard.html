@@ -92,7 +92,7 @@
             <nav class="hidden md:flex items-center space-x-6 font-headline font-bold tracking-tight">
                 <a class="text-[#424750] hover:text-[#004B87] transition-colors" href="#">Xu Hướng</a>
                 <a class="text-[#004B87] border-b-2 border-[#004B87] pb-1" href="#">Đơn Hàng</a>
-                <a class="text-[#424750] hover:text-[#004B87] transition-colors" href="#">Hỗ Trợ</a>
+
             </nav>
         </div>
         <div class="flex items-center space-x-4">
@@ -393,19 +393,18 @@
         <div>
             <h4 class="font-headline font-bold text-primary text-sm mb-4">Sản Phẩm</h4>
             <ul class="space-y-2 font-['Inter'] text-xs">
-                <li><a class="text-[#424750] hover:text-[#004B87]" href="#">Tìm Kiếm Nguồn Hàng</a></li>
+                <li><a class="text-[#424750] hover:text-[#004B87]" th:href="@{/sourcing-service}">Tìm Kiếm Nguồn Hàng</a></li>
                 <li><a class="text-[#424750] hover:text-[#004B87]" href="#">Kiểm Tra Nhà Máy</a></li>
-                <li><a class="text-[#424750] hover:text-[#004B87]" href="#">Quản Lý Đơn Hàng</a></li>
-                <li><a class="text-[#424750] hover:text-[#004B87]" href="#">Vận Chuyển B2B</a></li>
+                <li><a class="text-[#424750] hover:text-[#004B87]" th:href="@{/orders}">Quản Lý Đơn Hàng</a></li>
+                <li><a class="text-[#424750] hover:text-[#004B87]" th:href="@{/logistics-hub}">Vận Chuyển B2B</a></li>
             </ul>
         </div>
         <div>
-            <h4 class="font-headline font-bold text-primary text-sm mb-4">Hỗ Trợ</h4>
             <ul class="space-y-2 font-['Inter'] text-xs">
-                <li><a class="text-[#424750] hover:text-[#004B87]" href="#">Hướng Dẫn Mua Hàng</a></li>
+                <li><a class="text-[#424750] hover:text-[#004B87]" th:href="@{/sourcing-guide}">Hướng Dẫn Mua Hàng</a></li>
                 <li><a class="text-[#424750] hover:text-[#004B87]" href="#">Liên Hệ</a></li>
-                <li><a class="text-[#424750] hover:text-[#004B87]" href="#">Điều Khoản Dịch Vụ</a></li>
-                <li><a class="text-[#424750] hover:text-[#004B87]" href="#">Chính Sách Bảo Mật</a></li>
+                <li><a class="text-[#424750] hover:text-[#004B87]" th:href="@{/terms}">Điều Khoản Dịch Vụ</a></li>
+                <li><a class="text-[#424750] hover:text-[#004B87]" th:href="@{/privacy}">Chính Sách Bảo Mật</a></li>
             </ul>
         </div>
         <div class="space-y-4">

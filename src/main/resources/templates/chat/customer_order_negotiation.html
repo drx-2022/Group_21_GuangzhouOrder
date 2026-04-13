@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>Price Negotiation - Guangzhou Direct</title>
+    <title>Đàm Phán Giá - Guangzhou Direct</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
@@ -88,10 +88,10 @@
         <div class="flex items-center gap-8">
             <span class="text-xl font-black text-primary tracking-tighter font-headline">Guangzhou Direct</span>
             <div class="hidden md:flex gap-6 items-center">
-                <a class="font-headline font-bold tracking-tight text-on-surface-variant hover:text-primary-container" href="#">Trends</a>
-                <a class="font-headline font-bold tracking-tight text-on-surface-variant hover:text-primary-container" href="#">Sourcing</a>
-                <a class="font-headline font-bold tracking-tight text-on-surface-variant hover:text-primary-container" href="#">Orders</a>
-                <a class="font-headline font-bold tracking-tight text-primary-container border-b-2 border-primary-container pb-1" href="#">Support</a>
+                <a class="font-headline font-bold tracking-tight text-on-surface-variant hover:text-primary-container" href="#">Xu Hướng</a>
+                <a class="font-headline font-bold tracking-tight text-on-surface-variant hover:text-primary-container" href="#">Tìm Nguồn</a>
+                <a class="font-headline font-bold tracking-tight text-on-surface-variant hover:text-primary-container" href="#">Đơn Hàng</a>
+                <a class="font-headline font-bold tracking-tight text-primary-container border-b-2 border-primary-container pb-1" href="#">Hỗ Trợ</a>
             </div>
         </div>
         <div class="flex items-center gap-4">
@@ -111,52 +111,52 @@
     <!-- Left Sidebar -->
     <aside class="hidden lg:flex flex-col py-6 space-y-2 h-full w-64 bg-surface-container-lowest border-r border-outline-variant/15 shrink-0">
         <div class="px-6 mb-6">
-            <h3 class="font-headline font-bold text-primary text-sm mb-2">Price Negotiation</h3>
-            <p class="text-[10px] text-on-surface-variant">Order #<span th:text="${order.orderId}"></span></p>
+            <h3 class="font-headline font-bold text-primary text-sm mb-2">Đàm Phán Giá</h3>
+            <p class="text-[10px] text-on-surface-variant">Đơn hàng #<span th:text="${order.orderId}"></span></p>
         </div>
 
         <!-- Order Summary -->
         <div class="px-6 space-y-4">
             <div class="bg-surface-container-low rounded-xl p-4 space-y-3">
-                <p class="text-[10px] font-bold uppercase tracking-wider text-on-surface-variant">Order Status</p>
+                <p class="text-[10px] font-bold uppercase tracking-wider text-on-surface-variant">Trạng Thái Đơn Hàng</p>
                 <span class="inline-block text-[10px] font-bold px-2.5 py-1 rounded-full bg-blue-100 text-blue-700" th:text="${order.status}"></span>
             </div>
 
             <!-- Payment Status -->
             <div class="bg-surface-container-low rounded-xl p-4 space-y-3">
-                <p class="text-[10px] font-bold uppercase tracking-wider text-on-surface-variant">Payment Status</p>
+                <p class="text-[10px] font-bold uppercase tracking-wider text-on-surface-variant">Trạng Thái Thanh Toán</p>
                 <span th:if="${order.paymentStatus == null}" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-gray-100 text-gray-700">
                     <span class="w-1.5 h-1.5 rounded-full bg-gray-400"></span>
-                    Unpaid
+                    Chưa Thanh Toán
                 </span>
                 <span th:unless="${order.paymentStatus == null}" th:switch="${order.paymentStatus}" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">
                     <!-- Unpaid Status -->
-                    <span th:case="'UNPAID'" th:classappend="'bg-red-100 text-red-700'" class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-red-600"></span>Unpaid</span>
+                    <span th:case="'UNPAID'" th:classappend="'bg-red-100 text-red-700'" class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-red-600"></span>Chưa Thanh Toán</span>
 
                     <!-- Deposited Status -->
-                    <span th:case="'DEPOSITED'" th:classappend="'bg-yellow-100 text-yellow-700'" class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-yellow-600"></span>Deposit Paid</span>
+                    <span th:case="'DEPOSITED'" th:classappend="'bg-yellow-100 text-yellow-700'" class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-yellow-600"></span>Đã Đặt Cọc</span>
 
                     <!-- Fully Paid Status -->
-                    <span th:case="'DONE'" th:classappend="'bg-green-100 text-green-700'" class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-green-600"></span>Fully Paid</span>
+                    <span th:case="'DONE'" th:classappend="'bg-green-100 text-green-700'" class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-green-600"></span>Đã Thanh Toán Đủ</span>
                 </span>
             </div>
 
             <div class="bg-surface-container-low rounded-xl p-4 space-y-3">
-                <p class="text-[10px] font-bold uppercase tracking-wider text-on-surface-variant">Estimate Price (Ceiling)</p>
+                <p class="text-[10px] font-bold uppercase tracking-wider text-on-surface-variant">Giá Ước Tính (Trần)</p>
                 <p class="text-lg font-bold text-primary" th:text="${!#lists.isEmpty(quotes) ? quotes[0].estimatePrice : 'N/A'}"></p>
             </div>
 
             <div th:if="${order.finalPrice != null}" class="bg-tertiary-fixed/20 rounded-xl p-4 space-y-3">
-                <p class="text-[10px] font-bold uppercase tracking-wider text-tertiary">Final Agreed Price</p>
+                <p class="text-[10px] font-bold uppercase tracking-wider text-tertiary">Giá Cuối Cùng Đã Thống Nhất</p>
                 <p class="text-lg font-bold text-tertiary" th:text="'$' + ${order.finalPrice}"></p>
             </div>
 
             <div th:if="${order.status == 'Pending Deposit'}" class="bg-primary-container rounded-xl p-4 space-y-3">
-                <p class="text-[10px] font-bold uppercase tracking-wider text-white">Next Step: Payment</p>
-                <p class="text-xs text-white/80">Pay 30% deposit to start production</p>
+                <p class="text-[10px] font-bold uppercase tracking-wider text-white">Bước Tiếp Theo: Thanh Toán</p>
+                <p class="text-xs text-white/80">Thanh toán 30% để bắt đầu sản xuất</p>
                 <a class="block w-full text-center bg-white text-primary py-2 rounded-lg font-bold text-sm hover:bg-white/90 transition-all"
                    th:href="'/payment/' + ${order.orderId} + '/deposit'">
-                    Pay Deposit Now
+                    Thanh Toán Cọc Ngay
                 </a>
             </div>
         </div>
@@ -164,11 +164,11 @@
         <nav class="flex-1 px-2 space-y-1 mt-6">
             <a class="flex items-center gap-3 py-2 px-4 text-on-surface-variant hover:bg-surface-container-low rounded-lg transition-all" href="/dashboard">
                 <span class="material-symbols-outlined text-[20px]">dashboard</span>
-                <span class="font-headline text-sm font-semibold">Dashboard</span>
+                <span class="font-headline text-sm font-semibold">Bảng Điều Khiển</span>
             </a>
             <a class="flex items-center gap-3 py-2 px-4 bg-secondary-container text-primary rounded-lg transition-all" href="/dashboard/chat">
                 <span class="material-symbols-outlined text-[20px]">chat_bubble</span>
-                <span class="font-headline text-sm font-semibold">Messages</span>
+                <span class="font-headline text-sm font-semibold">Tin Nhắn</span>
             </a>
         </nav>
     </aside>
@@ -186,11 +186,11 @@
                 </div>
                 <div>
                     <h2 class="font-headline font-bold text-primary">
-                        Price Negotiation — Order #<span th:text="${order.orderId}"></span>
+                        Đàm Phán Giá — Đơn hàng #<span th:text="${order.orderId}"></span>
                     </h2>
                     <p class="text-xs text-on-surface-variant flex items-center gap-1">
                         <span class="w-2 h-2 rounded-full bg-tertiary-fixed"></span>
-                        Conversation #<span th:text="${conversationId}"></span>
+                        Cuộc trò chuyện #<span th:text="${conversationId}"></span>
                     </p>
                 </div>
             </div>
@@ -213,8 +213,8 @@
                 <div class="w-16 h-16 rounded-full bg-surface-container flex items-center justify-center mb-4">
                     <span class="material-symbols-outlined text-3xl text-on-surface-variant opacity-30">request_quote</span>
                 </div>
-                <p class="text-sm font-semibold text-on-surface-variant">No quotes yet</p>
-                <p class="text-xs text-on-surface-variant/60 mt-1">Submit a counter-offer below</p>
+                <p class="text-sm font-semibold text-on-surface-variant">Chưa có báo giá</p>
+                <p class="text-xs text-on-surface-variant/60 mt-1">Gửi phản giá bên dưới</p>
             </div>
 
             <th:block th:each="quote : ${quotes}">
@@ -226,7 +226,7 @@
                         <div class="bg-primary px-5 py-3 flex justify-between items-center">
                             <div class="flex items-center gap-2">
                                 <span class="material-symbols-outlined text-white text-base">request_quote</span>
-                                <h3 class="font-headline text-white font-bold text-sm">Price Quote</h3>
+                                <h3 class="font-headline text-white font-bold text-sm">Báo Giá</h3>
                             </div>
                             <span class="text-[10px] text-white/70 font-bold tracking-tight" th:text="'#' + ${quote.quoteId}"></span>
                         </div>
@@ -243,24 +243,24 @@
                             <!-- Order ID -->
                             <div class="flex items-center gap-1.5 text-xs text-on-surface-variant">
                                 <span class="material-symbols-outlined text-sm">orders</span>
-                                <span>Order #<span th:text="${order.orderId}"></span></span>
+                                <span>Đơn hàng #<span th:text="${order.orderId}"></span></span>
                             </div>
 
                             <!-- Proposed Price -->
                             <div class="bg-surface-container-low rounded-xl p-4">
-                                <p class="text-[10px] font-headline font-bold text-on-surface-variant uppercase tracking-wider mb-1">Proposed Price</p>
+                                <p class="text-[10px] font-headline font-bold text-on-surface-variant uppercase tracking-wider mb-1">Giá Đề Xuất</p>
                                 <p class="text-3xl font-extrabold text-on-surface" th:text="'$' + ${quote.proposedPrice}"></p>
                             </div>
 
                             <!-- Estimate Price (ceiling) -->
                             <div th:if="${quote.estimatePrice != null}">
-                                <p class="text-[10px] font-headline font-bold text-on-surface-variant uppercase tracking-wider mb-1">Estimate Ceiling</p>
+                                <p class="text-[10px] font-headline font-bold text-on-surface-variant uppercase tracking-wider mb-1">Giá Trần Ước Tính</p>
                                 <p class="text-sm font-semibold text-on-surface" th:text="'$' + ${quote.estimatePrice}"></p>
                             </div>
 
                             <!-- Note -->
                             <div th:if="${quote.note != null and !quote.note.isEmpty()}" class="bg-surface-container-low rounded-xl p-3">
-                                <p class="text-[10px] font-headline font-bold text-on-surface-variant uppercase tracking-wider mb-1">Note</p>
+                                <p class="text-[10px] font-headline font-bold text-on-surface-variant uppercase tracking-wider mb-1">Ghi Chú</p>
                                 <p class="text-xs text-on-surface-variant leading-relaxed" th:text="${quote.note}"></p>
                             </div>
 
@@ -279,7 +279,7 @@
                                         th:attr="data-quote-id=${quote.quoteId}"
                                         onclick="acceptQuote(this)">
                                     <span class="material-symbols-outlined text-sm">check_circle</span>
-                                    Accept This Price
+                                    Chấp Nhận Giá Này
                                 </button>
                             </div>
                         </div>
@@ -299,25 +299,25 @@
                 <input type="hidden" name="orderId" th:value="${order.orderId}"/>
                 <p class="text-sm font-headline font-bold text-primary flex items-center gap-2">
                     <span class="material-symbols-outlined text-base">request_quote</span>
-                    Submit a Counter-Offer
+                    Gửi Phản Giá
                 </p>
                 <div class="flex gap-3">
                     <div class="flex-1">
-                        <label class="text-[10px] font-bold text-on-surface-variant uppercase tracking-wider">Your Proposed Price ($)</label>
+                        <label class="text-[10px] font-bold text-on-surface-variant uppercase tracking-wider">Giá Đề Xuất Của Bạn ($)</label>
                         <input type="number" name="proposedPrice" step="0.01" min="0.01" required
                                class="w-full mt-1.5 px-3 py-2.5 border border-outline-variant/30 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 bg-white"
-                               placeholder="e.g. 12.50"/>
+                               placeholder="ví dụ 12.50"/>
                     </div>
                     <div class="flex-1">
-                        <label class="text-[10px] font-bold text-on-surface-variant uppercase tracking-wider">Note (optional)</label>
+                        <label class="text-[10px] font-bold text-on-surface-variant uppercase tracking-wider">Ghi Chú (tùy chọn)</label>
                         <input type="text" name="note"
                                class="w-full mt-1.5 px-3 py-2.5 border border-outline-variant/30 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 bg-white"
-                               placeholder="Reason or comment"/>
+                               placeholder="Lý do hoặc bình luận"/>
                     </div>
                 </div>
                 <button type="submit" class="w-full bg-primary hover:bg-primary-container text-white py-3 rounded-xl font-headline text-sm font-bold flex items-center justify-center gap-2 active:scale-[0.98] transition-all">
                     <span class="material-symbols-outlined text-base">send</span>
-                    Submit Price Quote
+                    Gửi Báo Giá
                 </button>
             </form>
         </div>
@@ -326,13 +326,13 @@
     <!-- Right Panel: Quote History Summary -->
     <aside class="hidden xl:flex flex-col w-80 bg-surface border-l border-outline-variant/15 shrink-0">
         <div class="p-6 border-b border-outline-variant/10">
-            <h3 class="font-headline font-bold text-primary mb-1">Quote History</h3>
-            <p class="text-xs text-on-surface-variant">All price quotes for Order #<span th:text="${order.orderId}"></span></p>
+            <h3 class="font-headline font-bold text-primary mb-1">Lịch Sử Báo Giá</h3>
+            <p class="text-xs text-on-surface-variant">Tất cả báo giá cho Đơn hàng #<span th:text="${order.orderId}"></span></p>
         </div>
         <div class="flex-1 overflow-y-auto p-6 space-y-4">
             <div th:if="${#lists.isEmpty(quotes)}" class="text-center py-8">
                 <span class="material-symbols-outlined text-4xl text-on-surface-variant opacity-20">request_quote</span>
-                <p class="text-xs text-on-surface-variant mt-2">No quotes yet</p>
+                <p class="text-xs text-on-surface-variant mt-2">Chưa có báo giá</p>
             </div>
             <th:block th:each="quote : ${quotes}">
                 <div class="bg-surface-container-low rounded-xl p-3 space-y-2">
@@ -417,7 +417,7 @@
             });
 
             if (!response.ok) {
-                throw new Error('Failed to refresh quotes: ' + response.status);
+                throw new Error('Lỗi làm mới báo giá: ' + response.status);
             }
 
             const html = await response.text();
@@ -437,7 +437,7 @@
                 currentSidebar.innerHTML = nextSidebar.innerHTML;
             }
         } catch (error) {
-            console.error('Quote sync failed:', error);
+            console.error('Lỗi đồng bộ báo giá:', error);
         } finally {
             isSyncing = false;
         }
@@ -463,7 +463,7 @@
             jwtToken ? { jwt: jwtToken } : {},
             function() {
                 isConnecting = false;
-                console.log('Connected to WebSocket');
+                console.log('Đã kết nối WebSocket');
 
                 stompClient.subscribe('/topic/conversation.' + conversationId, function(message) {
                     let data = null;
@@ -471,7 +471,7 @@
                     try {
                         data = JSON.parse(message.body);
                     } catch (error) {
-                        console.error('Failed to parse quote event:', error);
+                        console.error('Lỗi phân tích sự kiện báo giá:', error);
                     }
 
                     if (data && data.eventType === 'PRICE_QUOTE_UPDATE' && data.quoteId && data.status) {
@@ -481,7 +481,7 @@
                     } else if (data.eventType === 'QUOTE_STATUS_UPDATE' && data.status === 'ACCEPTED') {
                         const actionsEl = document.getElementById('quote-actions-' + data.quoteId);
                         if (actionsEl) {
-                            actionsEl.innerHTML = '<div class="bg-emerald-50 border border-emerald-200 text-emerald-600 px-4 py-2 rounded-xl text-sm font-bold text-center">✓ Price Accepted</div>';
+                            actionsEl.innerHTML = '<div class="bg-emerald-50 border border-emerald-200 text-emerald-600 px-4 py-2 rounded-xl text-sm font-bold text-center">✓ Giá Đã Được Chấp Nhận</div>';
                         }
                         setTimeout(function() {
                             window.location.href = '/payment/' + data.orderId + '/deposit';
@@ -498,7 +498,7 @@
             function(error) {
                 isConnecting = false;
                 stompClient = null;
-                console.error('WebSocket error:', error);
+                console.error('Lỗi WebSocket:', error);
                 scheduleReconnect();
             }
         );
@@ -538,13 +538,13 @@
 
         const noteHtml = data.note ? `
             <div class="bg-surface-container-low rounded-xl p-3">
-                <p class="text-[10px] font-headline font-bold text-on-surface-variant uppercase tracking-wider mb-1">Note</p>
+                <p class="text-[10px] font-headline font-bold text-on-surface-variant uppercase tracking-wider mb-1">Ghi Chú</p>
                 <p class="text-xs text-on-surface-variant leading-relaxed">${escapeHtml(data.note)}</p>
             </div>` : '';
 
         const estimateHtml = data.estimatePrice ? `
             <div>
-                <p class="text-[10px] font-headline font-bold text-on-surface-variant uppercase tracking-wider mb-1">Estimate Ceiling</p>
+                <p class="text-[10px] font-headline font-bold text-on-surface-variant uppercase tracking-wider mb-1">Giá Trần Ước Tính</p>
                 <p class="text-sm font-semibold text-on-surface">$${escapeHtml(String(data.estimatePrice))}</p>
             </div>` : '';
 
@@ -554,7 +554,7 @@
                         data-quote-id="${data.quoteId}"
                         onclick="acceptQuote(this)">
                     <span class="material-symbols-outlined text-sm">check_circle</span>
-                    Accept This Price
+                    Chấp Nhận Giá Này
                 </button>
             </div>` : '';
 
@@ -564,7 +564,7 @@
                 <div class="bg-primary px-5 py-3 flex justify-between items-center">
                     <div class="flex items-center gap-2">
                         <span class="material-symbols-outlined text-white text-base">request_quote</span>
-                        <h3 class="font-headline text-white font-bold text-sm">Price Quote</h3>
+                        <h3 class="font-headline text-white font-bold text-sm">Báo Giá</h3>
                     </div>
                     <span class="text-[10px] text-white/70 font-bold tracking-tight">#${data.quoteId}</span>
                 </div>
@@ -576,17 +576,17 @@
                     </div>
                     <div class="flex items-center gap-1.5 text-xs text-on-surface-variant">
                         <span class="material-symbols-outlined text-sm">orders</span>
-                        <span>Order #${orderId}</span>
+                        <span>Đơn hàng #${orderId}</span>
                     </div>
                     <div class="bg-surface-container-low rounded-xl p-4">
-                        <p class="text-[10px] font-headline font-bold text-on-surface-variant uppercase tracking-wider mb-1">Proposed Price</p>
+                        <p class="text-[10px] font-headline font-bold text-on-surface-variant uppercase tracking-wider mb-1">Giá Đề Xuất</p>
                         <p class="text-3xl font-extrabold text-on-surface">$${escapeHtml(String(data.proposedPrice))}</p>
                     </div>
                     ${estimateHtml}
                     ${noteHtml}
                     <div class="flex items-center justify-between" id="quote-status-${data.quoteId}">
                         <span class="text-[10px] font-bold px-2.5 py-1 rounded-full ${statusClass}">${escapeHtml(data.status)}</span>
-                        <span class="text-[10px] text-on-surface-variant/60">${escapeHtml(data.createdAt || 'Just now')}</span>
+                        <span class="text-[10px] text-on-surface-variant/60">${escapeHtml(data.createdAt || 'Vừa xong')}</span>
                     </div>
                     ${acceptBtnHtml}
                 </div>
@@ -609,7 +609,7 @@
                 </div>
                 <p class="text-lg font-bold text-primary">$${escapeHtml(String(data.proposedPrice))}</p>
                 ${data.note ? '<p class="text-[10px] text-on-surface-variant">' + escapeHtml(data.note) + '</p>' : ''}
-                <p class="text-[10px] text-on-surface-variant opacity-60">${escapeHtml(data.createdAt || 'Just now')}</p>
+                <p class="text-[10px] text-on-surface-variant opacity-60">${escapeHtml(data.createdAt || 'Vừa xong')}</p>
             </div>`;
             sidebar.insertAdjacentHTML('beforeend', sidebarHtml);
         }
@@ -620,7 +620,7 @@
         if (!quoteId) return;
 
         button.disabled = true;
-        button.innerHTML = '<span class="material-symbols-outlined text-sm">hourglass_empty</span> Processing...';
+        button.innerHTML = '<span class="material-symbols-outlined text-sm">hourglass_empty</span> Đang xử lý...';
 
         fetch(`/dashboard/chat/quote/${quoteId}/accept`, {
             method: 'POST',
@@ -632,17 +632,17 @@
                 updateQuoteStatusFromWS(quoteId, 'ACCEPTED');
                 const actionsEl = button.parentElement;
                 if (actionsEl) {
-                    actionsEl.innerHTML = '<div class="bg-emerald-50 border border-emerald-200 text-emerald-600 px-4 py-2 rounded-xl text-sm font-bold text-center">✓ Price Accepted</div>';
+                    actionsEl.innerHTML = '<div class="bg-emerald-50 border border-emerald-200 text-emerald-600 px-4 py-2 rounded-xl text-sm font-bold text-center">✓ Giá Đã Được Chấp Nhận</div>';
                 }
             } else {
                 throw new Error('Unexpected response: ' + response.status);
             }
         })
         .catch(error => {
-            console.error('Error accepting quote:', error);
+            console.error('Lỗi chấp nhận báo giá:', error);
             button.disabled = false;
-            button.innerHTML = '<span class="material-symbols-outlined text-sm">check_circle</span> Accept This Price';
-            alert('Failed to accept quote. Please try again.');
+            button.innerHTML = '<span class="material-symbols-outlined text-sm">check_circle</span> Chấp Nhận Giá Này';
+            alert('Không thể chấp nhận báo giá. Vui lòng thử lại.');
         });
     }
 
