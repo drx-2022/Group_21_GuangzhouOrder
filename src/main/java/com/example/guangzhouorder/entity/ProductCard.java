@@ -20,6 +20,9 @@ public class ProductCard {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "product_card_id")
     private Long productCardId;
+    
+    @Column(name = "card_name")
+    private String cardName;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "source_order_id", unique = true)
@@ -28,6 +31,10 @@ public class ProductCard {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     private Category category;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "base_product_id")
+    private BaseProduct baseProduct;
 
     /**
      * Verified product "DNA": materials, dimensions, photos, technical notes.

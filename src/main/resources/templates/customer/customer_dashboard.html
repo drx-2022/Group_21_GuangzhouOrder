@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 
 <html class="light" lang="en" xmlns:th="http://www.thymeleaf.org"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Guangzhou Direct - Dashboard</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<script id="tailwind-config">
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Guangzhou Direct - Bảng Điều Khiển</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
             theme: {
@@ -71,7 +71,7 @@
             },
         }
     </script>
-<style>
+    <style>
         .material-symbols-outlined {
             font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
         }
@@ -86,33 +86,32 @@
 <body class="bg-surface font-body text-on-surface">
 <!-- Top Navigation Bar -->
 <header class="fixed top-0 w-full z-50 bg-[#f8f9fb]/80 backdrop-blur-xl shadow-sm">
-<div class="flex justify-between items-center px-6 py-3 w-full max-w-screen-2xl mx-auto">
-<div class="flex items-center gap-8">
-<a th:href="@{/}" class="text-xl font-black text-[#003461] tracking-tighter font-headline no-underline">Guangzhou Direct</a>
-<nav class="hidden md:flex items-center space-x-6 font-headline font-bold tracking-tight">
-<a class="text-[#424750] hover:text-[#004B87] transition-colors" href="#">Trends</a>
-<a class="text-[#424750] hover:text-[#004B87] transition-colors" href="#">Sourcing</a>
-<a class="text-[#004B87] border-b-2 border-[#004B87] pb-1" href="#">Orders</a>
-<a class="text-[#424750] hover:text-[#004B87] transition-colors" href="#">Support</a>
-</nav>
-</div>
-<div class="flex items-center space-x-4">
-<button class="p-2 hover:bg-[#f2f4f6]/50 rounded-full transition-colors relative">
-<span class="material-symbols-outlined text-on-surface-variant">notifications</span>
-<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full"></span>
-</button>
-<div class="flex items-center space-x-3 pl-4 border-l border-outline-variant/30">
-<div id="openSettingsBtn"
-     class="flex items-center gap-2 px-3 py-1.5 bg-surface-container rounded-lg cursor-pointer hover:bg-surface-container-high transition-all">
-    <span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">account_circle</span>
-    <div class="hidden sm:block">
-        <p class="font-headline font-bold text-xs text-primary" th:text="${currentUser.name}">Username</p>
-        <p class="font-label text-[10px] text-on-surface-variant" th:text="'ID: GZ-' + ${currentUser.userId}">ID</p>
+    <div class="flex justify-between items-center px-6 py-3 w-full max-w-screen-2xl mx-auto">
+        <div class="flex items-center gap-8">
+            <a th:href="@{/}" class="text-xl font-black text-[#003461] tracking-tighter font-headline no-underline">Guangzhou Direct</a>
+            <nav class="hidden md:flex items-center space-x-6 font-headline font-bold tracking-tight">
+                <a class="text-[#424750] hover:text-[#004B87] transition-colors" href="#">Xu Hướng</a>
+                <a class="text-[#004B87] border-b-2 border-[#004B87] pb-1" href="#">Đơn Hàng</a>
+                <a class="text-[#424750] hover:text-[#004B87] transition-colors" href="#">Hỗ Trợ</a>
+            </nav>
+        </div>
+        <div class="flex items-center space-x-4">
+            <button class="p-2 hover:bg-[#f2f4f6]/50 rounded-full transition-colors relative">
+                <span class="material-symbols-outlined text-on-surface-variant">notifications</span>
+                <span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full"></span>
+            </button>
+            <div class="flex items-center space-x-3 pl-4 border-l border-outline-variant/30">
+                <div id="openSettingsBtn"
+                     class="flex items-center gap-2 px-3 py-1.5 bg-surface-container rounded-lg cursor-pointer hover:bg-surface-container-high transition-all">
+                    <span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">account_circle</span>
+                    <div class="hidden sm:block">
+                        <p class="font-headline font-bold text-xs text-primary" th:text="${currentUser.name}">Username</p>
+                        <p class="font-label text-[10px] text-on-surface-variant" th:text="'ID: GZ-' + ${currentUser.userId}">ID</p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
-</div>
-</div>
-</div>
 </header>
 <div class="flex min-h-screen pt-16 pb-20 lg:pb-0">
 <!-- Side Navigation Bar -->
@@ -281,13 +280,9 @@ Approve Visual Proof
 Pay Deposit
 </a>
 <a th:if="${o.paymentStatus == 'DEPOSITED'}" th:href="@{/payment/{id}/balance(id=${o.orderId})}" class="flex items-center gap-1 text-[10px] font-bold text-tertiary-container hover:underline">
-                    <span class="material-symbols-outlined text-sm">payments</span>
-                    Pay Balance
-                </a>
-                <a th:if="${o.status == 'READY_FOR_SHIPPING' || o.status == 'DONE'}" th:href="@{/orders/{id}/tracking(id=${o.orderId})}" class="flex items-center gap-1 text-[10px] font-bold text-primary-container hover:underline">
-                    <span class="material-symbols-outlined text-sm">local_shipping</span>
-                    Track Delivery
-                </a>
+<span class="material-symbols-outlined text-sm">payments</span>
+Pay Balance
+</a>
 </div>
 </div>
 </div>
@@ -371,58 +366,58 @@ Explore now <span class="material-symbols-outlined text-sm">chevron_right</span>
 </div>
 <!-- Bottom Navigation Bar (Mobile Only) -->
 <nav class="lg:hidden fixed bottom-0 left-0 w-full bg-[#ffffff]/90 backdrop-blur-lg flex justify-around items-center px-4 pb-safe pt-2 z-50 shadow-[0_-4px_12px_rgba(0,0,0,0.05)] border-t border-[#c2c6d1]/15">
-<a class="flex flex-col items-center justify-center text-[#003461] bg-[#cbe7f5]/50 rounded-xl px-4 py-1" th:href="@{/dashboard}">
-<span class="material-symbols-outlined" data-icon="home">home</span>
-<span class="font-['Inter'] text-[10px] font-medium uppercase tracking-widest">Home</span>
-</a>
-<a class="flex flex-col items-center justify-center text-[#424750]" th:href="@{/catalog}">
-<span class="material-symbols-outlined" data-icon="show_chart">show_chart</span>
-<span class="font-['Inter'] text-[10px] font-medium uppercase tracking-widest">Charts</span>
-</a>
-<a class="flex flex-col items-center justify-center text-[#424750]" th:href="@{/orders}">
-<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
-<span class="font-['Inter'] text-[10px] font-medium uppercase tracking-widest">Orders</span>
-</a>
-<a class="flex flex-col items-center justify-center text-[#424750]" th:href="@{/chat}">
-<span class="material-symbols-outlined" data-icon="forum">forum</span>
-<span class="font-['Inter'] text-[10px] font-medium uppercase tracking-widest">Chat</span>
-</a>
+    <a class="flex flex-col items-center justify-center text-[#003461] bg-[#cbe7f5]/50 rounded-xl px-4 py-1" th:href="@{/dashboard}">
+        <span class="material-symbols-outlined" data-icon="home">home</span>
+        <span class="font-['Inter'] text-[10px] font-medium uppercase tracking-widest">Trang Chủ</span>
+    </a>
+    <a class="flex flex-col items-center justify-center text-[#424750]" th:href="@{/catalog}">
+        <span class="material-symbols-outlined" data-icon="show_chart">show_chart</span>
+        <span class="font-['Inter'] text-[10px] font-medium uppercase tracking-widest">Biểu Đồ</span>
+    </a>
+    <a class="flex flex-col items-center justify-center text-[#424750]" th:href="@{/orders}">
+        <span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+        <span class="font-['Inter'] text-[10px] font-medium uppercase tracking-widest">Đơn Hàng</span>
+    </a>
+    <a class="flex flex-col items-center justify-center text-[#424750]" th:href="@{/chat}">
+        <span class="material-symbols-outlined" data-icon="forum">forum</span>
+        <span class="font-['Inter'] text-[10px] font-medium uppercase tracking-widest">Trò Chuyện</span>
+    </a>
 </nav>
 <!-- Footer -->
 <footer class="bg-[#f2f4f6] w-full py-12 px-6 border-t border-[#c2c6d1]/10 mt-12">
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
-<div class="space-y-4">
-<span class="font-['Manrope'] font-bold text-[#003461] text-lg">Guangzhou Curator</span>
-<p class="font-['Inter'] text-xs text-[#424750] leading-relaxed">Direct connection solutions to leading factories in Guangzhou for Vietnamese businesses.</p>
-</div>
-<div>
-<h4 class="font-headline font-bold text-primary text-sm mb-4">Products</h4>
-<ul class="space-y-2 font-['Inter'] text-xs">
-<li><a class="text-[#424750] hover:text-[#004B87]" href="#">Sourcing Search</a></li>
-<li><a class="text-[#424750] hover:text-[#004B87]" href="#">Factory Audits</a></li>
-<li><a class="text-[#424750] hover:text-[#004B87]" href="#">Order Management</a></li>
-<li><a class="text-[#424750] hover:text-[#004B87]" href="#">B2B Shipping</a></li>
-</ul>
-</div>
-<div>
-<h4 class="font-headline font-bold text-primary text-sm mb-4">Support</h4>
-<ul class="space-y-2 font-['Inter'] text-xs">
-<li><a class="text-[#424750] hover:text-[#004B87]" href="#">Sourcing Guide</a></li>
-<li><a class="text-[#424750] hover:text-[#004B87]" href="#">Contact Us</a></li>
-<li><a class="text-[#424750] hover:text-[#004B87]" href="#">Terms of Service</a></li>
-<li><a class="text-[#424750] hover:text-[#004B87]" href="#">Privacy Policy</a></li>
-</ul>
-</div>
-<div class="space-y-4">
-<h4 class="font-headline font-bold text-primary text-sm">© 2024 Guangzhou Curator</h4>
-<p class="font-['Inter'] text-xs text-[#424750]">The optimized B2B platform dedicated to the Vietnamese market.</p>
-<div class="flex gap-4">
-<span class="material-symbols-outlined text-primary cursor-pointer hover:opacity-80 transition-opacity">language</span>
-<span class="material-symbols-outlined text-primary cursor-pointer hover:opacity-80 transition-opacity">mail</span>
-<span class="material-symbols-outlined text-primary cursor-pointer hover:opacity-80 transition-opacity">call</span>
-</div>
-</div>
-</div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
+        <div class="space-y-4">
+            <span class="font-['Manrope'] font-bold text-[#003461] text-lg">Guangzhou Curator</span>
+            <p class="font-['Inter'] text-xs text-[#424750] leading-relaxed">Giải pháp kết nối trực tiếp với các nhà máy hàng đầu tại Quảng Châu cho doanh nghiệp Việt Nam.</p>
+        </div>
+        <div>
+            <h4 class="font-headline font-bold text-primary text-sm mb-4">Sản Phẩm</h4>
+            <ul class="space-y-2 font-['Inter'] text-xs">
+                <li><a class="text-[#424750] hover:text-[#004B87]" href="#">Tìm Kiếm Nguồn Hàng</a></li>
+                <li><a class="text-[#424750] hover:text-[#004B87]" href="#">Kiểm Tra Nhà Máy</a></li>
+                <li><a class="text-[#424750] hover:text-[#004B87]" href="#">Quản Lý Đơn Hàng</a></li>
+                <li><a class="text-[#424750] hover:text-[#004B87]" href="#">Vận Chuyển B2B</a></li>
+            </ul>
+        </div>
+        <div>
+            <h4 class="font-headline font-bold text-primary text-sm mb-4">Hỗ Trợ</h4>
+            <ul class="space-y-2 font-['Inter'] text-xs">
+                <li><a class="text-[#424750] hover:text-[#004B87]" href="#">Hướng Dẫn Mua Hàng</a></li>
+                <li><a class="text-[#424750] hover:text-[#004B87]" href="#">Liên Hệ</a></li>
+                <li><a class="text-[#424750] hover:text-[#004B87]" href="#">Điều Khoản Dịch Vụ</a></li>
+                <li><a class="text-[#424750] hover:text-[#004B87]" href="#">Chính Sách Bảo Mật</a></li>
+            </ul>
+        </div>
+        <div class="space-y-4">
+            <h4 class="font-headline font-bold text-primary text-sm">© 2024 Guangzhou Curator</h4>
+            <p class="font-['Inter'] text-xs text-[#424750]">Nền tảng B2B tối ưu dành riêng cho thị trường Việt Nam.</p>
+            <div class="flex gap-4">
+                <span class="material-symbols-outlined text-primary cursor-pointer hover:opacity-80 transition-opacity">language</span>
+                <span class="material-symbols-outlined text-primary cursor-pointer hover:opacity-80 transition-opacity">mail</span>
+                <span class="material-symbols-outlined text-primary cursor-pointer hover:opacity-80 transition-opacity">call</span>
+            </div>
+        </div>
+    </div>
 </footer>
 <div th:replace="~{fragments/settings_modal :: modal}"></div>
 <script>

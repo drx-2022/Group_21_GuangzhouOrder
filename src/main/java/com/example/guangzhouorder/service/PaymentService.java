@@ -2,9 +2,12 @@ package com.example.guangzhouorder.service;
 
 import com.example.guangzhouorder.entity.Order;
 import com.example.guangzhouorder.entity.Payment;
+import com.example.guangzhouorder.entity.ProductCard;
 import com.example.guangzhouorder.entity.User;
+import com.example.guangzhouorder.repository.BaseProductRepository;
 import com.example.guangzhouorder.repository.OrderRepository;
 import com.example.guangzhouorder.repository.PaymentRepository;
+import com.example.guangzhouorder.repository.ProductCardRepository;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -37,6 +40,8 @@ public class PaymentService {
 
     private final PaymentRepository paymentRepository;
     private final OrderRepository orderRepository;
+    private final ProductCardRepository productCardRepository;
+    private final BaseProductRepository baseProductRepository;
     private final ObjectMapper objectMapper;
     private final RestTemplate restTemplate = new RestTemplate();
 
@@ -208,6 +213,21 @@ public class PaymentService {
                     order.setStatus("IN_PRODUCTION");
                 } else if ("BALANCE".equals(payment.getPaymentType())) {
                     order.setPaymentStatus("DONE");
+                    
+                    // Create ProductCard upon full payment if it doesn't exist
+                    if (productCardRepository.findBySourceOrder(order).isEmpty()) {
+                        ProductCard productCard = ProductCard.builder()
+                                .cardName("Product Card for Order " + order.getOrderId())
+                                .cardDna(order.getStructuredSpecs())
+                                .displayPrice(order.getFinalPrice())
+                                .isPublic(false)
+                                .sourceOrder(order)
+                                // TODO: Admin should assign BaseProduct when publishing the card
+                                .baseProduct(null)
+                                .build();
+                        productCardRepository.save(productCard);
+                        log.info("Created ProductCard for fully paid Order ID: {}", order.getOrderId());
+                    }
                 }
                 orderRepository.save(order);
 

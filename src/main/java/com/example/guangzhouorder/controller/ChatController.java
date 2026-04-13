@@ -19,6 +19,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
 import java.util.List;
@@ -49,6 +50,26 @@ public class ChatController {
         model.addAttribute("currentUserEmail", currentUser.getEmail());
         
         return "chat/customer_chat_list";
+    }
+
+    @GetMapping("/dashboard/chat/new")
+    public String cloneOrderToChat(
+            @RequestParam(required = false) Long cloneFrom,
+            Authentication authentication) {
+
+        User currentUser = chatService.getCurrentUser();
+        if (!"CUSTOMER".equals(currentUser.getRole())) {
+            throw new AccessDeniedException("Access denied");
+        }
+
+        Conversation conversation;
+        if (cloneFrom != null) {
+            conversation = chatService.createConversationWithCloneProposal(currentUser, cloneFrom);
+        } else {
+            conversation = chatService.createNewConversation(currentUser);
+        }
+
+        return "redirect:/dashboard/chat/" + conversation.getConversationId();
     }
 
     //Customer chat room: view specific conversation.
@@ -137,7 +158,7 @@ public class ChatController {
     //Customer creates a new conversation/request.
     //Creates a brand new conversation and redirects to it.
 
-    @PostMapping("/dashboard/chat/new")
+    @PostMapping("/dashboard/chat/create")
     public String createNewRequest(Authentication authentication) {
         User currentUser = chatService.getCurrentUser();
         

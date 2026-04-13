@@ -32,7 +32,7 @@ public class OrdersController {
                 .stream()
                 .map(OrderSummaryDto::new)
                 .toList();
-        
+
         // Calculate dashboard statistics
         long totalOrders = orders.size();
         long processingOrders = orders.stream()
@@ -44,7 +44,7 @@ public class OrdersController {
         long completedOrders = orders.stream()
                 .filter(o -> "DONE".equals(o.getStatus()))
                 .count();
-        
+
         model.addAttribute("user", user);
         model.addAttribute("orders", orders);
         model.addAttribute("totalOrders", totalOrders);
