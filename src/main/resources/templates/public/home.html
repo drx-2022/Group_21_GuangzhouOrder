@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html class="light" lang="en" xmlns:th="http://www.thymeleaf.org"><head>
+<html class="light" lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
@@ -84,22 +84,64 @@
 <!-- TopNavBar -->
 <nav class="fixed top-0 w-full z-50 bg-[#f8f9fb]/80 dark:bg-slate-900/80 backdrop-blur-xl shadow-sm dark:shadow-none">
 <div class="flex justify-between items-center px-6 py-3 w-full max-w-screen-2xl mx-auto">
-<div class="text-xl font-black text-[#003461] dark:text-white tracking-tighter font-headline">
+<a th:href="@{/}" class="text-xl font-black text-[#003461] dark:text-white tracking-tighter font-headline no-underline">
                 Guangzhou Direct
-            </div>
+            </a>
 <div class="hidden md:flex items-center space-x-8 font-headline font-bold tracking-tight">
-<a class="text-[#004B87] dark:text-[#cbe7f5] border-b-2 border-[#004B87] pb-1" href="#">Trends</a>
-<a class="text-[#424750] dark:text-slate-400 hover:text-[#004B87] transition-colors" href="#">Sourcing</a>
-<a class="text-[#424750] dark:text-slate-400 hover:text-[#004B87] transition-colors" href="#">Orders</a>
+<a class="text-[#004B87] dark:text-[#cbe7f5] border-b-2 border-[#004B87] pb-1" th:href="@{/}">Trends</a>
+<a class="text-[#424750] dark:text-slate-400 hover:text-[#004B87] transition-colors" th:href="@{/chat}">Sourcing</a>
+<a class="text-[#424750] dark:text-slate-400 hover:text-[#004B87] transition-colors" th:href="@{/my-orders}" sec:authorize="isAuthenticated()">Orders</a>
 <a class="text-[#424750] dark:text-slate-400 hover:text-[#004B87] transition-colors" href="#">Support</a>
 </div>
 <div class="flex items-center space-x-4">
-<button class="p-2 text-[#424750] hover:bg-[#f2f4f6]/50 rounded-full transition-colors active:scale-95 duration-150">
-<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
-</button>
-<button class="p-2 text-[#424750] hover:bg-[#f2f4f6]/50 rounded-full transition-colors active:scale-95 duration-150">
-<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
-</button>
+    <!-- NOT logged in: show Login button -->
+    <div sec:authorize="!isAuthenticated()" class="flex items-center gap-3">
+        <a th:href="@{/login}"
+           class="px-5 py-2 border-2 border-primary text-primary rounded-lg font-headline font-bold text-xs tracking-widest uppercase hover:bg-primary hover:text-white transition-all">
+            Login
+        </a>
+        <a th:href="@{/signup}"
+           class="px-5 py-2 bg-primary text-white rounded-lg font-headline font-bold text-xs tracking-widest uppercase hover:opacity-90 transition-all">
+            Register
+        </a>
+    </div>
+
+    <!-- Logged in: show notification bell + user info + dashboard link -->
+    <div sec:authorize="isAuthenticated()" class="flex items-center gap-3">
+
+        <!-- Notification bell -->
+        <button class="p-2 text-[#424750] hover:bg-[#f2f4f6]/50 rounded-full transition-colors active:scale-95 duration-150">
+            <span class="material-symbols-outlined">notifications</span>
+        </button>
+
+        <!-- Dashboard button — role-based destination -->
+        <a sec:authorize="hasRole('CUSTOMER')" th:href="@{/customer/dashboard}"
+           class="flex items-center gap-2 px-4 py-2 bg-surface-container rounded-lg hover:bg-surface-container-high transition-all">
+            <span class="material-symbols-outlined text-primary">dashboard</span>
+            <span class="font-headline font-bold text-sm text-primary hidden sm:inline">Dashboard</span>
+        </a>
+
+        <a sec:authorize="hasRole('AFFILIATE')" th:href="@{/affiliate/dashboard}"
+           class="flex items-center gap-2 px-4 py-2 bg-surface-container rounded-lg hover:bg-surface-container-high transition-all">
+            <span class="material-symbols-outlined text-primary">dashboard</span>
+            <span class="font-headline font-bold text-sm text-primary hidden sm:inline">Dashboard</span>
+        </a>
+
+        <a sec:authorize="hasRole('ADMIN')" th:href="@{/admin/dashboard}"
+           class="flex items-center gap-2 px-4 py-2 bg-surface-container rounded-lg hover:bg-surface-container-high transition-all">
+            <span class="material-symbols-outlined text-primary">admin_panel_settings</span>
+            <span class="font-headline font-bold text-sm text-primary hidden sm:inline">Admin Panel</span>
+        </a>
+
+        <!-- User avatar + name -->
+        <div class="flex items-center gap-2 px-3 py-1.5 bg-surface-container rounded-lg">
+            <span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">account_circle</span>
+            <div class="hidden sm:block">
+                <p class="font-headline font-bold text-xs text-primary" th:text="${#authentication.name}">Username</p>
+            </div>
+        </div>
+
+    </div>
 </div>
 </div>
 </nav>
@@ -118,7 +160,7 @@
                         Transparent process, clear product DNA. Connect directly with leading factories at the global trade hub.
                     </p>
 <div class="flex flex-col sm:flex-row gap-4">
-<a th:href="@{/signup}" class="px-8 py-4 bg-gradient-to-br from-primary to-primary-container text-white rounded-lg font-headline font-bold text-sm tracking-widest uppercase shadow-lg hover:opacity-90 transition-all active:scale-95">
+<a th:href="@{/register}" class="px-8 py-4 bg-gradient-to-br from-primary to-primary-container text-white rounded-lg font-headline font-bold text-sm tracking-widest uppercase shadow-lg hover:opacity-90 transition-all active:scale-95">
                             Get Started
                         </a>
 <a th:href="@{/catalog}" class="px-8 py-4 border-2 border-outline-variant text-primary rounded-lg font-headline font-bold text-sm tracking-widest uppercase hover:bg-surface-container-low transition-all active:scale-95">
@@ -283,6 +325,7 @@
 <h2 class="font-headline text-3xl lg:text-4xl font-extrabold text-primary mb-4">Professional Sourcing Community</h2>
 <p class="text-on-surface-variant max-w-2xl mx-auto">Join a network sharing trusted sources and an Affiliate system connecting supply and demand.</p>
 </div>
+<!-- th:each="card : ${featuredProducts}" placeholder for future trending section -->
 <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
 <!-- Community Catalog Card -->
 <div class="group relative overflow-hidden rounded-xl bg-surface-container-low p-12 transition-all hover:bg-surface-container-high">
@@ -290,7 +333,7 @@
 <span class="material-symbols-outlined text-5xl text-primary mb-6" data-icon="groups">groups</span>
 <h3 class="font-headline text-2xl font-extrabold text-primary mb-4">Community Catalog</h3>
 <p class="text-on-surface-variant mb-8 leading-relaxed">Explore product catalogs audited and rated by the community for quality. Find "hidden gems" from lesser-known factories.</p>
-<a class="inline-flex items-center text-primary font-bold gap-2 hover:gap-4 transition-all" href="#">
+<a class="inline-flex items-center text-primary font-bold gap-2 hover:gap-4 transition-all" th:href="@{/catalog}">
                                 View Catalog <span class="material-symbols-outlined" data-icon="arrow_forward">arrow_forward</span>
 </a>
 </div>
@@ -332,19 +375,19 @@
                 </p>
 </div>
 <div>
-<h4 class="font-bold text-[#003461] mb-4 text-sm">Ecosystem</h4>
-<ul class="space-y-2 font-['Inter'] text-xs">
-<li><a class="text-[#424750] hover:text-[#004B87] transition-colors" href="#">Sourcing Service</a></li>
-<li><a class="text-[#424750] hover:text-[#004B87] transition-colors" href="#">Logistics Hub</a></li>
-<li><a class="text-[#424750] hover:text-[#004B87] transition-colors" href="#">API Integration</a></li>
+            <h4 class="font-bold text-[#003461] mb-4 text-sm">Ecosystem</h4>
+            <ul class="space-y-2 font-['Inter'] text-xs">
+<li><a class="text-[#424750] hover:text-[#004B87] transition-colors" th:href="@{/sourcing-service}">Sourcing Service</a></li>
+<li><a class="text-[#424750] hover:text-[#004B87] transition-colors" th:href="@{/logistics-hub}">Logistics Hub</a></li>
+<li><a class="text-[#424750] hover:text-[#004B87] transition-colors" th:href="@{/api-integration}">API Integration</a></li>
 </ul>
 </div>
 <div>
 <h4 class="font-bold text-[#003461] mb-4 text-sm">Resources</h4>
 <ul class="space-y-2 font-['Inter'] text-xs">
-<li><a class="text-[#424750] hover:text-[#004B87] transition-colors" href="#">Terms of Service</a></li>
-<li><a class="text-[#424750] hover:text-[#004B87] transition-colors" href="#">Privacy Policy</a></li>
-<li><a class="text-[#424750] hover:text-[#004B87] transition-colors" href="#">Sourcing Guide</a></li>
+<li><a class="text-[#424750] hover:text-[#004B87] transition-colors" th:href="@{/terms}">Terms of Service</a></li>
+<li><a class="text-[#424750] hover:text-[#004B87] transition-colors" th:href="@{/privacy}">Privacy Policy</a></li>
+<li><a class="text-[#424750] hover:text-[#004B87] transition-colors" th:href="@{/sourcing-guide}">Sourcing Guide</a></li>
 </ul>
 </div>
 <div>

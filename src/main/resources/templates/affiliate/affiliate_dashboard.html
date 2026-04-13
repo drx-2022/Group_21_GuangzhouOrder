@@ -82,7 +82,7 @@
 <!-- Top Navigation Shell -->
 <nav class="fixed top-0 w-full z-50 bg-[#f8f9fb]/80 dark:bg-slate-900/80 backdrop-blur-xl shadow-sm">
 <div class="flex justify-between items-center px-6 py-3 w-full max-w-screen-2xl mx-auto">
-<div class="text-xl font-black text-[#003461] dark:text-white tracking-tighter">Guangzhou Direct</div>
+<a th:href="@{/}" class="text-xl font-black text-[#003461] dark:text-white tracking-tighter no-underline">Guangzhou Direct</a>
 <div class="hidden md:flex items-center space-x-8 font-['Manrope'] font-bold tracking-tight">
 <a class="text-[#424750] hover:text-[#004B87] transition-colors" href="#">Trends</a>
 <a class="text-[#424750] hover:text-[#004B87] transition-colors" href="#">Sourcing</a>
@@ -94,27 +94,20 @@
 <span class="material-symbols-outlined text-[#424750]">notifications</span>
 </button>
 <div class="flex items-center space-x-2 pl-2 border-l border-outline-variant/20">
-<div class="text-right hidden sm:block">
-<p class="text-xs font-bold text-primary font-headline" th:text="${user.name}">User Name</p>
-<p class="text-[10px] text-on-surface-variant" th:text="'ID: GZ-' + ${user.userId}">ID: GZ-0000</p>
-</div>
-<div class="relative" id="avatarMenuWrapper">
-<button onclick="document.getElementById('avatarDropdown').classList.toggle('hidden')" class="focus:outline-none">
-<span class="material-symbols-outlined text-3xl text-[#003461] cursor-pointer hover:opacity-80 transition-opacity" style="font-variation-settings: 'FILL' 1;">account_circle</span>
-</button>
-<div id="avatarDropdown" class="hidden absolute right-0 mt-2 w-40 bg-surface-container-lowest rounded-xl shadow-lg border border-outline-variant/15 z-50 overflow-hidden">
-<a th:href="@{/logout}" class="flex items-center gap-2 px-4 py-3 text-sm font-semibold text-error hover:bg-error-container transition-colors">
-<span class="material-symbols-outlined text-sm">logout</span>
-Sign Out
-</a>
-</div>
+<div id="openSettingsBtn"
+     class="flex items-center gap-2 px-3 py-1.5 bg-surface-container rounded-lg cursor-pointer hover:bg-surface-container-high transition-all">
+    <span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">account_circle</span>
+    <div class="hidden sm:block">
+        <p class="font-headline font-bold text-xs text-primary" th:text="${currentUser.name}">Username</p>
+        <p class="font-label text-[10px] text-on-surface-variant" th:text="'ID: GZ-' + ${currentUser.userId}">ID</p>
+    </div>
 </div>
 </div>
 <script>
     document.addEventListener('click', function(e) {
         var wrapper = document.getElementById('avatarMenuWrapper');
         var dropdown = document.getElementById('avatarDropdown');
-        if (wrapper && !wrapper.contains(e.target)) {
+        if (wrapper && dropdown && !wrapper.contains(e.target)) {
             dropdown.classList.add('hidden');
         }
     });
@@ -143,7 +136,7 @@ Sign Out
 <span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
 <span>Overview</span>
 </a>
-<a class="flex items-center space-x-3 py-3 px-4 mx-2 bg-[#cbe7f5] text-[#003461] rounded-lg transition-all font-['Manrope'] text-sm font-semibold" href="#">
+<a class="flex items-center space-x-3 py-3 px-4 mx-2 bg-[#cbe7f5] text-[#003461] rounded-lg transition-all font-['Manrope'] text-sm font-semibold" th:href="@{/affiliate/dashboard}">
 <span class="material-symbols-outlined" data-icon="monitoring">monitoring</span>
 <span>Market</span>
 </a>
@@ -155,7 +148,7 @@ Sign Out
 <span class="material-symbols-outlined" data-icon="chat_bubble">chat_bubble</span>
 <span>Messages</span>
 </a>
-<a class="flex items-center space-x-3 py-3 px-4 mx-2 text-[#424750] hover:bg-[#f2f4f6] rounded-lg transition-all font-['Manrope'] text-sm font-semibold" href="#">
+<a class="flex items-center space-x-3 py-3 px-4 mx-2 text-[#424750] hover:bg-[#f2f4f6] rounded-lg transition-all font-['Manrope'] text-sm font-semibold" href="#" id="sidebarSettingsBtn">
 <span class="material-symbols-outlined" data-icon="settings">settings</span>
 <span>Settings</span>
 </a>
@@ -164,6 +157,9 @@ Sign Out
 <!-- Main Content Area -->
 <main class="flex-1 lg:ml-64 p-6 md:p-10 mb-20 lg:mb-0">
 <header class="mb-10">
+<div th:if="${settingsSuccess}" class="mb-4 p-4 bg-tertiary-fixed rounded-lg">
+    <p class="text-tertiary text-sm font-medium" th:text="${settingsSuccess}"></p>
+</div>
 <h1 class="text-3xl font-extrabold text-primary tracking-tight mb-2">Affiliate Dashboard</h1>
 <p class="text-on-surface-variant text-sm">Welcome back, here is your product sourcing performance for the past 30 days.</p>
 </header>
@@ -174,7 +170,7 @@ Sign Out
 <span class="material-symbols-outlined text-primary p-2 bg-primary-fixed rounded-lg" data-icon="ads_click">ads_click</span>
 <span class="text-xs font-bold text-tertiary-container bg-tertiary-fixed/30 px-2 py-1 rounded">+12.4%</span>
 </div>
-<div class="text-2xl font-black text-on-surface mb-1">12,840</div>
+<div class="text-2xl font-black text-on-surface mb-1"><span th:text="${#numbers.formatInteger(stats.totalClicks, 1, 'COMMA')}">0</span></div>
 <div class="text-xs font-semibold text-on-surface-variant uppercase tracking-wider">Total Clicks</div>
 </div>
 <div class="bg-surface-container-lowest p-6 rounded-xl border-l-4 border-secondary shadow-sm group hover:shadow-md transition-shadow">
@@ -182,7 +178,7 @@ Sign Out
 <span class="material-symbols-outlined text-secondary p-2 bg-secondary-fixed rounded-lg" data-icon="conversion_path">conversion_path</span>
 <span class="text-xs font-bold text-error-container bg-error-container/20 px-2 py-1 rounded text-error">-2.1%</span>
 </div>
-<div class="text-2xl font-black text-on-surface mb-1">3.45%</div>
+<div class="text-2xl font-black text-on-surface mb-1"><span th:text="${#numbers.formatDecimal(stats.conversionRate, 1, 2) + '%'}">0.00%</span></div>
 <div class="text-xs font-semibold text-on-surface-variant uppercase tracking-wider">Conversion Rate</div>
 </div>
 <div class="bg-surface-container-lowest p-6 rounded-xl border-l-4 border-tertiary-container shadow-sm group hover:shadow-md transition-shadow">
@@ -190,14 +186,14 @@ Sign Out
 <span class="material-symbols-outlined text-tertiary-container p-2 bg-tertiary-fixed rounded-lg" data-icon="payments" style="font-variation-settings: 'FILL' 1;">payments</span>
 <span class="text-xs font-bold text-tertiary-container bg-tertiary-fixed/30 px-2 py-1 rounded">+18.5%</span>
 </div>
-<div class="text-2xl font-black text-on-surface mb-1">45,200,000 ₫</div>
+<div class="text-2xl font-black text-on-surface mb-1"><span th:text="${#numbers.formatInteger(stats.totalCommission, 1, 'COMMA') + ' ₫'}">0 ₫</span></div>
 <div class="text-xs font-semibold text-on-surface-variant uppercase tracking-wider">Accumulated Commission</div>
 </div>
 <div class="bg-surface-container-lowest p-6 rounded-xl border-l-4 border-outline-variant shadow-sm group hover:shadow-md transition-shadow">
 <div class="flex justify-between items-start mb-4">
 <span class="material-symbols-outlined text-on-surface-variant p-2 bg-surface-container-high rounded-lg" data-icon="pending_actions">pending_actions</span>
 </div>
-<div class="text-2xl font-black text-on-surface mb-1">2,150,000 ₫</div>
+<div class="text-2xl font-black text-on-surface mb-1"><span th:text="${#numbers.formatInteger(stats.pendingRewards, 1, 'COMMA') + ' ₫'}">0 ₫</span></div>
 <div class="text-xs font-semibold text-on-surface-variant uppercase tracking-wider">Pending Rewards</div>
 </div>
 </div>
@@ -251,89 +247,36 @@ Sign Out
 </div>
 </div>
 <!-- Product DNA Grid - Asymmetric Layout -->
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-<!-- Product Card 1 -->
-<div class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all border border-outline-variant/10 group flex flex-col">
-<div class="relative h-64 overflow-hidden">
-<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="Modern minimalist wrist watch with black leather strap on a clean white background with soft shadows" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCUQEaVA2Vm772HCI0MkDK_KpLQaQUGPggV01ldpp302g6IvcEqAnYt18EP2yDjKhvv9_OJi9EMcgvlK845Ett8DAbBLUVYCHAxGkjkjZnvWn_04ANVu9CvkTYKTbcHicoSX_7cjgxggQ7k3V6ara1StVsScPdaD0nlLIaeQfp3I2-YirR5JiX5LLEFfjzgnY8p-qq29oWYEV5yxuDALIFqOIi-lqEef5Lew0GJJfYwrUqyoKG9B6nVh1K1O6w6ErRHXgB1eh2iFdw"/>
-<div class="absolute top-4 right-4 bg-primary text-white text-[10px] font-black px-3 py-1 rounded-full uppercase">Hot Sourcing</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" th:if="${!#lists.isEmpty(referrals)}">
+<div th:each="referral : ${referrals}" class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all border border-outline-variant/10 group flex flex-col">
+<div class="relative h-64 overflow-hidden bg-surface-container-low">
+<img th:if="${!#strings.isEmpty(referral.imageUrl)}" th:src="${referral.imageUrl}" th:alt="${referral.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"/>
+<div th:unless="${!#strings.isEmpty(referral.imageUrl)}" class="w-full h-full flex items-center justify-center">
+<span class="material-symbols-outlined text-6xl text-outline">image</span>
+</div>
+<div class="absolute top-4 right-4 bg-tertiary-container text-white text-[10px] font-black px-3 py-1 rounded-full uppercase" th:text="${referral.sku}">GZ-0</div>
 </div>
 <div class="p-5 flex-1 flex flex-col">
 <div class="flex justify-between items-start mb-2">
-<h3 class="text-lg font-bold text-primary leading-tight">Ceramic Gen 5 Watch</h3>
-<span class="text-xs font-bold text-tertiary-container">• 12% Commission</span>
+<h3 class="text-lg font-bold text-primary leading-tight" th:text="${referral.name}">Product Name</h3>
+<span class="text-xs font-bold text-tertiary-container" th:text="${referral.commissionLabel}">Commission</span>
 </div>
-<p class="text-xs text-on-surface-variant line-clamp-2 mb-4 leading-relaxed">Best-selling product in Guangzhou this October. Premium scratch-resistant ceramic material.</p>
+<p class="text-xs text-on-surface-variant line-clamp-2 mb-2 leading-relaxed" th:text="${referral.categoryName}">Category</p>
+<p class="text-xs font-black text-primary mb-4" th:text="${referral.displayPrice != null ? referral.displayPrice + ' ₫' : 'Contact for price'}">Contact for price</p>
 <div class="mt-auto space-y-4">
 <div class="bg-surface-container-low p-3 rounded-lg flex items-center justify-between">
-<code class="text-[10px] font-mono text-primary font-bold overflow-hidden text-ellipsis whitespace-nowrap mr-2">gz.direct/ref=8892_gen5</code>
-<button class="p-1.5 hover:bg-white rounded transition-colors text-primary">
+<code class="text-[10px] font-mono text-primary font-bold overflow-hidden text-ellipsis whitespace-nowrap mr-2" th:text="${referral.referralUrl}">https://example.com/catalog?ref=1&amp;card=1</code>
+<button class="p-1.5 hover:bg-white rounded transition-colors text-primary" onclick="copyLink(this)" th:data-url="${referral.referralUrl}" type="button">
 <span class="material-symbols-outlined text-sm">content_copy</span>
 </button>
 </div>
-<div class="flex gap-2">
-<button class="flex-1 py-2 bg-primary-container text-white text-[10px] font-bold uppercase tracking-widest rounded hover:bg-primary transition-colors">Download Media Kit</button>
-<button class="p-2 border border-outline-variant/30 rounded hover:bg-surface-container-low transition-colors">
-<span class="material-symbols-outlined text-on-surface-variant text-sm">share</span>
-</button>
 </div>
 </div>
 </div>
 </div>
-<!-- Product Card 2 -->
-<div class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all border border-outline-variant/10 group flex flex-col">
-<div class="relative h-64 overflow-hidden">
-<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="Vibrant red professional running shoes against a minimalist grey industrial backdrop with professional studio lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBdoSS71mg7sLWB0iQr9yAjaf6n3xL_ONA_o6VPMqmKT6NspUjy17njV7pH0ifAKBBn8Rb889eVM3ptr_wvBOK112cg0By7T6GiH-CQw1z257poyybz4DQI60mqJdQbtx-_P2VF2hURm-ui6TbRr_Qv0pOX10lEEvITqwdNY-CYGgUKyUXgqGVdkfSPvVSfkW4k-U2llta5ctSvF1f9wJ2aAgIivY2gCbC4-BfmxnTE4gRwSURijgX2gS8Ca0oOxmkp2KoJY_dPWEc"/>
-<div class="absolute top-4 right-4 bg-tertiary-container text-white text-[10px] font-black px-3 py-1 rounded-full uppercase">Verified Supplier</div>
-</div>
-<div class="p-5 flex-1 flex flex-col">
-<div class="flex justify-between items-start mb-2">
-<h3 class="text-lg font-bold text-primary leading-tight">Pro-Run Sports Shoes</h3>
-<span class="text-xs font-bold text-tertiary-container">• 15% Commission</span>
-</div>
-<p class="text-xs text-on-surface-variant line-clamp-2 mb-4 leading-relaxed">Direct sourcing from Shenzhen factory. Comfortable air cushion sole, suitable for the local market.</p>
-<div class="mt-auto space-y-4">
-<div class="bg-surface-container-low p-3 rounded-lg flex items-center justify-between">
-<code class="text-[10px] font-mono text-primary font-bold overflow-hidden text-ellipsis whitespace-nowrap mr-2">gz.direct/ref=8892_prorun</code>
-<button class="p-1.5 hover:bg-white rounded transition-colors text-primary">
-<span class="material-symbols-outlined text-sm">content_copy</span>
-</button>
-</div>
-<div class="flex gap-2">
-<button class="flex-1 py-2 bg-primary-container text-white text-[10px] font-bold uppercase tracking-widest rounded hover:bg-primary transition-colors">Download Media Kit</button>
-<button class="p-2 border border-outline-variant/30 rounded hover:bg-surface-container-low transition-colors">
-<span class="material-symbols-outlined text-on-surface-variant text-sm">share</span>
-</button>
-</div>
-</div>
-</div>
-</div>
-<!-- Product Card 3 -->
-<div class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all border border-outline-variant/10 group flex flex-col">
-<div class="relative h-64 overflow-hidden">
-<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="Professional studio headphones on a wooden desk next to a sleek laptop in a modern home office setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCeMQ8cFv1R-SnPUzyDYvJN8pGYlzp1QvBLjhptfoZXP_PzaL4Z0DmlaS0guHiSFZcrB8vukfWfmzne0wTb-uWjZqo1Ze1jHuevGsAAJkLX6BwZlr-00hRGs0TBmpbCLqq-Ny-xaTnp6Mtl__LcyhjNXd-tZWfxU-fLO4BZqoM1zI2LTGcSuPc06o3mGGeFsy_sb3fYzAfh74ufPQItJNTD6uXN2qAaBsDZ1j3NfAH7XYdgBdag_ql9sJjfgD9NCKMprD2bKs0sFGo"/>
-</div>
-<div class="p-5 flex-1 flex flex-col">
-<div class="flex justify-between items-start mb-2">
-<h3 class="text-lg font-bold text-primary leading-tight">Hi-Fi Studio Headphones</h3>
-<span class="text-xs font-bold text-tertiary-container">• 10% Commission</span>
-</div>
-<p class="text-xs text-on-surface-variant line-clamp-2 mb-4 leading-relaxed">ANC noise cancellation technology. High profit margins for regional distributors.</p>
-<div class="mt-auto space-y-4">
-<div class="bg-surface-container-low p-3 rounded-lg flex items-center justify-between">
-<code class="text-[10px] font-mono text-primary font-bold overflow-hidden text-ellipsis whitespace-nowrap mr-2">gz.direct/ref=8892_hifi</code>
-<button class="p-1.5 hover:bg-white rounded transition-colors text-primary">
-<span class="material-symbols-outlined text-sm">content_copy</span>
-</button>
-</div>
-<div class="flex gap-2">
-<button class="flex-1 py-2 bg-primary-container text-white text-[10px] font-bold uppercase tracking-widest rounded hover:bg-primary transition-colors">Download Media Kit</button>
-<button class="p-2 border border-outline-variant/30 rounded hover:bg-surface-container-low transition-colors">
-<span class="material-symbols-outlined text-on-surface-variant text-sm">share</span>
-</button>
-</div>
-</div>
-</div>
+<div th:unless="${!#lists.isEmpty(referrals)}" class="py-14 text-center bg-surface-container-low rounded-xl border border-outline-variant/10">
+<span class="material-symbols-outlined text-6xl text-outline">inventory_2</span>
+<p class="text-on-surface-variant text-sm mt-3">No public products available yet.</p>
 </div>
 </div>
 </section>
@@ -385,4 +328,86 @@ Sign Out
 </div>
 </div>
 </footer>
+<div th:replace="~{fragments/settings_modal :: modal}"></div>
+<script>
+    function getCsrfHeaders() {
+        return { 'X-Requested-With': 'XMLHttpRequest' };
+    }
+
+    function openSettingsModal() {
+        document.getElementById('settingsModal').style.display = 'flex';
+    }
+    function closeSettingsModal() {
+        document.getElementById('settingsModal').style.display = 'none';
+    }
+    function switchTab(tab) {
+        ['profile','password'].forEach(t => {
+            document.getElementById('pane-' + t).style.display = 'none';
+            const tabBtn = document.getElementById('tab-' + t);
+            tabBtn.style.color = '#424750';
+            tabBtn.style.borderBottomColor = 'transparent';
+        });
+        document.getElementById('pane-' + tab).style.display = 'block';
+        const activeTab = document.getElementById('tab-' + tab);
+        activeTab.style.color = '#003461';
+        activeTab.style.borderBottomColor = '#003461';
+    }
+    async function requestOtp() {
+        const res = await fetch('/settings/send-otp', {
+            method: 'POST',
+            headers: getCsrfHeaders()
+        });
+        const data = await res.json();
+        const msg = document.getElementById('otp-send-msg');
+        msg.textContent = data.message || data.error;
+        msg.style.display = 'block';
+        if (res.ok) {
+            document.getElementById('step-otp-request').style.display = 'none';
+            document.getElementById('step-otp-verify').style.display = 'block';
+        }
+    }
+    async function submitPasswordChange() {
+        const body = {
+            otpCode: document.getElementById('otpCode').value,
+            newPassword: document.getElementById('newPassword').value,
+            confirmPassword: document.getElementById('confirmPassword').value
+        };
+        const res = await fetch('/settings/change-password', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', ...getCsrfHeaders() },
+            body: JSON.stringify(body)
+        });
+        const data = await res.json();
+        const msg = document.getElementById('password-msg');
+        msg.textContent = data.message || data.error;
+        msg.style.display = 'block';
+        msg.style.color = res.ok ? '#00544b' : '#ba1a1a';
+        if (res.ok) setTimeout(() => closeSettingsModal(), 1500);
+    }
+
+    function copyLink(btn) {
+        const url = btn.dataset.url;
+        const icon = btn.querySelector('.material-symbols-outlined');
+        navigator.clipboard.writeText(url).then(() => {
+            const previous = icon.textContent;
+            icon.textContent = 'check';
+            setTimeout(() => {
+                icon.textContent = previous || 'content_copy';
+            }, 1500);
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const btn = document.getElementById('openSettingsBtn');
+        if (btn) btn.addEventListener('click', function() {
+            document.getElementById('settingsModal').style.display = 'flex';
+        });
+
+        const sidebarBtn = document.getElementById('sidebarSettingsBtn');
+        if (sidebarBtn) sidebarBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            document.getElementById('settingsModal').style.display = 'flex';
+        });
+    });
+</script>
 </body></html>

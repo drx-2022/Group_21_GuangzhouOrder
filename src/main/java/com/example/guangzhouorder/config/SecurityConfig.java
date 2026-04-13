@@ -36,11 +36,18 @@ public class SecurityConfig {
         http
             .csrf(csrf -> csrf.disable())  // Disable CSRF for stateless JWT
             .authorizeHttpRequests(auth -> auth
-                    .requestMatchers("/", "/signup", "/login", "/catalog", "/logout", "/error").permitAll()
-                    .requestMatchers("/api/chat/upload-image").authenticated()
 
-                .requestMatchers("/ws", "/ws/**").permitAll()  // WebSocket must be accessible
-                .requestMatchers("/dashboard").authenticated()
+                    .requestMatchers("/api/chat/upload-image").authenticated()
+                    .requestMatchers("/", "/signup", "/login", "/catalog", "/catalog/**", "/products", "/products/**", "/logout", "/error", "/verify-email",
+                                 "/resend-verification", "/sourcing-service", "/logistics-hub", "/api-integration", "/terms", "/privacy", "/sourcing-guide", "/error", "/css/**", "/js/**", "/images/**", "/price-chart", "/api/price-chart/**").permitAll()
+
+                .requestMatchers("/ws", "/ws/**").permitAll()
+                .requestMatchers("/payment/webhook").permitAll()
+                .requestMatchers("/customer/dashboard").hasRole("CUSTOMER")
+                .requestMatchers("/affiliate/dashboard", "/affiliate/catalog").hasRole("AFFILIATE")
+                .requestMatchers("/admin/dashboard").hasRole("ADMIN")
+                .requestMatchers("/dashboard", "/orders", "/orders/**", "/chat", "/settings", "/settings/**").authenticated()
+
                 .requestMatchers("/admin/**").authenticated()
                 .anyRequest().authenticated()
             )
