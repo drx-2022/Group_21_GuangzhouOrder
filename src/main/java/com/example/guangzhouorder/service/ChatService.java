@@ -5,6 +5,7 @@ import com.example.guangzhouorder.dto.chat.ConversationResponse;
 import com.example.guangzhouorder.dto.chat.MessageResponse;
 import com.example.guangzhouorder.dto.chat.PriceQuoteResponse;
 import com.example.guangzhouorder.dto.chat.SpecProposalCardResponse;
+import com.example.guangzhouorder.dto.chat.VisualProofResponse;
 import com.example.guangzhouorder.entity.Conversation;
 import com.example.guangzhouorder.entity.ConversationRead;
 import com.example.guangzhouorder.entity.Message;
@@ -40,6 +41,7 @@ public class ChatService {
     private final ProductCardRepository productCardRepository;
     private final SpecProposalCardRepository specProposalCardRepository;
     private final PriceQuoteRepository priceQuoteRepository;
+    private final VisualProofRepository visualProofRepository;
     private final ObjectMapper objectMapper;
     private final ProposalService proposalService;
 
@@ -51,6 +53,7 @@ public class ChatService {
             UserRepository userRepository,
             ProductCardRepository productCardRepository,
             SpecProposalCardRepository specProposalCardRepository,
+            VisualProofRepository visualProofRepository,
             PriceQuoteRepository priceQuoteRepository,
             ObjectMapper objectMapper,
             @Lazy ProposalService proposalService
@@ -61,6 +64,7 @@ public class ChatService {
         this.userRepository = userRepository;
         this.productCardRepository = productCardRepository;
         this.specProposalCardRepository = specProposalCardRepository;
+        this.visualProofRepository = visualProofRepository;
         this.priceQuoteRepository = priceQuoteRepository;
         this.objectMapper = objectMapper;
         this.proposalService = proposalService;
@@ -350,6 +354,11 @@ public class ChatService {
             if ("PRICE_QUOTE".equals(msg.getMessageType())) {
                 priceQuoteRepository.findByMessage(msg).ifPresent(quote ->
                         response.setPriceQuote(PriceQuoteResponse.from(quote))
+                );
+            }
+            if ("VISUAL_PROOF".equals(msg.getMessageType())) {
+                visualProofRepository.findByMessage(msg).ifPresent(proof ->
+                        response.setVisualProof(VisualProofResponse.from(proof))
                 );
             }
             return response;

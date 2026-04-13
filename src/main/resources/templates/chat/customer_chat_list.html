@@ -71,7 +71,7 @@
           },
         }
     </script>
-    <style>
+<style>
         .material-symbols-outlined {
             font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
         }
@@ -176,8 +176,62 @@
     </section>
 </main>
 
+<!-- Settings Modal -->
+<div th:replace="~{fragments/settings_modal :: modal}"></div>
+
 <!-- JavaScript -->
 <script th:inline="javascript">
+    function openSettingsModal() {
+        document.getElementById('settingsModal').style.display = 'flex';
+    }
+    function closeSettingsModal() {
+        document.getElementById('settingsModal').style.display = 'none';
+    }
+    function switchTab(tab) {
+        ['profile','password'].forEach(t => {
+            document.getElementById('pane-' + t).style.display = 'none';
+            const tabBtn = document.getElementById('tab-' + t);
+            tabBtn.style.color = '#424750';
+            tabBtn.style.borderBottomColor = 'transparent';
+        });
+        document.getElementById('pane-' + tab).style.display = 'block';
+        const activeTab = document.getElementById('tab-' + tab);
+        activeTab.style.color = '#003461';
+        activeTab.style.borderBottomColor = '#003461';
+    }
+    async function requestOtp() {
+        const res = await fetch('/settings/send-otp', {
+            method: 'POST',
+            headers: { 'X-Requested-With': 'XMLHttpRequest' }
+        });
+        const data = await res.json();
+        const msg = document.getElementById('otp-send-msg');
+        msg.textContent = data.message || data.error;
+        msg.style.display = 'block';
+        if (res.ok) {
+            document.getElementById('step-otp-request').style.display = 'none';
+            document.getElementById('step-otp-verify').style.display = 'block';
+        }
+    }
+    async function submitPasswordChange() {
+        const body = {
+            otpCode: document.getElementById('otpCode').value,
+            newPassword: document.getElementById('newPassword').value,
+            confirmPassword: document.getElementById('confirmPassword').value
+        };
+        const res = await fetch('/settings/change-password', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
+            body: JSON.stringify(body)
+        });
+        const data = await res.json();
+        const msg = document.getElementById('password-msg');
+        msg.textContent = data.message || data.error;
+        msg.style.display = 'block';
+        msg.style.color = res.ok ? '#00544b' : '#ba1a1a';
+        if (res.ok) setTimeout(() => closeSettingsModal(), 1500);
+    }
+
     function createNewConversation() {
         fetch('/dashboard/chat/new', {
             method: 'GET',
@@ -201,5 +255,12 @@
             alert('Không thể tạo yêu cầu mới. Vui lòng thử lại.');
         });
     }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const openBtn = document.getElementById('openSettingsBtn');
+        if (openBtn) openBtn.addEventListener('click', function() {
+            document.getElementById('settingsModal').style.display = 'flex';
+        });
+    });
 </script>
 </body></html>
