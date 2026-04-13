@@ -68,7 +68,7 @@ public class DataSeeder implements ApplicationRunner {
             User customer1 = User.builder()
                     .name("Customer 1")
                     .email("customer1@gmail.com")
-                    .hashedPassword("password")  // Not hashed as per request, but set to satisfy entity constraint
+                    .hashedPassword(passwordEncoder.encode("password")) // Not hashed as per request, but set to satisfy entity constraint
                     .role("CUSTOMER")
                     .build();
             userRepository.save(customer1);
