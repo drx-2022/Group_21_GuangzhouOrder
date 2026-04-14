@@ -146,20 +146,20 @@ public class PaymentController {
         }
     }
 
-    @PostMapping("/payment/webhook")
-    @ResponseBody
-    public String handleWebhook(HttpServletRequest request) {
-        try {
-            String body = request.getReader().lines().reduce("", String::concat);
-            String result = paymentService.handleWebhook(body);
-            if ("SUCCESS".equals(result)) {
-                return "{\"code\":\"00\",\"desc\":\"success\"}";
-            }
-            return "{\"code\":\"01\",\"desc\":\"" + result + "\"}";
-        } catch (Exception e) {
-            return "{\"code\":\"99\",\"desc\":\"" + e.getMessage() + "\"}";
-        }
-    }
+//    @PostMapping("/payment/webhook")
+//    @ResponseBody
+//    public String handleWebhook(HttpServletRequest request) {
+//        try {
+//            String body = request.getReader().lines().reduce("", String::concat);
+//            String result = paymentService.handleWebhook(body);
+//            if ("SUCCESS".equals(result)) {
+//                return "{\"code\":\"00\",\"desc\":\"success\"}";
+//            }
+//            return "{\"code\":\"01\",\"desc\":\"" + result + "\"}";
+//        } catch (Exception e) {
+//            return "{\"code\":\"99\",\"desc\":\"" + e.getMessage() + "\"}";
+//        }
+//    }
 
     @GetMapping("/payment/{orderId}/status")
     @ResponseBody

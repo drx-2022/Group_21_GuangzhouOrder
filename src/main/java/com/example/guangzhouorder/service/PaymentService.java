@@ -198,45 +198,21 @@ public class PaymentService {
 
             JsonNode data = root.get("data");
             Long orderCode = data.get("orderCode").asLong();
-            String status = data.get("status").asText();
 
             Payment payment = paymentRepository.findByPayosOrderCode(orderCode)
                     .orElseThrow(() -> new RuntimeException("Payment not found for orderCode: " + orderCode));
 
-            if ("PAID".equals(status)) {
-                payment.setStatus("COMPLETED");
-                paymentRepository.save(payment);
-
-                Order order = payment.getOrder();
-                if ("DEPOSIT".equals(payment.getPaymentType())) {
-                    order.setPaymentStatus("DEPOSITED");
-                    order.setStatus("IN_PRODUCTION");
-                } else if ("BALANCE".equals(payment.getPaymentType())) {
-                    order.setPaymentStatus("DONE");
-                    
-                    // Create ProductCard upon full payment if it doesn't exist
-                    if (productCardRepository.findBySourceOrder(order).isEmpty()) {
-                        ProductCard productCard = ProductCard.builder()
-                                .cardName("Product Card for Order " + order.getOrderId())
-                                .cardDna(order.getStructuredSpecs())
-                                .displayPrice(order.getFinalPrice())
-                                .isPublic(false)
-                                .sourceOrder(order)
-                                // TODO: Admin should assign BaseProduct when publishing the card
-                                .baseProduct(null)
-                                .build();
-                        productCardRepository.save(productCard);
-                        log.info("Created ProductCard for fully paid Order ID: {}", order.getOrderId());
-                    }
-                }
-                orderRepository.save(order);
-
-                log.info("Payment COMPLETED: orderCode={}, type={}", orderCode, payment.getPaymentType());
-            } else if ("CANCELLED".equals(status)) {
-                payment.setStatus("CANCELLED");
-                paymentRepository.save(payment);
-                log.info("Payment CANCELLED: orderCode={}", orderCode);
+            Order order = payment.getOrder();
+            if ("DEPOSIT".equals(payment.getPaymentType())) {
+                order.setPaymentStatus("DEPOSITED");
+                order.setStatus("IN_PRODUCTION");
             }
+            else if ("BALANCE".equals(payment.getPaymentType())) {
+                order.setPaymentStatus("DONE");
+            }
+            orderRepository.save(order);
+
+            log.info("Payment COMPLETED: orderCode={}, type={}", orderCode, payment.getPaymentType());
 
             return "SUCCESS";
         } catch (Exception e) {

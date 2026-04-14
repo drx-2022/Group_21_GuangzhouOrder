@@ -148,7 +148,7 @@
 
             <div th:if="${order.finalPrice != null}" class="bg-tertiary-fixed/20 rounded-xl p-4 space-y-3">
                 <p class="text-[10px] font-bold uppercase tracking-wider text-tertiary">Giá Cuối Cùng Đã Thống Nhất</p>
-                <p class="text-lg font-bold text-tertiary" th:text="'$' + ${order.finalPrice}"></p>
+                <p class="text-lg font-bold text-tertiary" th:text="'VNĐ' + ${order.finalPrice}"></p>
             </div>
 
             <div th:if="${order.status == 'Pending Deposit'}" class="bg-primary-container rounded-xl p-4 space-y-3">
